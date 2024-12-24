@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+  <title>Settings</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+  <link rel="stylesheet" href="../css/settings.css"/>
+  <link rel="stylesheet" href="../css/icon.css"/>
+</head>
+<body>
+
+  <!-- for moving the electon app window -->
+  <header></header>
+
+  <!-- set app margins, allow spacing for the header, etc. -->
+  <div class="app-container">
+
+    <div class="page-header">
+      <div class="page-title">Settings</div>
+      <div class="page-close">
+        <img id="closeSettings" class="icon-close" src="../images/close.svg"/>
+      </div>
+    </div>
+
+    <div id="settings" class="vertical-container">
+
+      <div class="title">General</div>
+      <div>
+        <input type="checkbox" id="showCompletedCheckbox"></input>
+        <label for="showCompletedCheckbox">Show completed tasks</label>
+      </div>
+
+      <br/>
+
+      <fieldset>
+        <legend>Tasks Sidebar</legend>     
+        <input type="radio" id="sidebar-viz-dbl-click" name="tasks-sidebar-visibility" value="dbl-click">
+        <label for="sidebar-viz-dbl-click">Open on double click (default)</label><br/>
+
+        <input type="radio" id="sidebar-viz-always" name="tasks-sidebar-visibility" value="always">
+        <label for="sidebar-viz-always">Always visible</label><br/>
+      </fieldset>
+      <br/>
+      <fieldset>
+        <legend>Quick Actions</legend>     
+        <input type="radio" id="quick-actions-viz-never" name="quick-actions-visibility" value="never">
+        <label for="quick-actions-viz-never">Always hidden</label><br/>
+
+        <input type="radio" id="quick-actions-viz-on-selected" name="quick-actions-visibility" value="on-selected">
+        <label for="quick-actions-viz-on-selected">Visible on selected (default)</label><br/>
+        <!--
+        <input type="radio" id="quick-actions-viz-on-selected-and-hover" name="quick-actions-visibility" value="on-selected-and-hover">
+        <label for="quick-actions-viz-on-selected-and-hover">Visible on selected and hover (beta)</label><br/>
+        -->
+      </fieldset>
+
+      <br/><br/>
+
+      <div class="title">Auto-Maintain</div>
+      <div class="settings-text">Who wants to worry about culling lengthy lists of completed tasks or emptying the trash? No one. That's why
+      the Tasks app does it for you. Set how many tasks you want to remain in your completed task list and trash. Tasks will take care purging
+      aging tasks.</div>
+
+      <div class="select-group">
+        <label for="numCompletedTasksToRetain">Number of completed tasks to retain:</label>
+        <select id="numCompletedTasksToRetain">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+
+      <div class="select-group">
+        <label for="numDeletedTasksToRetain">Number of deleted tasks to retain:</label>
+        <select id="numDeletedTasksToRetain">
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+
+      <br/><br/>
+
+      <div class="title">Global Shortcuts</div>
+      <table class="shortcut-table">
+        <tr>
+            <td class="shortcut shortcut-column-width">esc</td>
+            <td>Closes Trash/Settings</td>
+        </tr>
+        <tr>
+          <td class="shortcut shortcut-column-width">&#8984; N</td>
+          <td>Add new task</td>
+        </tr>
+        <tr>
+          <td class="shortcut shortcut-column-width">&#8984; &#8679; T</td>
+          <td>View trash</td>
+        </tr>
+        <tr>
+          <td class="shortcut shortcut-column-width">&#8984; ,</td>
+          <td>Settings</td>
+        </tr>
+      </table>
+
+      <br/><br/>
+
+      <div class="title">Tasks Shortcuts</div>
+      <table class="shortcut-table">
+        <tr>
+          <td class="shortcut shortcut-column-width">esc</td>
+          <td>Hide Sidebar</td>
+        </tr>
+        <tr>
+          <td class="shortcut shortcut-column-width">&#8984; &#8679; P</td>
+          <td>Toggle pin</td>
+        </tr>
+        <tr>
+          <td class="shortcut shortcut-column-width">&#8984; &#8679; O</td>
+          <td>Toggle completed</td>
+        </tr>
+        <tr>
+            <td class="shortcut shortcut-column-width">&#8984; &#x232B;</td>
+            <td>Delete task</td>
+        </tr>
+        <tr>
+          <td class="shortcut shortcut-column-width">&#8984; &#8679; [</td>
+          <td>Previous task</td>
+        </tr>
+        <tr>
+          <td class="shortcut shortcut-column-width">&#8984; &#8679; ]</td>
+          <td>Next task</td>
+        </tr>
+      </table>
+
+      <br/><br/>
+      
+      <div class="actions">
+        <div id="restoreDefaultSettings">Restore Default Settings</div>
+        <div id="deleteAllTasks">Permanently Delete All Tasks</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="module" src="../js/settings-controller.js"></script>
+
+</body>
+</html>

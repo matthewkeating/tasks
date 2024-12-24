@@ -1,0 +1,199 @@
+.menu-and-input-box-container {
+  display: flex;
+  align-items: center; /* Aligns items vertically */
+
+  /* the below allows the input box to be always on top */
+  width: var(--width-main-canvas);
+  position: fixed;
+  z-index: 900;
+}
+
+.ellipsis {
+  cursor: pointer;
+  display: flex;               /* Use flexbox to align dots */
+  justify-content: center;     /* Center the dots horizontally */
+  align-items: center;         /* Center the dots vertically */
+  z-index: 100;
+  padding: 12px 8px 12px 8px;
+  margin-left: 10px;
+  border-radius: 5px;
+  position: absolute;
+  left: 388px;
+}
+
+.ellipsis:hover {
+  background-color: var(--color-grey-dark);
+}
+
+.ellipsis.active {
+  background-color: var(--color-grey-dark);
+}
+
+.dot {
+  width: 2px;                                     /* Set width of each dot */
+  height: 2px;                                    /* Set height of each dot */
+  background-color: var(--color-grey-light);      /* Color of the dots */
+  border-radius: 50%;                             /* Make the dots round */
+  margin: 0 2px;                                  /* Space between the dots */
+}
+
+.ellipsis:hover .dot {
+  background-color: var(--color-purple);     /* Color of the dots */
+}
+
+.menu {
+  position: absolute;
+  list-style-type: none;
+  display: none; /* Hide the menu by default */
+  background-color: var(--color-grey-darkest);
+  width: 240px;
+  margin-top: 44px;
+  margin-left: 199px;
+  border: 1px solid var(--color-grey);
+  border-radius: 5px;
+  padding: 6px 0px;
+  z-index: 100;
+}
+
+.menu.active {
+  display: block; /* Show the menu when active */
+}
+
+.menu-item {
+  display: flex;
+  margin: 4px 8px;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+.menu-title {
+  flex: 1;
+}
+
+.menu-item:hover {
+  background-color: var(--color-grey-dark);
+  cursor: pointer;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.task-selected {
+  background-color: var(--color-grey) !important;
+}
+
+.draggable-container {
+  border-radius: 5px;
+}
+
+.dragover-completed {
+  background-color: rgba(255, 255, 255, 0.05); /* Dimming effect */
+}
+
+.dragging {
+  background-color: var(--color-grey);
+  transform: scale(0.95);  /* Decrease div size */
+}
+
+.flagged {
+  color: var(--color-purple) !important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.display-none {
+  display: none !important;
+}
+
+.task-actions {
+  display: flex;
+  z-index: 10;
+}
+
+.sidebar-actions {
+  margin: 0px 0px 20px 0px;
+  padding-bottom: 10px;
+  outline: 0px solid transparent;
+  font-weight: bold;
+  display: flex;
+  flex-grow: 100;
+  border-bottom: 1px solid var(--color-grey-dark);
+}
+
+.quick-actions {
+  display: flex;
+  margin-right: 4px;
+}
+
+.vertical-line-separator {
+  margin: 2px 12px 2px 12px;
+  border-left: 1px solid var(--color-grey-dark);
+}
+
+/*********************************************
+ * Elements
+ *********************************************/
+
+#addTaskInputBox {
+  flex: 1;
+  background-color: var(--color-grey-darker);
+  border: 1px solid transparent;
+  border-radius: 5px;
+  box-shadow: none;
+  /* color: var(--color-grey-lighter); */
+  padding: 10px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* style to use if the "add task" input box has focus or has text */
+#addTaskInputBox:focus {
+    background-color: var(--color-grey-darkest);
+    border: 1px solid var(--color-purple);
+    color: var(--color-grey-lighter) !important;
+}
+
+#addTaskInputBox:not(:placeholder-shown) {
+  color: var(--color-placeholder-text);
+}
+
+#listTasksArea {
+    margin: 50px 0px 0px 0px;
+}
+
+#taskDetails {
+    position: fixed;
+    top: 0px;
+    left: 480px;
+    width: 300px;
+    padding: 30px 20px 20px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+}
+
+#notesMain {
+    flex-grow: 1;
+}
+
+#notesTextArea {
+    overflow-y: auto;
+    background: var(--color-grey-darkest);
+    border-radius: 5px;
+    outline: none;
+    resize: none;
+    padding: 10px;
+    margin-bottom: 20px;
+    width: 260px;
+    border: 1px solid transparent;
+
+    height: 100%;
+    box-sizing: border-box;
+
+    scrollbar-width: auto; /* Options: auto, thin, none */
+    scrollbar-color: var(--color-grey-light) var(--color-grey);; /* thumb color, track color */
+}

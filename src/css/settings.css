@@ -1,0 +1,51 @@
+label {
+  margin-right: 10px; /* Adds space between label and select */
+}
+
+select {
+  background-color: var(--color-grey-darker);
+  border-radius: 5px;
+}
+
+.actions {
+  width: 100%;
+  text-align: center;
+  margin-top: 8px;
+  padding-bottom: 20px;
+}
+
+.shortcut-table {
+  margin: 0px 0px 0px 4px;
+}
+
+.shortcut-column-width {
+  width: 90px;
+}
+
+.settings-text {
+  color: var(--color-settings-explaination-text);
+  font-size: .86em;
+  margin-top: -10px;
+}
+
+.select-group {
+  display: flex;
+  align-items: center; /* Aligns items vertically centered */
+  margin-top: 16px;
+}
+
+#deleteAllTasks {
+  color: var(--color-red);
+  cursor: pointer;
+}
+
+#restoreDefaultSettings {
+  color: var(--color-purple);
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+#settings {
+  margin-top: 60px;
+  width: var(--width-main-canvas);
+}
