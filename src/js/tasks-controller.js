@@ -444,7 +444,6 @@ function renderTasks() {
         let divType = event.target.dataset.type;
         if (divType === "selectable") {
           sidebar.showSidebar();
-          _notesTextArea.focus();
         }
       });
     }
