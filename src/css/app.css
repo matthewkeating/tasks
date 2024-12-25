@@ -62,6 +62,7 @@ input[type="radio"]:checked:hover
 
 /* for radio buttons */
 fieldset {
+  margin-top: 14px;
   border: 1px solid var(--color-grey-light);
 }
 fieldset legend {
