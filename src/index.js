@@ -28,7 +28,7 @@ const createWindow = () => {
     const screenHeight = screenDimensions.height;
     const screenWidth = screenDimensions.width;
     x = (screenWidth / 2) - (defaultWidth / 2);
-    y = (screenHeight / 2) - (defaultHeight / 2);
+    y = (screenHeight / 2) - (height / 2);
   } else {
     // set the window position and height using the values on the last application exit
     height = windowBounds.height;
@@ -81,12 +81,7 @@ const createWindow = () => {
   });
 
   mainWindow.on('close', () => {
-    const windowBounds = mainWindow.getBounds();
-  //  const windowPosition = {
-  //    x: windowBounds.x,
-  //    y: windowBounds.y
-  //  };
-    store.set('windowBounds', windowBounds);
+    store.set('windowBounds', mainWindow.getBounds());
   });
   
   // Open the DevTools.

@@ -1,6 +1,6 @@
 {
   "name": "tasks",
-  "productName": "tasks",
+  "productName": "Tasks",
   "version": "0.1.0",
   "description": "My Electron application description",
   "main": "src/index.js",
