@@ -17,6 +17,9 @@ The aim of this project is to create a task list manager that:
 * Allows routine functionality to be driven via keyboard shortcuts
 * Provides a minimalist/streamlined user interface
 
+> [!IMPORTANT]
+> Tasks was designed, developed, and test on MacOS. Your mileage may vary on Windows.
+
 ## Features
 In addition to the basics (i.e., creating and completing tasks), Tasks implements a number features to boost productivity.
 
