@@ -3,101 +3,17 @@ import * as tasks from './tasks-model.js';
 import * as settings from './settings-model.js';
 import * as sidebar from './sidebar.js';
 
+var _selectedTask = null;
+
 // no matter where the user clicks, if the menu is open, close it.
 document.addEventListener("click", function(event) {
   document.getElementById("ellipsis").classList.remove("active");
   document.getElementById("menu").classList.remove("active");
 });
 
-var _selectedTask = null;
-
-const _addTaskInputBox = document.getElementById("addTaskInputBox");
-_addTaskInputBox.addEventListener("keypress", event => {
-
-  if (event.key === "Enter" && _addTaskInputBox.value.trim()) {
-    const newTask = { id: Date.now().toString(),
-      title: _addTaskInputBox.value,
-      note: "",
-      pinned: false,
-      flagged: false,
-      completed: false
-    };
-
-    if (event.shiftKey) {
-      tasks.addTask(newTask, "bottom");
-    } else {
-      tasks.addTask(newTask, "top");
-    }
-
-    renderTasks();
-    sidebar.showSidebar();
-    selectTask(newTask);
-    _addTaskInputBox.value = "";
-  }
-});
-_addTaskInputBox.addEventListener('focus', event => {
-  deselectTask(_selectedTask);
-  if (settings.tasksSidebarVisibility === "dbl-click") {
-    sidebar.hideSidebar();
-  }
-});
-
-const _taskTitle = document.getElementById("taskTitle");
-_taskTitle.contentEditable = true;
-_taskTitle.onmouseover = () => { document.body.style.cursor = 'text'; }
-_taskTitle.onmouseout = () => { document.body.style.cursor = 'default'; }
-_taskTitle.oninput = () => {
-  // update the title in the task list
-  document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = _taskTitle.innerText;
-  // save the updated title
-  _selectedTask.title = _taskTitle.innerText;
-  tasks.saveTasks();
-};
-
-const _notesTextArea = document.getElementById("notesTextArea");
-_notesTextArea.oninput = () => {
-  // update the notes idicator in the task list
-  let div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
-  let img = div.getElementsByClassName("icon-note")[0];
-  if (_notesTextArea.value.length > 0) {
-    img.setAttribute('src', '../images/note.svg');
-  } else {
-    img.setAttribute('src', '');
-  }
-  // save the updated note
-  _selectedTask.note = _notesTextArea.value;
-  tasks.saveTasks();
-};
-
-document.getElementById("ellipsis").onclick = (event) => {
-  ellipsis.classList.toggle("active");
-  document.getElementById("menu").classList.toggle("active");
-  event.stopPropagation();
-};
-document.getElementById("sidebarActionClose").onclick = (event) => { sidebar.hideSidebar(); };
-document.getElementById("sidebarActionCircle").onclick = (event) => { toggleCompleted(_selectedTask); };
-document.getElementById("sidebarActionTrash").onclick = (event) => { deleteTaskAndHighlightNextTask(_selectedTask); };
-document.getElementById("sidebarActionFlag").onclick = (event) => { toggleFlag(_selectedTask); };
-document.getElementById("sidebarActionPin").onclick = (event) => { togglePin(_selectedTask); };
-document.getElementById("menuItemTrash").onclick = (event) => {app.showTrash(); };
-document.getElementById("menuItemSettings").onclick = (event) => { app.showSettings(); };
-
-document.getElementById("menuItemToggleCompleted").onclick = (event) => {
-  settings.toggleShowCompleted();
-  if (!settings.showingCompleted && _selectedTask.completed === true) {
-    // the selected task is being hidden
-    _selectedTask = null;
-    _addTaskInputBox.focus();
-  }
-  setMenuText();
-  renderTasks();
-  selectTask(_selectedTask);
-};
-
-
-/********************************
+/****************************************************************************
  * Hot keys
- ********************************/
+ ****************************************************************************/
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") {
     if (sidebar.isShown()) {
@@ -129,9 +45,97 @@ document.addEventListener("keydown", e => {
   toggleCompleted(_selectedTask);
 });
 
-/***********************************************
- * Define methods
- ***********************************************/
+/****************************************************************************
+ * Element Initialization
+ ****************************************************************************/
+
+const _addTaskInputBox = document.getElementById("addTaskInputBox");
+_addTaskInputBox.addEventListener("keypress", event => {
+
+  if (event.key === "Enter" && _addTaskInputBox.value.trim()) {
+    const newTask = { id: Date.now().toString(),
+      title: _addTaskInputBox.value,
+      note: "",
+      pinned: false,
+      flagged: false,
+      completed: false
+    };
+
+    if (event.shiftKey) {
+      tasks.addTask(newTask, "bottom");
+    } else {
+      tasks.addTask(newTask, "top");
+    }
+
+    renderTasks();
+    sidebar.showSidebar();
+    selectTask(newTask);
+    _addTaskInputBox.value = "";
+  }
+
+});
+_addTaskInputBox.addEventListener('focus', event => {
+  deselectTask(_selectedTask);
+  if (settings.tasksSidebarVisibility === "dbl-click") {
+    sidebar.hideSidebar();
+  }
+});
+
+const _taskTitle = document.getElementById("taskTitle");
+_taskTitle.contentEditable = true;
+_taskTitle.onmouseover = () => { document.body.style.cursor = 'text'; }
+_taskTitle.onmouseout = () => { document.body.style.cursor = 'default'; }
+_taskTitle.oninput = () => {
+  // update the title in the task list
+  document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = _taskTitle.innerText;
+  // save the updated title
+  _selectedTask.title = _taskTitle.innerText;
+  tasks.saveTasks();
+};
+
+const _notesTextArea = document.getElementById("notesTextArea");
+_notesTextArea.oninput = () => {
+  // update the notes indicator in the task list
+  let div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
+  let img = div.getElementsByClassName("icon-note")[0];
+  if (_notesTextArea.value.length > 0) {
+    img.setAttribute('src', '../images/note.svg');
+  } else {
+    img.setAttribute('src', '');
+  }
+  // save the updated note
+  _selectedTask.note = _notesTextArea.value;
+  tasks.saveTasks();
+};
+
+document.getElementById("ellipsis").onclick = (event) => {
+  ellipsis.classList.toggle("active");
+  document.getElementById("menu").classList.toggle("active");
+  event.stopPropagation();
+};
+document.getElementById("menuItemTrash").onclick = (event) => {app.showTrash(); };
+document.getElementById("menuItemSettings").onclick = (event) => { app.showSettings(); };
+document.getElementById("menuItemToggleCompleted").onclick = (event) => {
+  settings.toggleShowCompleted();
+  if (!settings.showingCompleted && _selectedTask.completed === true) {
+    // the selected task is being hidden
+    _selectedTask = null;
+    _addTaskInputBox.focus();
+  }
+  setMenuText();
+  renderTasks();
+  selectTask(_selectedTask);
+};
+
+document.getElementById("sidebarActionClose").onclick = (event) => { sidebar.hideSidebar(); };
+document.getElementById("sidebarActionCircle").onclick = (event) => { toggleCompleted(_selectedTask); };
+document.getElementById("sidebarActionTrash").onclick = (event) => { deleteTaskAndHighlightNextTask(_selectedTask); };
+document.getElementById("sidebarActionFlag").onclick = (event) => { toggleFlag(_selectedTask); };
+document.getElementById("sidebarActionPin").onclick = (event) => { togglePin(_selectedTask); };
+
+/****************************************************************************
+ * Methods
+ ****************************************************************************/
 
 function selectTask(task) {
   
@@ -526,9 +530,9 @@ function blurAllInputs() {
   _notesTextArea.blur();
 }
 
-/***********************************************
- * Ddrag and drop stuff
- ***********************************************/
+/****************************************************************************
+ * Drag and drop
+ ****************************************************************************/
 document.addEventListener("DOMContentLoaded", () => {
 
   const draggableContainers = document.querySelectorAll(".draggable-container");
@@ -616,10 +620,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 });
 
-/***********************************************
+/****************************************************************************
  * Commands to run on page load
- ***********************************************/
-
+ ****************************************************************************/
 if (settings.tasksSidebarVisibility === "always") {
   sidebar.showSidebar();
 } else {
