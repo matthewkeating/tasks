@@ -1,7 +1,9 @@
 const { app, BrowserWindow, ipcMain, globalShortcut, screen } = require('electron/main');
+const path = require('node:path');
 const Store = require('./js/electron-store');
 const store = new Store();
-const path = require('node:path');
+const Utils = require('./js/utils.js');
+const utils = new Utils();
 
 let mainWindow = null;
 
@@ -18,22 +20,28 @@ const createWindow = () => {
   var height = 800;
   const defaultMinHeight = 518;
   const defaultMaxHeight = 1200;
-  let x = null;
-  let y = null;
 
+  const screenDimensions =  screen.getPrimaryDisplay().workAreaSize;
+  const screenWidth = screenDimensions.width;
+  const screenHeight = screenDimensions.height;
+  let x = (screenWidth / 2) - (defaultWidth / 2);
+  let y = (screenHeight / 2) - (height / 2);
+  
   const windowBounds = store.get('windowBounds');
-  if (windowBounds === undefined) {
-    // position the window in the center of the screen
-    const screenDimensions =  screen.getPrimaryDisplay().workAreaSize;
-    const screenHeight = screenDimensions.height;
-    const screenWidth = screenDimensions.width;
-    x = (screenWidth / 2) - (defaultWidth / 2);
-    y = (screenHeight / 2) - (height / 2);
-  } else {
+  if (windowBounds !== undefined) {
     // set the window position and height using the values on the last application exit
+
     height = windowBounds.height;
-    x = windowBounds.x;
-    y = windowBounds.y;
+
+    // make sure the previous window position is inside the screen (this is important for users that use multiple monitors)
+    const windowUpperLeft = [windowBounds.x, windowBounds.y];
+    const screenRectangle = [[0, 0], [screenWidth-defaultWidth, screenHeight-height]]
+
+    if (utils.isPointInRectangle(windowUpperLeft, screenRectangle)) {
+      x = windowBounds.x;
+      y = windowBounds.y;
+    }
+
   }
 
   // Create the browser window.
