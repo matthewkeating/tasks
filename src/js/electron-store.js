@@ -37,6 +37,14 @@ class Store {
     delete configJs[key];
     fs.writeFileSync(configPath, JSON.stringify(configJs));
   }
+
+  deleteAll() {
+    const configPath = path.join(app.getPath('userData'), 'config.json');
+    if (!fs.existsSync(configPath)) {
+      return;
+    }
+    fs.unlinkSync(configPath);
+  }
 }
 
 module.exports = Store;
