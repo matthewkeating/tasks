@@ -1,7 +1,9 @@
-const { app, BrowserWindow, ipcMain, globalShortcut } = require('electron/main');
+const { app, BrowserWindow, ipcMain, globalShortcut, screen } = require('electron/main');
+const Store = require('./js/electron-store');
+const store = new Store();
 const path = require('node:path');
 
-let mainWindow;
+let mainWindow = null;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -9,16 +11,47 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = () => {
+
+  const defaultWidth = 480;
+  const defaultMinWidth = 480;
+  const defaultMaxWidth = 480;
+  var height = 800;
+  const defaultMinHeight = 518;
+  const defaultMaxHeight = 1200;
+  let x = null;
+  let y = null;
+
+  const windowBounds = store.get('windowBounds');
+  if (windowBounds === undefined) {
+    // position the window in the center of the screen
+    const screenDimensions =  screen.getPrimaryDisplay().workAreaSize;
+    const screenHeight = screenDimensions.height;
+    const screenWidth = screenDimensions.width;
+    x = (screenWidth / 2) - (defaultWidth / 2);
+    y = (screenHeight / 2) - (defaultHeight / 2);
+  } else {
+    // set the window position and height using the values on the last application exit
+    height = windowBounds.height;
+    x = windowBounds.x;
+    y = windowBounds.y;
+  }
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     backgroundColor: '#242424',
-    width: 480,
-    minWidth: 480,
-    maxWidth: 480,
-    height: 800,
-    minHeight: 518,
-    maxHeight: 1200,
+
+    width: defaultWidth,
+    minWidth: defaultMinWidth,
+    maxWidth: defaultMaxWidth,
+    height: height,
+    minHeight: defaultMinHeight,
+    maxHeight: defaultMaxHeight,
+
+    x: x,
+    y: y,
+
     resizable: true,
+    
     frame: false,
     nodeIntegration: false, // for additional security
     contextIsolation: false, // important for using IPC
@@ -45,6 +78,15 @@ const createWindow = () => {
 
   ipcMain.on('resize-window', (event, width, height) => {
     win.setSize(width, height);
+  });
+
+  mainWindow.on('close', () => {
+    const windowBounds = mainWindow.getBounds();
+  //  const windowPosition = {
+  //    x: windowBounds.x,
+  //    y: windowBounds.y
+  //  };
+    store.set('windowBounds', windowBounds);
   });
   
   // Open the DevTools.
