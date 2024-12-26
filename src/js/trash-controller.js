@@ -13,7 +13,7 @@ closePage.addEventListener("click", () => {
 tasksArea.firstElementChild.innerText =
   "Last " + settings.numDeletedTasksToRetain + " Deleted Tasks";
 
-const renderDeletedTasks = () => {
+const renderTasks = () => {
 
   const tasksToRender = trash.getTasks();
   
@@ -59,7 +59,7 @@ const renderDeletedTasks = () => {
     restore.innerText = "Restore";
     restore.addEventListener("click", () => {
       trash.undeleteTask(task);
-      renderDeletedTasks();
+      renderTasks();
     });
 
     const deleteDiv = document.createElement("div");
@@ -69,7 +69,7 @@ const renderDeletedTasks = () => {
       var result = confirm("This action cannot be undone. Are you sure you want to permanently delete this task?");
       if (result) {
         trash.permanentlyDeleteTask(task);
-        renderDeletedTasks();
+        renderTasks();
       }
     });
 
@@ -92,4 +92,4 @@ const renderDeletedTasks = () => {
 };
 
 window.electronAPI.hideSidebar();
-renderDeletedTasks();
+renderTasks();
