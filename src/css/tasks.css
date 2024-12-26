@@ -1,4 +1,4 @@
-.menu-and-input-box-container {
+.app-menu-and-input-box-container {
   display: flex;
   align-items: center; /* Aligns items vertically */
 
@@ -27,6 +27,31 @@
 
 .ellipsis.active {
   background-color: var(--color-grey-dark);
+}
+
+.snooze-button {
+  cursor: pointer;
+  display: flex;               /* Use flexbox to align dots */
+  justify-content: center;     /* Center the dots horizontally */
+  align-items: center;         /* Center the dots vertically */
+  z-index: 100;
+  padding: 12px 8px 12px 8px;
+  margin-top: 2px;
+  margin-left: 10px;
+  border-radius: 5px;
+}
+
+.snooze-button:hover {
+  background-color: var(--color-grey-dark);
+}
+
+.snooze-button.active {
+  background-color: var(--color-grey-dark);
+}
+
+.snooze-menu {
+  margin-top: -22px;
+  margin-left: 18px;
 }
 
 .dot {

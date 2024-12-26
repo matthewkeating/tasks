@@ -7,8 +7,8 @@ var _selectedTask = null;
 
 // no matter where the user clicks, if the menu is open, close it.
 document.addEventListener("click", function(event) {
-  ellipsis.classList.remove("active");
-  menu.classList.remove("active");
+  appEllipsis.classList.remove("active");
+  appMenu.classList.remove("active");
 });
 
 /****************************************************************************
@@ -105,9 +105,9 @@ notesTextArea.oninput = () => {
   tasks.saveTasks();
 };
 
-ellipsis.onclick = (event) => {
-  ellipsis.classList.toggle("active");
-  menu.classList.toggle("active");
+appEllipsis.onclick = (event) => {
+  appEllipsis.classList.toggle("active");
+  appMenu.classList.toggle("active");
   event.stopPropagation();
 };
 menuItemTrash.onclick = (event) => {app.showTrash(); };
