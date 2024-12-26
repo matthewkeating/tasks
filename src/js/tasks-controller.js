@@ -114,7 +114,7 @@ menuItemTrash.onclick = (event) => {app.showTrash(); };
 menuItemSettings.onclick = (event) => { app.showSettings(); };
 menuItemToggleCompleted.onclick = (event) => {
   settings.toggleShowCompleted();
-  if (!settings.showingCompleted && _selectedTask.completed === true) {
+  if (!settings.showingCompleted && _selectedTask !== null && _selectedTask.completed === true) {
     // the selected task is being hidden
     _selectedTask = null;
     addTaskInputBox.focus();
