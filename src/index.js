@@ -68,6 +68,18 @@ const createWindow = () => {
     },
   });
 
+  // and load the index.html of the app.
+  mainWindow.loadFile(path.join(__dirname, './pages/tasks.html'));
+  //mainWindow.webContents.openDevTools();  // Open the DevTools.
+
+  mainWindow.on('close', () => {
+    store.set('windowBounds', mainWindow.getBounds());
+  });
+
+  ipcMain.on('resize-window', (event, width, height) => {
+    win.setSize(width, height);
+  });
+
   ipcMain.on('show-sidebar', (event) => {
     mainWindow.setMinimumSize(780, 518);
     mainWindow.setMaximumSize(780, 1200);
@@ -79,21 +91,7 @@ const createWindow = () => {
     mainWindow.setMaximumSize(480, 1200);
     mainWindow.setSize(480, mainWindow.getSize()[1], true);
   });
-
-
-  // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, './pages/tasks.html'));
-
-  ipcMain.on('resize-window', (event, width, height) => {
-    win.setSize(width, height);
-  });
-
-  mainWindow.on('close', () => {
-    store.set('windowBounds', mainWindow.getBounds());
-  });
   
-  // Open the DevTools.
-  //mainWindow.webContents.openDevTools();
 };
 
 // This method will be called when Electron has finished
@@ -129,7 +127,3 @@ app.on('will-quit', () => {
   // Unregister all shortcuts when quitting
   globalShortcut.unregisterAll();
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
-
