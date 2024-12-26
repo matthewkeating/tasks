@@ -7,8 +7,8 @@ var _selectedTask = null;
 
 // no matter where the user clicks, if the menu is open, close it.
 document.addEventListener("click", function(event) {
-  document.getElementById("ellipsis").classList.remove("active");
-  document.getElementById("menu").classList.remove("active");
+  ellipsis.classList.remove("active");
+  menu.classList.remove("active");
 });
 
 /****************************************************************************
@@ -20,7 +20,7 @@ document.addEventListener("keydown", e => {
       sidebar.hideSidebar();
       blurAllInputs();
     } else {
-      _addTaskInputBox.focus();
+      addTaskInputBox.focus();
     }
   } else if (e.metaKey && e.key === "Backspace") {
     deleteTaskAndHighlightNextTask(_selectedTask);
@@ -29,15 +29,15 @@ document.addEventListener("keydown", e => {
   } else if (e.metaKey && e.shiftKey && e.key === '[') {
     selectPreviousTask(_selectedTask);
   } else if (e.metaKey && e.shiftKey && e.key === ']') {
-    // handle the case where the user wants to navigate to the first element from the _addTaskInputBox
-    if (_addTaskInputBox === document.activeElement && tasks.getNumTasks(settings.showingCompleted) > 0) {
+    // handle the case where the user wants to navigate to the first element from the addTaskInputBox
+    if (addTaskInputBox === document.activeElement && tasks.getNumTasks(settings.showingCompleted) > 0) {
       const firstTask = tasks.getTaskByIndex(0);
       selectTask(firstTask);
       return;
     }
     selectNextTask(_selectedTask);
   } else if (e.metaKey && e.shiftKey && e.key === 'c') {
-    document.getElementById("menuItemToggleCompleted").click();
+    menuItemToggleCompleted.click();
   }
 });
 // for overriding the global command+o hotkey (see index.js and preload.js for more)
@@ -49,12 +49,11 @@ document.addEventListener("keydown", e => {
  * Element Initialization
  ****************************************************************************/
 
-const _addTaskInputBox = document.getElementById("addTaskInputBox");
-_addTaskInputBox.addEventListener("keypress", event => {
+addTaskInputBox.addEventListener("keypress", event => {
 
-  if (event.key === "Enter" && _addTaskInputBox.value.trim()) {
+  if (event.key === "Enter" && addTaskInputBox.value.trim()) {
     const newTask = { id: Date.now().toString(),
-      title: _addTaskInputBox.value,
+      title: addTaskInputBox.value,
       note: "",
       pinned: false,
       flagged: false,
@@ -70,68 +69,66 @@ _addTaskInputBox.addEventListener("keypress", event => {
     renderTasks();
     sidebar.showSidebar();
     selectTask(newTask);
-    _addTaskInputBox.value = "";
+    addTaskInputBox.value = "";
   }
 
 });
-_addTaskInputBox.addEventListener('focus', event => {
+addTaskInputBox.addEventListener('focus', event => {
   deselectTask(_selectedTask);
   if (settings.tasksSidebarVisibility === "dbl-click") {
     sidebar.hideSidebar();
   }
 });
 
-const _taskTitle = document.getElementById("taskTitle");
-_taskTitle.contentEditable = true;
-_taskTitle.onmouseover = () => { document.body.style.cursor = 'text'; }
-_taskTitle.onmouseout = () => { document.body.style.cursor = 'default'; }
-_taskTitle.oninput = () => {
+taskTitle.contentEditable = true;
+taskTitle.onmouseover = () => { document.body.style.cursor = 'text'; }
+taskTitle.onmouseout = () => { document.body.style.cursor = 'default'; }
+taskTitle.oninput = () => {
   // update the title in the task list
-  document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = _taskTitle.innerText;
+  document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = taskTitle.innerText;
   // save the updated title
-  _selectedTask.title = _taskTitle.innerText;
+  _selectedTask.title = taskTitle.innerText;
   tasks.saveTasks();
 };
 
-const _notesTextArea = document.getElementById("notesTextArea");
-_notesTextArea.oninput = () => {
+notesTextArea.oninput = () => {
   // update the notes indicator in the task list
   let div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
   let img = div.getElementsByClassName("icon-note")[0];
-  if (_notesTextArea.value.length > 0) {
+  if (notesTextArea.value.length > 0) {
     img.setAttribute('src', '../images/note.svg');
   } else {
     img.setAttribute('src', '');
   }
   // save the updated note
-  _selectedTask.note = _notesTextArea.value;
+  _selectedTask.note = notesTextArea.value;
   tasks.saveTasks();
 };
 
-document.getElementById("ellipsis").onclick = (event) => {
+ellipsis.onclick = (event) => {
   ellipsis.classList.toggle("active");
-  document.getElementById("menu").classList.toggle("active");
+  menu.classList.toggle("active");
   event.stopPropagation();
 };
-document.getElementById("menuItemTrash").onclick = (event) => {app.showTrash(); };
-document.getElementById("menuItemSettings").onclick = (event) => { app.showSettings(); };
-document.getElementById("menuItemToggleCompleted").onclick = (event) => {
+menuItemTrash.onclick = (event) => {app.showTrash(); };
+menuItemSettings.onclick = (event) => { app.showSettings(); };
+menuItemToggleCompleted.onclick = (event) => {
   settings.toggleShowCompleted();
   if (!settings.showingCompleted && _selectedTask.completed === true) {
     // the selected task is being hidden
     _selectedTask = null;
-    _addTaskInputBox.focus();
+    addTaskInputBox.focus();
   }
   setMenuText();
   renderTasks();
   selectTask(_selectedTask);
 };
 
-document.getElementById("sidebarActionClose").onclick = (event) => { sidebar.hideSidebar(); };
-document.getElementById("sidebarActionCircle").onclick = (event) => { toggleCompleted(_selectedTask); };
-document.getElementById("sidebarActionTrash").onclick = (event) => { deleteTaskAndHighlightNextTask(_selectedTask); };
-document.getElementById("sidebarActionFlag").onclick = (event) => { toggleFlag(_selectedTask); };
-document.getElementById("sidebarActionPin").onclick = (event) => { togglePin(_selectedTask); };
+sidebarActionClose.onclick = (event) => { sidebar.hideSidebar(); };
+sidebarActionCircle.onclick = (event) => { toggleCompleted(_selectedTask); };
+sidebarActionTrash.onclick = (event) => { deleteTaskAndHighlightNextTask(_selectedTask); };
+sidebarActionFlag.onclick = (event) => { toggleFlag(_selectedTask); };
+sidebarActionPin.onclick = (event) => { togglePin(_selectedTask); };
 
 /****************************************************************************
  * Methods
@@ -163,40 +160,34 @@ function selectTask(task) {
 
 function showTaskDetails(task) {
 
-  const taskDetails = document.getElementById("taskDetails");
-
-  const circle = document.getElementById("sidebarActionCircle");
-  const flag = document.getElementById("sidebarActionFlag");
-  const pin = document.getElementById("sidebarActionPin");
-
   if (task.completed) {
-    circle.src = "../images/circle_checked.svg";
+    sidebarActionCircle.src = "../images/circle_checked.svg";
   } else {
-    circle.src = "../images/circle_empty.svg"; 
+    sidebarActionCircle.src = "../images/circle_empty.svg"; 
   }
 
   if (task.flagged) {
-    flag.src = "../images/flag_filled.svg";
+    sidebarActionFlag.src = "../images/flag_filled.svg";
   } else {
-    flag.src = "../images/flag_empty.svg";
+    sidebarActionFlag.src = "../images/flag_empty.svg";
   }
 
   if (task.pinned) {
-    pin.src = "../images/pin_filled.svg";
+    sidebarActionPin.src = "../images/pin_filled.svg";
   } else {
-    pin.src = "../images/pin_empty.svg";
+    sidebarActionPin.src = "../images/pin_empty.svg";
   }
 
-  _taskTitle.innerText = task.title;
-  _notesTextArea.value = task.note || "";
-  _notesTextArea.focus();
+  taskTitle.innerText = task.title;
+  notesTextArea.value = task.note || "";
+  notesTextArea.focus();
 
   taskDetails.classList.remove("display-none");
 
   if (sidebar.isShown()) {
-    _notesTextArea.focus();   // Set focus to the notes box
+    notesTextArea.focus();   // Set focus to the notes box
   } else {
-    _addTaskInputBox.blur(); // this effectively removes focus from any input element
+    addTaskInputBox.blur(); // this effectively removes focus from any input element
   }
 }
 
@@ -211,8 +202,8 @@ function deselectTask(task) {
   }
 
   // hide/remove task details (if showing)
-  if (document.getElementById("taskDetails") !== null) {
-    document.getElementById("taskDetails").classList.add("display-none");
+  if (taskDetails !== null) {
+    taskDetails.classList.add("display-none");
   }
 
   if (settings.quickActionsVisibility === "on-selected" && task !== null) {
@@ -325,7 +316,7 @@ function setMenuText() {
   } else {
     toggleCompletedMenuTitle = "Show Completed"
   }
-  document.getElementById("menuItemToggleCompleted").firstElementChild.innerHTML = toggleCompletedMenuTitle;
+  menuItemToggleCompleted.firstElementChild.innerHTML = toggleCompletedMenuTitle;
 }
 
 function getQuickActions(task) {
@@ -385,8 +376,6 @@ function renderTasks() {
   var tasksToRender = null;
 
   // reset the pinned tasks container
-  const pinnedHeading = document.getElementById("pinnedHeading");
-  const pinnedContainer = document.getElementById("pinnedContainer");
   pinnedContainer.innerHTML = "";
   if (tasks.getNumPinnedTasks() > 0) {
     pinnedHeading.classList.remove("display-none");
@@ -397,8 +386,6 @@ function renderTasks() {
   }
 
   // reset the unpinned tasks container
-  const unpinnedHeading = document.getElementById("unpinnedHeading");   
-  const unpinnedContainer = document.getElementById("unpinnedContainer");
   unpinnedContainer.innerHTML = "";
   if (tasks.getNumUnpinnedTasks() > 0) {
     unpinnedHeading.classList.remove("display-none");
@@ -409,8 +396,6 @@ function renderTasks() {
   }
 
   // reset the completed tasks container
-  const completedHeading = document.getElementById("completedHeading");
-  const completedContainer = document.getElementById("completedContainer");
   completedContainer.innerHTML = "";
   if (settings.showingCompleted === true && tasks.getNumCompletedTasks() > 0) {
     completedHeading.classList.remove("display-none");
@@ -464,7 +449,7 @@ function renderTasks() {
       if (task.completed === true) {
         if (!settings.showingCompleted) {
           if (_selectedTask === task) {
-            _addTaskInputBox.focus();
+            addTaskInputBox.focus();
           }
         }
       } else {
@@ -525,9 +510,9 @@ function renderTasks() {
 };
 
 function blurAllInputs() {
-  _addTaskInputBox.blur();
-  _taskTitle.blur();
-  _notesTextArea.blur();
+  addTaskInputBox.blur();
+  taskTitle.blur();
+  notesTextArea.blur();
 }
 
 /****************************************************************************

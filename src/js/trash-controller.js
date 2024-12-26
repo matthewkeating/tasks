@@ -6,16 +6,15 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") app.showTasks();
 });
 
-document.getElementById("closeTrash").addEventListener("click", () => {
+closeTrash.addEventListener("click", () => {
   app.showTasks();
 });
 
-document.getElementById("deletedTasksArea").firstElementChild.innerText =
+deletedTasksArea.firstElementChild.innerText =
   "Last " + settings.numDeletedTasksToRetain + " Deleted Tasks";
 
 const renderDeletedTasks = () => {
 
-  const deletedTaskContainer = document.getElementById("deletedTaskContainer");
   const tasksToRender = trash.getTasks();
   
   // reset the deleted tasks container

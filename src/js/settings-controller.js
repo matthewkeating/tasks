@@ -7,12 +7,12 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") app.showTasks();
 });
 
-document.getElementById("closeSettings").addEventListener("click", () => {
+closeSettings.addEventListener("click", () => {
   app.showTasks();
 });
 
-document.getElementById("showCompletedCheckbox").checked = settings.showingCompleted;
-document.getElementById("showCompletedCheckbox").addEventListener("click", () => {
+showCompletedCheckbox.checked = settings.showingCompleted;
+showCompletedCheckbox.addEventListener("click", () => {
   settings.toggleShowCompleted();
 });
 
@@ -34,17 +34,17 @@ qucikActionsRadioButtons.forEach(radio => {
     });
 });
 
-document.getElementById("numCompletedTasksToRetain").value = settings.numCompletedTasksToRetain;
-document.getElementById("numCompletedTasksToRetain").addEventListener("change", (event) => {
+numCompletedTasksToRetain.value = settings.numCompletedTasksToRetain;
+numCompletedTasksToRetain.addEventListener("change", (event) => {
   settings.setNumCompletedTasksToRetain(event.target.value);
 });
 
-document.getElementById("numDeletedTasksToRetain").value = settings.numDeletedTasksToRetain;
-document.getElementById("numDeletedTasksToRetain").addEventListener('change', (event) => {
+numDeletedTasksToRetain.value = settings.numDeletedTasksToRetain;
+numDeletedTasksToRetain.addEventListener('change', (event) => {
   settings.setNumDeletedTasksToRetain(event.target.value);
 });
 
-document.getElementById("restoreDefaultSettings").addEventListener("click", () => {
+restoreDefaultSettings.addEventListener("click", () => {
   var result = confirm("Are you sure you want to restore the default settings?");
   if (result) {
     settings.restoreDefaultSettings();
@@ -52,7 +52,7 @@ document.getElementById("restoreDefaultSettings").addEventListener("click", () =
   }
 });
 
-document.getElementById("deleteAllTasks").addEventListener("click", () => {
+deleteAllTasks.addEventListener("click", () => {
   var result = confirm("This action cannot be undone. Are you sure you want to permanently delete this task?");
   if (result) {
     tasks.deleteAllTasks();
