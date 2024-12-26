@@ -160,6 +160,15 @@ function selectTask(task) {
 
 function showTaskDetails(task) {
 
+  // show hide the close sidebar icon
+  if (settings.tasksSidebarVisibility === "always") {
+    sidebarActionClose.classList.add("display-none");
+    sidebarActionCloseSeparator.classList.add("display-none");
+  } else {
+    sidebarActionClose.classList.remove("display-none");
+    sidebarActionCloseSeparator.classList.remove("display-none"); 
+  }
+
   if (task.completed) {
     sidebarActionCircle.src = "../images/circle_checked.svg";
   } else {

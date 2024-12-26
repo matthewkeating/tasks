@@ -21,7 +21,7 @@ tasksSidebarVisibilityButton.checked = true;
 const tasksSidebarVisibilityButtons = document.querySelectorAll('input[name="tasks-sidebar-visibility"]');
 tasksSidebarVisibilityButtons.forEach(radio => {
     radio.addEventListener('change', () => {
-        settings.setTasksSidebarVisibiity(radio.value);
+        settings.setTasksSidebarVisibility(radio.value);
     });
 });
 

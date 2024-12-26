@@ -6,7 +6,7 @@ export var numDeletedTasksToRetain = JSON.parse(localStorage.getItem("num_delete
 
 export function restoreDefaultSettings() {
   setShowingCompleted(false);
-  setTasksSidebarVisibiity("dbl-click");
+  setTasksSidebarVisibility("dbl-click");
   quickActionsVisibility("on-selected");
   setNumCompletedTasksToRetain(20);
   setNumDeletedTasksToRetain(20);
@@ -22,7 +22,7 @@ export function toggleShowCompleted() {
   localStorage.setItem("show_completed", JSON.stringify(showingCompleted));
 }
 
-export function setTasksSidebarVisibiity(value) {
+export function setTasksSidebarVisibility(value) {
   tasksSidebarVisibility = value;
   localStorage.setItem("tasks_sidebar_visibility", JSON.stringify(tasksSidebarVisibility));
 }
