@@ -7,7 +7,7 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") app.showTasks();
 });
 
-closeSettings.addEventListener("click", () => {
+closePage.addEventListener("click", () => {
   app.showTasks();
 });
 
