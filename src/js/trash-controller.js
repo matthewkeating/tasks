@@ -6,11 +6,11 @@ document.addEventListener("keydown", e => {
   if (e.key === "Escape") app.showTasks();
 });
 
-closeTrash.addEventListener("click", () => {
+closePage.addEventListener("click", () => {
   app.showTasks();
 });
 
-deletedTasksArea.firstElementChild.innerText =
+tasksArea.firstElementChild.innerText =
   "Last " + settings.numDeletedTasksToRetain + " Deleted Tasks";
 
 const renderDeletedTasks = () => {
@@ -19,9 +19,9 @@ const renderDeletedTasks = () => {
   
   // reset the deleted tasks container
   if (tasksToRender.length === 0) {
-    deletedTaskContainer.innerHTML = "<div class='empty'>Empty</div>";
+    taskContainer.innerHTML = "<div class='empty'>Empty</div>";
   } else {
-    deletedTaskContainer.innerHTML = "";
+    taskContainer.innerHTML = "";
   }
 
   tasksToRender.forEach(task => {
@@ -85,7 +85,7 @@ const renderDeletedTasks = () => {
     taskDiv.appendChild(actionDiv);
     taskDiv.appendChild(note);
 
-    deletedTaskContainer.appendChild(taskDiv); 
+    taskContainer.appendChild(taskDiv); 
 
   });
 
