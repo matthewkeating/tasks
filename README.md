@@ -29,15 +29,12 @@ By design, Tasks supports only one task list (this means users cannot, for examp
 #### Pinned Tasks
 Pinned tasks always appear at the top of your task list.
 > [!NOTE]
-> Pinned tasks can be used to help keep track of long running (weeks to months) tasks .
+> Pinned tasks can be used to help keep track of long running (weeks to months) tasks.
 
 #### Flagged Tasks
 Flagging a task changes the task color, making it more noticeable.
 > [!NOTE]
 > Flags can be used to indicate high priority tasks.
-
-#### Task Reordering
-For obvious reasons.
 
 #### Completed Tasks
 Completed tasks are, naturally, those tasks that are complete. A unique feature of Tasks is that completed tasks are ephemeral. To relieve users from having to repeatedly cull completed tasks, Tasks will only retain a set, but configurable, number of completed tasks.
@@ -46,6 +43,21 @@ Automatic completed task culling is FIFO (first in, first out). For example, if 
 
 > [!WARNING]
 > When purged, completed tasks do *not* go to the Trash, they are immediately and permanently deleted. Users worried about losing historic tasks should assign a high number to the **Number of completed task to retain** value in Settings.
+
+#### Snoozed Tasks
+Traditional task management applications often turn into data stores that require constant tending to. In particular:
+* Task lists can get prohibitively long, cluttered, and overwhelming
+* Features, like due dates, can be a useful, but often become a management burden
+Snoozed task can help mitigate these challenges by allowing users to (temporarily) clear less immediate tasks from the working task list. Since tasks are snoozed on interval (e.g., 2 days, 5 days, 2 weeks, etc.), users to not have to manage dates.
+
+#### Task Ordering/Reordering
+Task ordering is important for prioritizing and maintaining focus. In Tasks, pinned and unpinned tasks can be reordered via drag and drop.
+
+> [!IMPORTANT]
+> Due to Tasks automated culling features, which purge tasks using a FIFO method, neither completed or deleted tasks can be reordered via drag and drop. Similarly, Snoozed tasks, which have a "natural" relative order based on the length of time before a snoozed task "wakes up," cannot be reordered via drag and drop.
+
+#### Notes
+Each task can have associated notes.
 
 #### Trash
 Unsurprisingly, manually deleted tasks (included completed tasks) go to the Trash. Perhaps unique to Tasks, deleted tasks, like completed tasks, are ephemeral. To relieve users from having to empty or remove items from the Trash, Tasks will automatically remove (i.e., permanently delete) items from the Trash when the sum total of tasks in the Trash reach a set (but configurable) number. Like completed task culling, Trash culling is FIFO.
@@ -77,3 +89,4 @@ Per the tables below, Tasks provides application-wide keyboard shortcuts as well
 
 ## To Do
 * Add a light mode
+* Add rich text support for task notes
