@@ -175,6 +175,7 @@
   box-shadow: none;
   /* color: var(--color-grey-lighter); */
   padding: 10px;
+  padding-right: 50px;
   outline: none;
   box-sizing: border-box;
 }
