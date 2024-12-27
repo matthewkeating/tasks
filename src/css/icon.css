@@ -51,3 +51,10 @@
   /* given an svg with fill/stroke of #555555, the below filter will change the color to be equivalent to  --color-red: #AE3532; */
   filter: brightness(0) saturate(100%) invert(36%) sepia(10%) saturate(4466%) hue-rotate(304deg) brightness(92%) contrast(83%);
 }
+
+.icon-alarm {
+  position: absolute;
+  bottom: -4px;
+  right: 38px;
+  width: 34px; 
+}

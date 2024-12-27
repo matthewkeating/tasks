@@ -397,6 +397,22 @@ function snoozeTaskAndHighlightNextTask(task, numDays) {
   selectTask(_selectedTask);
 }
 
+function updateSnoozeCount() {
+  const numSnoozedTasks = snoozed.getNumSnoozedTasks();
+  if (numSnoozedTasks < 1) {
+    snoozeCount.classList.add("display-none");
+    snoozeCountAlarm.classList.add("display-none");
+  } else {
+    snoozeCount.classList.remove("display-none");
+    snoozeCountAlarm.classList.remove("display-none");
+    if (numSnoozedTasks > 0 && numSnoozedTasks <10) {
+      snoozeCount.innerHTML = numSnoozedTasks;
+    } else if (snoozeCount >= 10) {
+      snoozeCount.innerHTML = "&infin;";
+    }
+  }
+}
+
 function setAppMenuText() {
   let toggleCompletedMenuTitle;
   if (settings.showingCompleted) {
@@ -460,6 +476,8 @@ function hideQuickAction(taskId) {
 }
 
 function renderTasks() {
+
+  updateSnoozeCount();
 
   var tasksToRender = null;
 
