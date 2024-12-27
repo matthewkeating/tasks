@@ -71,11 +71,14 @@ Per the tables below, Tasks provides application-wide keyboard shortcuts as well
 |------------------|----------------------------|
 | esc              | Perform context aware action |
 | ⌘ N              | Add task                   |
+| ⌘ ⇧ S            | Open Snoozed               |
 | ⌘ ⇧ T            | Open Trash                 |
 | ⌘ ,              | Open Settings              |
 
 
-> Note: The esc key action is based on context. When viewing Settings or Trash, esc will return the user to the Tasks page. When on the Tasks page, esc will close the  sidebar (if visible and the Tasks Sidebar setting is set to "Open on double click") or set cursor focus to the "Add tasks" input box.
+> Note: The esc key action is based on context. When viewing Snoozed, Trash, or Settings,
+esc will return the user to the Tasks page. When on the Tasks page, esc will close the  sidebar (if visible and the Tasks
+Sidebar setting is set to "Open on double click") or set cursor focus to the "Add tasks" input box.
 
 #### Tasks Shortcuts
 

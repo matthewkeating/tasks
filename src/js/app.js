@@ -8,7 +8,9 @@ document.addEventListener("keydown", e => {
     showTasks();
   } else if (e.metaKey && e.key === ",") {
     showSettings();
-  }
+  }  else if (e.metaKey && e.shiftKey && e.key === 's') {
+    showSnoozed();
+  } 
 });
 
 /*
