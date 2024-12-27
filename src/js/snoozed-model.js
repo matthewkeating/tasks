@@ -28,6 +28,10 @@ export function addToSnoozed(task, days) {
   saveSnoozed();
 }
 
+export function getNumSnoozedTasks() {
+  return _snoozedTasks.length;
+}
+
 export function unsnoozeTask(task) {
   delete task.wake_up_date;
   tasks.addTask(task, "top");
@@ -44,7 +48,6 @@ export function unsnoozeAllTasks() {
 
 // called from the scheduler
 export function unsnoozeTasks() {
-  console.log("here");
   _snoozedTasks.forEach(task => {
     if (task.wake_up_date <= Date.now().toString()) {
       unsnoozeTask(task);
