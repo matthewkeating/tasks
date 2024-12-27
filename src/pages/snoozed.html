@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+  <title>Snoozed</title>
+  <link rel="stylesheet" href="../css/app.css"/>
+  <link rel="stylesheet" href="../css/snoozed.css"/>
+  <link rel="stylesheet" href="../css/icon.css"/>
+</head>
+<body>
+
+  <!-- for moving the electon app window -->
+  <header></header>
+
+  <!-- set app margins, allow spacing for the header, etc. -->
+  <div class="app-container">
+
+    <div class="page-header">
+      <div class="page-title">Snoozed</div>
+      <div class="page-close">
+        <img id="closePage" class="icon-close" src="../images/close.svg"/>
+      </div>
+    </div>
+
+    <div id="tasksArea" class="task-list">
+      <div class="heading">Snoozed Tasks</div>
+      <div id="taskContainer"></div>
+    </div>
+
+  </div>
+
+  <script type="module" src="../js/snoozed-controller.js"></script>
+
+</body>
+</html>

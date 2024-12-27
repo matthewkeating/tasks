@@ -1,14 +1,24 @@
 import * as app from './app.js';
 import * as tasks from './tasks-model.js';
 import * as settings from './settings-model.js';
+import * as snoozed from './snoozed-model.js';
 import * as sidebar from './sidebar.js';
 
 var _selectedTask = null;
 
-// no matter where the user clicks, if the menu is open, close it.
-document.addEventListener("click", function(event) {
+function closeAppMenu() {
   appEllipsis.classList.remove("active");
   appMenu.classList.remove("active");
+}
+function closeTaskMenu() {
+  taskEllipsis.classList.remove("active");
+  taskMenu.classList.remove("active");
+}
+
+// no matter where the user clicks, if the menu is open, close it.
+document.addEventListener("click", function(event) {
+  closeAppMenu();
+  closeTaskMenu();
 });
 
 /****************************************************************************
@@ -37,11 +47,11 @@ document.addEventListener("keydown", e => {
     }
     selectNextTask(_selectedTask);
   } else if (e.metaKey && e.shiftKey && e.key === 'c') {
-    menuItemToggleCompleted.click();
+    appMenuItemToggleCompleted.click();
   }
 });
 // for overriding the global command+o hotkey (see index.js and preload.js for more)
-  window.electronAPI.onToggleCompleted(() => {
+window.electronAPI.onToggleCompleted(() => {
   toggleCompleted(_selectedTask);
 });
 
@@ -106,23 +116,25 @@ notesTextArea.oninput = () => {
 };
 
 appEllipsis.onclick = (event) => {
+  closeTaskMenu();
   appEllipsis.classList.toggle("active");
   appMenu.classList.toggle("active");
   event.stopPropagation();
 };
-menuItemTrash.onclick = (event) => {app.showTrash(); };
-menuItemSettings.onclick = (event) => { app.showSettings(); };
-menuItemToggleCompleted.onclick = (event) => {
+appMenuItemToggleCompleted.onclick = (event) => {
   settings.toggleShowCompleted();
   if (!settings.showingCompleted && _selectedTask !== null && _selectedTask.completed === true) {
     // the selected task is being hidden
     _selectedTask = null;
     addTaskInputBox.focus();
   }
-  setMenuText();
+  setAppMenuText();
   renderTasks();
   selectTask(_selectedTask);
 };
+appMenuItemSnoozed.onclick = (event) => { app.showSnoozed(); };
+appMenuItemTrash.onclick = (event) => { app.showTrash(); };
+appMenuItemSettings.onclick = (event) => { app.showSettings(); };
 
 sidebarActionClose.onclick = (event) => { sidebar.hideSidebar(); };
 sidebarActionCircle.onclick = (event) => { toggleCompleted(_selectedTask); };
@@ -130,18 +142,60 @@ sidebarActionTrash.onclick = (event) => { deleteTaskAndHighlightNextTask(_select
 sidebarActionFlag.onclick = (event) => { toggleFlag(_selectedTask); };
 sidebarActionPin.onclick = (event) => { togglePin(_selectedTask); };
 
+taskEllipsis.onclick = (event) => {
+
+  closeAppMenu();  // if it is open
+
+  const optionsNear = { weekday: 'long' };
+  const optionsFar = { day: 'numeric', month: 'short' };
+
+  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+  const twoDays = new Date(); twoDays.setDate(twoDays.getDate() + 2);
+  const threeDays = new Date(); threeDays.setDate(threeDays.getDate() + 3);
+  const fiveDays = new Date(); fiveDays.setDate(fiveDays.getDate() + 5);
+  const sevenDays = new Date(); sevenDays.setDate(sevenDays.getDate() + 7);
+  const tenDays = new Date(); tenDays.setDate(tenDays.getDate() + 10);
+  const twoWeeks = new Date(); twoWeeks.setDate(twoWeeks.getDate() + 14);
+
+  snoozeOneDayTitle.innerHTML = "Tomorrow";
+  snoozeTwoDaysTitle.innerHTML = twoDays.toLocaleDateString('en-US', optionsNear);
+  snoozeTwoDaysLabel.innerHTML = "(Two Days)"
+  snoozeThreeDaysTitle.innerHTML = threeDays.toLocaleDateString('en-US', optionsNear);
+  snoozeThreeDaysLabel.innerHTML = "(Three Days)";
+  snoozeFiveDaysTitle.innerHTML = fiveDays.toLocaleDateString('en-US', optionsNear);
+  snoozeFiveDaysLabel.innerHTML = "(Five Days)";
+  snoozeSevenDaysTitle.innerHTML = sevenDays.toLocaleDateString('en-US', optionsFar);
+  snoozeSevenDaysLabel.innerHTML = "(One Week)";
+  snoozeTenDaysTitle.innerHTML = tenDays.toLocaleDateString('en-US', optionsFar);
+  snoozeTenDaysLabel.innerHTML = "(Ten Days)";
+  snoozeTwoWeeksTitle.innerHTML = twoWeeks.toLocaleDateString('en-US', optionsFar);
+  snoozeTwoWeeksLabel.innerHTML = "(Two Weeks)";
+
+  taskMenu.classList.toggle("active");
+  event.stopPropagation();
+
+};
+snoozeOneDay.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 1); };
+snoozeTwoDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 2); };
+snoozeThreeDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 3); };
+snoozeFiveDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 5); };
+snoozeSevenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 7); };
+snoozeTenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 10); };
+snoozeTwoWeeks.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 14); };
+
 /****************************************************************************
  * Methods
  ****************************************************************************/
 
 function selectTask(task) {
-  
-  if (task !== _selectedTask) {
+
+  if (task === null) {
+    // Calling functions can send in a null value. In this case, all we want to do is deselect the current task
+    deselectTask(_selectedTask);
+    return;
+  } else if (task !== _selectedTask) {
     deselectTask(_selectedTask);
   }
-
-  // calling functions can send in a null value. In this case all we want to do is deselect the current task.
-  if (task === null) return;
 
   _selectedTask = task;
 
@@ -202,7 +256,10 @@ function showTaskDetails(task) {
 
 function deselectTask(task) {
   // there are situations where this function could be called with null (so we have to check)
-  if (task === null) return;
+  if (task === null && taskDetails !== null) {
+    taskDetails.classList.add("display-none");
+    return;
+  }
 
   // remove highlights from any tasks
   const selectedTasks = document.getElementsByClassName("task-selected");
@@ -308,7 +365,9 @@ function deleteTaskAndHighlightNextTask(task) {
     } else {
       // there are no tasks left in the list
       _selectedTask = null;
-      sidebar.hideSidebar();
+      if (settings.tasksSidebarVisibility === "dbl-click") {
+        sidebar.hideSidebar();
+      }
     }
   }
 
@@ -318,14 +377,34 @@ function deleteTaskAndHighlightNextTask(task) {
 
 }
 
-function setMenuText() {
+function snoozeTaskAndHighlightNextTask(task, numDays) {
+
+  // if the user is snoozing the selected task, we want to automatically select the
+  // next "most logical" task to in the list
+  var nextTaskToHighlight = getNextTaskToHighlight(task);
+  if (nextTaskToHighlight !== null) {
+    _selectedTask = nextTaskToHighlight;
+  } else {
+    // there are no tasks left in the list
+    _selectedTask = null;
+    if (settings.tasksSidebarVisibility === "dbl-click") {
+      sidebar.hideSidebar();
+    }
+  }
+
+  tasks.snoozeTask(task, numDays);
+  renderTasks();
+  selectTask(_selectedTask);
+}
+
+function setAppMenuText() {
   let toggleCompletedMenuTitle;
   if (settings.showingCompleted) {
     toggleCompletedMenuTitle = "Hide Completed"
   } else {
     toggleCompletedMenuTitle = "Show Completed"
   }
-  menuItemToggleCompleted.firstElementChild.innerHTML = toggleCompletedMenuTitle;
+  appMenuItemToggleCompleted.firstElementChild.innerHTML = toggleCompletedMenuTitle;
 }
 
 function getQuickActions(task) {
@@ -622,5 +701,6 @@ if (settings.tasksSidebarVisibility === "always") {
 } else {
   sidebar.hideSidebar();
 }
-setMenuText();
+setAppMenuText();
 renderTasks();
+snoozed.scheduleUnsnoozeScheduler();

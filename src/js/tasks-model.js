@@ -1,4 +1,5 @@
 import * as trash from './trash-model.js';
+import * as snoozed from './snoozed-model.js';
 
 var _tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
@@ -81,11 +82,14 @@ export function addTask(task, position) {
 }
 
 export function deleteTask(task) {
-
   trash.addToTrash(task);
+  _tasks = _tasks.filter(i => i.id !== task.id);  // remove the deleted task from the task list
+  saveTasks();
+}
 
-  // remove the deleted task from the task list
-  _tasks = _tasks.filter(i => i.id !== task.id);
+export function snoozeTask(task, days) {
+  snoozed.addToSnoozed(task, days);
+  _tasks = _tasks.filter(i => i.id !== task.id);  // remove the snoozed task from the task list
   saveTasks();
 }
 

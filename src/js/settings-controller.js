@@ -1,5 +1,6 @@
 import * as app from './app.js';
 import * as tasks from './tasks-model.js';
+import * as snoozed from './snoozed-model.js';
 import * as trash from './trash-model.js';
 import * as settings from './settings-model.js';
 
@@ -55,6 +56,7 @@ restoreDefaultSettings.addEventListener("click", () => {
 deleteAllTasks.addEventListener("click", () => {
   var result = confirm("This action cannot be undone. Are you sure you want to permanently delete this task?");
   if (result) {
+    snoozed.unsnoozeAllTasks();
     tasks.deleteAllTasks();
     trash.emptyTrash();
   }

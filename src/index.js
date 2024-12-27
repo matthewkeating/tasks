@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain, globalShortcut, screen } = require('electron/main');
+const schedule = require('node-schedule');
 const path = require('node:path');
 const Store = require('./js/electron-store');
 const store = new Store();
@@ -59,10 +60,11 @@ const createWindow = () => {
     y: y,
 
     resizable: true,
-    
     frame: false,
+
     nodeIntegration: false, // for additional security
     contextIsolation: false, // important for using IPC
+
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -74,6 +76,10 @@ const createWindow = () => {
 
   mainWindow.on('close', () => {
     store.set('windowBounds', mainWindow.getBounds());
+  });
+
+  mainWindow.on('focus', () => {
+    mainWindow.webContents.send("unsnooze-tasks"); 
   });
 
   ipcMain.on('resize-window', (event, width, height) => {
@@ -94,6 +100,14 @@ const createWindow = () => {
   
 };
 
+ipcMain.on("schedule-unsnooze", (event, spec) => {
+  const job = schedule.scheduleJob(spec, function() {
+    mainWindow.webContents.send("unsnooze-tasks"); 
+  });
+});
+
+
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -102,7 +116,7 @@ app.whenReady().then(() => {
 
   // Register a global shortcuts
   globalShortcut.register('CommandOrControl+Shift+O', () => {
-        mainWindow.webContents.send('toggle-completed');
+    mainWindow.webContents.send('toggle-completed');
   });
 
   // On OS X it's common to re-create a window in the app when the

@@ -1,0 +1,20 @@
+.unsnooze {
+  font-size: .7em;
+  text-transform: uppercase;
+  color: var(--color-grey-light);
+  margin-right: 10px;
+
+  height: 20px; /* Set a height for the container */
+  line-height: 20px; /* Match line-height to height */
+  text-align: center; /* Optional for horizontal centering */
+}
+
+.unsnooze:hover {
+  color: var(--color-purple);
+  cursor: pointer;
+}
+
+#tasksArea {
+  margin-top: 60px;
+  padding-bottom: 20px;
+}

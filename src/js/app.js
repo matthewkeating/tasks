@@ -18,6 +18,10 @@ export function showSettings() {
   window.location.href = "./settings.html";
 }
 
+export function showSnoozed() {
+  window.location.href = "./snoozed.html";
+}
+
 export function showTasks() {
   window.location.href = "./tasks.html";
 }

@@ -8,64 +8,6 @@
   z-index: 900;
 }
 
-.ellipsis {
-  cursor: pointer;
-  display: flex;               /* Use flexbox to align dots */
-  justify-content: center;     /* Center the dots horizontally */
-  align-items: center;         /* Center the dots vertically */
-  z-index: 100;
-  padding: 12px 8px 12px 8px;
-  margin-left: 10px;
-  border-radius: 5px;
-  position: absolute;
-  left: 388px;
-}
-
-.ellipsis:hover {
-  background-color: var(--color-grey-dark);
-}
-
-.ellipsis.active {
-  background-color: var(--color-grey-dark);
-}
-
-.snooze-button {
-  cursor: pointer;
-  display: flex;               /* Use flexbox to align dots */
-  justify-content: center;     /* Center the dots horizontally */
-  align-items: center;         /* Center the dots vertically */
-  z-index: 100;
-  padding: 12px 8px 12px 8px;
-  margin-top: 2px;
-  margin-left: 10px;
-  border-radius: 5px;
-}
-
-.snooze-button:hover {
-  background-color: var(--color-grey-dark);
-}
-
-.snooze-button.active {
-  background-color: var(--color-grey-dark);
-}
-
-.snooze-menu {
-  margin-top: -22px;
-  margin-left: 18px;
-}
-
-.dot {
-  width: 2px;                                     /* Set width of each dot */
-  height: 2px;                                    /* Set height of each dot */
-  background-color: var(--color-grey-light);      /* Color of the dots */
-  border-radius: 50%;                             /* Make the dots round */
-  margin: 0 2px;                                  /* Space between the dots */
-}
-
-.ellipsis:hover .dot {
-  background-color: var(--color-purple);     /* Color of the dots */
-}
-
 .menu {
   position: absolute;
   list-style-type: none;
@@ -78,6 +20,60 @@
   border-radius: 5px;
   padding: 6px 0px;
   z-index: 100;
+}
+
+.task-menu {
+  margin-top: -22px;
+  margin-left: 18px;
+}
+
+.ellipsis {
+  cursor: pointer;
+  display: flex;               /* Use flexbox to align dots */
+  justify-content: center;     /* Center the dots horizontally */
+  align-items: center;         /* Center the dots vertically */
+  z-index: 100;
+  padding: 12px 8px 12px 8px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.ellipsis:hover {
+  background-color: var(--color-grey-dark);
+}
+
+.ellipsis.active {
+  background-color: var(--color-grey-dark);
+}
+
+.app-ellipsis {
+  position: absolute;
+  left: 388px;
+}
+
+.task-ellipsis {
+  margin-top: 2px;
+  margin-left: 10px;
+}
+
+.task-ellipsis:hover {
+  background-color: var(--color-grey-dark);
+}
+
+.task-ellipsis.active {
+  background-color: var(--color-grey-dark);
+}
+
+.dot {
+  width: 2px;                                     /* Set width of each dot */
+  height: 2px;                                    /* Set height of each dot */
+  background-color: var(--color-grey-light);      /* Color of the dots */
+  border-radius: 50%;                             /* Make the dots round */
+  margin: 0 2px;                                  /* Space between the dots */
+}
+
+.ellipsis:hover .dot {
+  background-color: var(--color-purple);     /* Color of the dots */
 }
 
 .menu.active {
@@ -93,6 +89,11 @@
 
 .menu-title {
   flex: 1;
+}
+
+.menu-info {
+  flex: 1;
+  color: var(--color-grey-light);
 }
 
 .menu-item:hover {
@@ -142,7 +143,6 @@
   margin: 0px 0px 20px 0px;
   padding-bottom: 10px;
   outline: 0px solid transparent;
-  font-weight: bold;
   display: flex;
   flex-grow: 100;
   border-bottom: 1px solid var(--color-grey-dark);
@@ -156,6 +156,11 @@
 .vertical-line-separator {
   margin: 2px 12px 2px 12px;
   border-left: 1px solid var(--color-grey-dark);
+}
+
+.horizontal-line-separator {
+  margin: 6px 12px 6px 12px;
+  border-bottom: 1px solid var(--color-grey);
 }
 
 /*********************************************
