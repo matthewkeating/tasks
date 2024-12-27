@@ -48,6 +48,10 @@ header {
   background-image: linear-gradient(to right, var(--color-grey-darkest) 480px, var(--color-sidebar) 480px);
 }
 
+a {
+  text-decoration: none;
+}
+
 img {
   -webkit-user-drag: none; /* For Chrome and Safari */
 }
