@@ -31,7 +31,6 @@ const createWindow = () => {
   const windowBounds = store.get('windowBounds');
   if (windowBounds !== undefined) {
     // set the window position and height using the values on the last application exit
-
     height = windowBounds.height;
 
     // make sure the previous window position is inside the screen (this is important for users that use multiple monitors)
