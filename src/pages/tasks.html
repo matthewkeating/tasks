@@ -22,8 +22,7 @@
         <input id="addTaskInputBox" type="text" spellcheck="false" placeholder="+ Add task" autofocus/>
         <div id="addTaskInputBoxIcons">
           <div id="snoozeSpace">
-            <div id="snoozeCount" class="circle"></div>
-            <img id="snoozeCountAlarm" class="icon-alarm" src="../images/alarm.svg"/>
+            <img id="snoozeIndicator" class="icon-snooze icon-snooze-indicator display-none" src="../images/snooze.svg"/>
           </div>
           <div id="appEllipsis" class="ellipsis">
             <span class="dot"></span>
@@ -84,15 +83,13 @@
             <img id="sidebarActionFlag" class="icon-flag" src="../images/flag_empty.svg"/>
             <img id="sidebarActionPin" class="icon-pin" src="../images/pin_empty.svg"/>
           
-            <div id="taskEllipsis" class="ellipsis task-ellipsis">
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
+            <div id="snoozeSelectorButton">
+              <img class="icon-snooze" src="../images/snooze.svg"/>
             </div>
           
           </div>
 
-          <div id="taskMenu" class="menu task-menu">
+          <div id="snoozeSelectorMenu" class="menu task-menu">
             <div id="snoozeOneDay" class="menu-item">
               <span id="snoozeOneDayTitle" class="menu-title">Tomorrow</span>
               <span class="menu-info"></span>

@@ -32,7 +32,25 @@
   cursor: pointer;
 }
 
-.icon-close:hover, .icon-circle:hover, .icon-flag:hover, .icon-pin:hover {
+.icon-snooze {
+  width: 22px; 
+  cursor: pointer;
+}
+
+.icon-snooze-indicator {
+  position: absolute;
+  bottom: 3px;
+  right: 40px;
+  /* make the indicator a little darker than the other icons */
+  filter: brightness(0) saturate(100%) invert(21%) sepia(1%) saturate(0%) hue-rotate(210deg) brightness(94%) contrast(91%);
+}
+
+.icon-close:hover,
+.icon-circle:hover,
+.icon-flag:hover,
+.icon-pin:hover,
+.icon-snooze:hover
+{
   /* given an svg with fill/stroke of #555555, the below filter will change the color to be equivalent to --color-purple: #6264ff; */ 
   filter: invert(7%) sepia(69%) saturate(2731%) hue-rotate(226deg) brightness(101%) contrast(104%);
 }
@@ -50,11 +68,4 @@
 .icon-trash:hover {
   /* given an svg with fill/stroke of #555555, the below filter will change the color to be equivalent to  --color-red: #AE3532; */
   filter: brightness(0) saturate(100%) invert(36%) sepia(10%) saturate(4466%) hue-rotate(304deg) brightness(92%) contrast(83%);
-}
-
-.icon-alarm {
-  position: absolute;
-  bottom: -4px;
-  right: 38px;
-  width: 34px; 
 }

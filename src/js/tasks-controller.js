@@ -10,15 +10,15 @@ function closeAppMenu() {
   appEllipsis.classList.remove("active");
   appMenu.classList.remove("active");
 }
-function closeTaskMenu() {
-  taskEllipsis.classList.remove("active");
-  taskMenu.classList.remove("active");
+function closeSnoozeSelectorMenu() {
+  snoozeSelectorButton.classList.remove("active");
+  snoozeSelectorMenu.classList.remove("active");
 }
 
 // no matter where the user clicks, if the menu is open, close it.
 document.addEventListener("click", function(event) {
   closeAppMenu();
-  closeTaskMenu();
+  closeSnoozeSelectorMenu();
 });
 
 /****************************************************************************
@@ -90,33 +90,10 @@ addTaskInputBox.addEventListener('focus', event => {
   }
 });
 
-taskTitle.contentEditable = true;
-taskTitle.onmouseover = () => { document.body.style.cursor = 'text'; }
-taskTitle.onmouseout = () => { document.body.style.cursor = 'default'; }
-taskTitle.oninput = () => {
-  // update the title in the task list
-  document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = taskTitle.innerText;
-  // save the updated title
-  _selectedTask.title = taskTitle.innerText;
-  tasks.saveTasks();
-};
-
-notesTextArea.oninput = () => {
-  // update the notes indicator in the task list
-  let div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
-  let img = div.getElementsByClassName("icon-note")[0];
-  if (notesTextArea.value.length > 0) {
-    img.setAttribute('src', '../images/note.svg');
-  } else {
-    img.setAttribute('src', '');
-  }
-  // save the updated note
-  _selectedTask.note = notesTextArea.value;
-  tasks.saveTasks();
-};
+snoozeIndicator.onclick = (event) => { app.showSnoozed(); };
 
 appEllipsis.onclick = (event) => {
-  closeTaskMenu();
+  closeSnoozeSelectorMenu();
   appEllipsis.classList.toggle("active");
   appMenu.classList.toggle("active");
   event.stopPropagation();
@@ -142,7 +119,18 @@ sidebarActionTrash.onclick = (event) => { deleteTaskAndHighlightNextTask(_select
 sidebarActionFlag.onclick = (event) => { toggleFlag(_selectedTask); };
 sidebarActionPin.onclick = (event) => { togglePin(_selectedTask); };
 
-taskEllipsis.onclick = (event) => {
+taskTitle.contentEditable = true;
+taskTitle.onmouseover = () => { document.body.style.cursor = 'text'; }
+taskTitle.onmouseout = () => { document.body.style.cursor = 'default'; }
+taskTitle.oninput = () => {
+  // update the title in the task list
+  document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = taskTitle.innerText;
+  // save the updated title
+  _selectedTask.title = taskTitle.innerText;
+  tasks.saveTasks();
+};
+
+snoozeSelectorButton.onclick = (event) => {
 
   closeAppMenu();  // if it is open
 
@@ -171,7 +159,8 @@ taskEllipsis.onclick = (event) => {
   snoozeTwoWeeksTitle.innerHTML = twoWeeks.toLocaleDateString('en-US', optionsFar);
   snoozeTwoWeeksLabel.innerHTML = "(Two Weeks)";
 
-  taskMenu.classList.toggle("active");
+  snoozeSelectorButton.classList.toggle("active");
+  snoozeSelectorMenu.classList.toggle("active");
   event.stopPropagation();
 
 };
@@ -182,6 +171,20 @@ snoozeFiveDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTa
 snoozeSevenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 7); };
 snoozeTenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 10); };
 snoozeTwoWeeks.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 14); };
+
+notesTextArea.oninput = () => {
+  // update the notes indicator in the task list
+  let div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
+  let img = div.getElementsByClassName("icon-note")[0];
+  if (notesTextArea.value.length > 0) {
+    img.setAttribute('src', '../images/note.svg');
+  } else {
+    img.setAttribute('src', '');
+  }
+  // save the updated note
+  _selectedTask.note = notesTextArea.value;
+  tasks.saveTasks();
+};
 
 /****************************************************************************
  * Methods
@@ -397,19 +400,14 @@ function snoozeTaskAndHighlightNextTask(task, numDays) {
   selectTask(_selectedTask);
 }
 
-function updateSnoozeCount() {
+function updateSnoozeIndicator() {
   const numSnoozedTasks = snoozed.getNumSnoozedTasks();
   if (numSnoozedTasks < 1) {
-    snoozeCount.classList.add("display-none");
-    snoozeCountAlarm.classList.add("display-none");
+    snoozeIndicator.classList.add("display-none");
+    addTaskInputBox.style.paddingRight = "60px";
   } else {
-    snoozeCount.classList.remove("display-none");
-    snoozeCountAlarm.classList.remove("display-none");
-    if (numSnoozedTasks > 0 && numSnoozedTasks <10) {
-      snoozeCount.innerHTML = numSnoozedTasks;
-    } else if (snoozeCount >= 10) {
-      snoozeCount.innerHTML = "&infin;";
-    }
+    snoozeIndicator.classList.remove("display-none");
+    addTaskInputBox.style.paddingRight = "86px";
   }
 }
 
@@ -477,7 +475,7 @@ function hideQuickAction(taskId) {
 
 function renderTasks() {
 
-  updateSnoozeCount();
+  updateSnoozeIndicator();
 
   var tasksToRender = null;
 

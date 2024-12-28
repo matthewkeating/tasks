@@ -1,0 +1,26 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  viewBox="0 0 24 24"
+  shape-rendering="geometricPrecision"
+  text-rendering="geometricPrecision"
+  cached="false">
+  
+  <path
+    d="M20.986,12.502c.047197-4.454711-3.171771-8.273632-7.570194-8.981129s-8.652601,1.909348-10.004744,6.154155.604675,8.840106,4.601938,10.806974"
+    transform="matrix(.939693-.34202 0.34202 0.939693-3.362325 4.819957)"
+    fill="none"
+    stroke="#555555"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+
+  <path
+    d="M16,14h6l-6,6h6"
+    fill="none"
+    stroke="#555555"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"/>
+    
+</svg>

@@ -27,6 +27,14 @@
   margin-left: 18px;
 }
 
+.dot {
+  width: 2px;                                     /* Set width of each dot */
+  height: 2px;                                    /* Set height of each dot */
+  background-color: var(--color-grey-light);      /* Color of the dots */
+  border-radius: 50%;                             /* Make the dots round */
+  margin: 0 2px;                                  /* Space between the dots */
+}
+
 .ellipsis {
   cursor: pointer;
   display: flex;               /* Use flexbox to align dots */
@@ -43,7 +51,15 @@
 }
 
 .ellipsis.active {
-  background-color: var(--color-grey-dark);
+  background-color: var(--color-grey);
+}
+
+.ellipsis:hover .dot {
+  background-color: var(--color-purple);
+}
+
+.ellipsis.active .dot {
+  background-color: var(--color-purple);
 }
 
 #addTaskInputBoxIcons {
@@ -52,29 +68,31 @@
   left: 362px;
 }
 
-.task-ellipsis {
-  margin-top: 2px;
+#snoozeSelectorButton {
+  cursor: pointer;
+  margin-top: 2px;  
+  z-index: 100;
+  padding: 6px 6px 6px 6px;
+  border-radius: 5px;
   margin-left: 10px;
 }
 
-.task-ellipsis:hover {
+#snoozeSelectorButton:hover {
   background-color: var(--color-grey-dark);
 }
 
-.task-ellipsis.active {
-  background-color: var(--color-grey-dark);
+#snoozeSelectorButton.active {
+  background-color: var(--color-grey);
 }
 
-.dot {
-  width: 2px;                                     /* Set width of each dot */
-  height: 2px;                                    /* Set height of each dot */
-  background-color: var(--color-grey-light);      /* Color of the dots */
-  border-radius: 50%;                             /* Make the dots round */
-  margin: 0 2px;                                  /* Space between the dots */
+#snoozeSelectorButton:hover .icon-snooze {
+  /* given an svg with fill/stroke of #555555, the below filter will change the color to be equivalent to --color-purple: #6264ff; */ 
+  filter: invert(7%) sepia(69%) saturate(2731%) hue-rotate(226deg) brightness(101%) contrast(104%);
 }
 
-.ellipsis:hover .dot {
-  background-color: var(--color-purple);     /* Color of the dots */
+#snoozeSelectorButton.active .icon-snooze {
+  /* given an svg with fill/stroke of #555555, the below filter will change the color to be equivalent to --color-purple: #6264ff; */ 
+  filter: invert(7%) sepia(69%) saturate(2731%) hue-rotate(226deg) brightness(101%) contrast(104%);
 }
 
 .flex {
@@ -82,21 +100,7 @@
 }
 
 #snoozeSpace {
-  width: 26px;
-}
-
-.circle {
-  width: 26px;
-  height: 26px;
-  color: #484848;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: .88em;
-  position: relative;
-  top: 1px;
-  left: 2px;
+  width: 24px;
 }
 
 .menu.active {
@@ -198,7 +202,7 @@
   box-shadow: none;
   /* color: var(--color-grey-lighter); */
   padding: 10px;
-  padding-right: 94px;
+  padding-right: 86px;
   outline: none;
   box-sizing: border-box;
 }
