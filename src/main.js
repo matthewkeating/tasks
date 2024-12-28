@@ -1,7 +1,7 @@
 const { app, BrowserWindow, ipcMain, globalShortcut, screen } = require('electron/main');
 const schedule = require('node-schedule');
 const path = require('node:path');
-const Store = require('./js/electron-store');
+const Store = require('./js/electron-store.js');
 const store = new Store();
 const Utils = require('./js/utils.js');
 const utils = new Utils();

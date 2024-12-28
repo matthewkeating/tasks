@@ -50,7 +50,7 @@ document.addEventListener("keydown", e => {
     appMenuItemToggleCompleted.click();
   }
 });
-// for overriding the global command+o hotkey (see index.js and preload.js for more)
+// for overriding the global command+o hotkey (see main.js and preload.js for more)
 window.electronAPI.onToggleCompleted(() => {
   toggleCompleted(_selectedTask);
 });
