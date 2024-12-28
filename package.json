@@ -2,7 +2,7 @@
   "name": "tasks",
   "productName": "Tasks",
   "version": "0.1.0",
-  "description": "My Electron application description",
+  "description": "A not so creatively named application for managing a task list.",
   "main": "src/main.js",
   "scripts": {
     "start": "electron-forge start",
@@ -24,8 +24,7 @@
   },
   "keywords": [],
   "author": {
-    "name": "matthewkeating",
-    "email": "matt.keating@gmail.com"
+    "name": "Matt Keating"
   },
   "license": "MIT",
   "dependencies": {
