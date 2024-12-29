@@ -113,7 +113,7 @@ appMenuItemSnoozed.onclick = (event) => { app.showSnoozed(); };
 appMenuItemTrash.onclick = (event) => { app.showTrash(); };
 appMenuItemSettings.onclick = (event) => { app.showSettings(); };
 
-sidebarActionClose.onclick = (event) => { sidebar.hideSidebar(); };
+sidebarActionHide.onclick = (event) => { sidebar.hideSidebar(); };
 sidebarActionCircle.onclick = (event) => { toggleCompleted(_selectedTask); };
 sidebarActionTrash.onclick = (event) => { deleteTaskAndHighlightNextTask(_selectedTask); };
 sidebarActionFlag.onclick = (event) => { toggleFlag(_selectedTask); };
@@ -219,11 +219,11 @@ function showTaskDetails(task) {
 
   // show hide the close sidebar icon
   if (settings.tasksSidebarVisibility === "always") {
-    sidebarActionClose.classList.add("display-none");
-    sidebarActionCloseSeparator.classList.add("display-none");
+    sidebarActionHide.classList.add("display-none");
+    sidebarActionHideSeparator.classList.add("display-none");
   } else {
-    sidebarActionClose.classList.remove("display-none");
-    sidebarActionCloseSeparator.classList.remove("display-none"); 
+    sidebarActionHide.classList.remove("display-none");
+    sidebarActionHideSeparator.classList.remove("display-none"); 
   }
 
   if (task.completed) {
@@ -404,10 +404,10 @@ function updateSnoozeIndicator() {
   const numSnoozedTasks = snoozed.getNumSnoozedTasks();
   if (numSnoozedTasks < 1) {
     snoozeIndicator.classList.add("display-none");
-    addTaskInputBox.style.paddingRight = "60px";
+    addTaskInputBox.style.paddingRight = "60px";   // TODO: put this in css
   } else {
     snoozeIndicator.classList.remove("display-none");
-    addTaskInputBox.style.paddingRight = "86px";
+    addTaskInputBox.style.paddingRight = "86px";   // TODO: put this in css
   }
 }
 

@@ -13,6 +13,10 @@
   cursor: pointer;
 }
 
+.icon-hide {
+  cursor: pointer;
+}
+
 .icon-circle {
   width: 22px;
   cursor: pointer;
@@ -46,6 +50,7 @@
 }
 
 .icon-close:hover,
+.icon-hide:hover,
 .icon-circle:hover,
 .icon-flag:hover,
 .icon-pin:hover,
