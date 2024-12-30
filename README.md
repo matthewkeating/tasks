@@ -57,7 +57,7 @@ Task ordering is important for prioritizing and maintaining focus. In Tasks, pin
 > Due to Tasks automated culling features, which purge tasks using a FIFO method, neither completed or deleted tasks can be reordered via drag and drop. Similarly, Snoozed tasks, which have a "natural" relative order based on the length of time before a snoozed task "wakes up," cannot be reordered via drag and drop.
 
 #### Notes
-Each task can have associated notes.
+Each task can have associated notes. The editor supports ordered lists, unordered lists, as well as bold, italics, and underline font decoration.
 
 #### Trash
 Unsurprisingly, manually deleted tasks (included completed tasks) go to the Trash. Perhaps unique to Tasks, deleted tasks, like completed tasks, are ephemeral. To relieve users from having to empty or remove items from the Trash, Tasks will automatically remove (i.e., permanently delete) items from the Trash when the sum total of tasks in the Trash reach a set (but configurable) number. Like completed task culling, Trash culling is FIFO.
