@@ -196,22 +196,6 @@ taskNotes.on('text-change', function(delta, oldDelta, source) {
   tasks.saveTasks();
 });
 
-/*
-notesTextArea.oninput = () => {
-  // update the notes indicator in the task list
-  let div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
-  let img = div.getElementsByClassName("icon-note")[0];
-  if (notesTextArea.value.length > 0) {
-    img.setAttribute('src', '../images/note.svg');
-  } else {
-    img.setAttribute('src', '');
-  }
-  // save the updated note
-  _selectedTask.notes = notesTextArea.value;
-  tasks.saveTasks();
-};
-*/
-
 /****************************************************************************
  * Methods
  ****************************************************************************/
