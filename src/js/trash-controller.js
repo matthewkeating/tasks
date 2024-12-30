@@ -49,7 +49,7 @@ const renderTasks = () => {
     titleDiv.innerText = task.title;
     
     const note = document.createElement("img");
-    if (task.note.trim().length !== 0) {
+    if (task.notes !== null) {
       note.src = "../images/note.svg";
     }
     note.classList.add("icon-note");
