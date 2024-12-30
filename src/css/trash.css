@@ -1,5 +1,5 @@
 .restore, .delete {
-  font-size: .7em;
+  font-size: .7rem;
   text-transform: uppercase;
   color: var(--color-grey-light);
   margin-right: 10px;

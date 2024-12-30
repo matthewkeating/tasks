@@ -17,7 +17,7 @@
 }
 
 * {
-  font-size: .99em;
+  font-size: .93rem;
   font-family: Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
   color: var(--color-grey-lighter);
@@ -30,6 +30,10 @@
   -ms-user-select: none;
   user-select: none;
   outline: 0;
+}
+
+html {
+  font-size: 100%;
 }
 
 body {
@@ -70,7 +74,7 @@ fieldset {
   border: 1px solid var(--color-grey-light);
 }
 fieldset legend {
-  font-size: .7em;
+  font-size: .7rem;
   text-transform: uppercase;
   color: var(--color-grey-light);
   padding-left: 6px;
@@ -96,7 +100,6 @@ fieldset legend {
 
 .page-header {
   display: flex;
-  font-size: 1.7em;
   padding-top: 2px;
   background-color: var(--color-grey-darkest);
   height: 60px;
@@ -109,6 +112,7 @@ fieldset legend {
 }
 
 .page-title {
+  font-size: 1.7rem;
   flex: 1;
 }
 
@@ -148,7 +152,7 @@ fieldset legend {
 }
 
 .heading {
-  font-size: .7em;
+  font-size: .7rem;
   text-transform: uppercase;
   color: var(--color-grey-light);
   padding-top: 15px;

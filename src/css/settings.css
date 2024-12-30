@@ -36,7 +36,7 @@ select {
 
 .settings-text {
   color: var(--color-settings-explaination-text);
-  font-size: .86em;
+  font-size: .86rem;
   margin-top: 12px;
 }
 
