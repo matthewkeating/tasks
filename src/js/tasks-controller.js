@@ -172,6 +172,7 @@ snoozeSevenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedT
 snoozeTenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 10); };
 snoozeTwoWeeks.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 14); };
 
+// TODO: Consider installing Quill via npm (rather than directly using it's .js and .css files)
 const taskNotes = new Quill('#notesTextArea', {
   placeholder: "Add notes here..."
 });
