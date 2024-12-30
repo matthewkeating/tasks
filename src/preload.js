@@ -1,4 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron/renderer');
+const { diffDays } = require("@formkit/tempo");
 
 const api = {
   showSidebar: () => ipcRenderer.send('show-sidebar'),
@@ -7,5 +8,9 @@ const api = {
   scheduleUnsnooze: (spec) => ipcRenderer.send("schedule-unsnooze", { spec }),
   unsnoozeTasks: (callback) => ipcRenderer.on("unsnooze-tasks", callback),
 };
-
 contextBridge.exposeInMainWorld( 'electronAPI', api );
+
+
+contextBridge.exposeInMainWorld('tempo', {
+  diffDays: (dateA, dateB, roundingMethod) => diffDays(dateA, dateB, roundingMethod),
+});

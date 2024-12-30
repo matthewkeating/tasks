@@ -9,11 +9,31 @@ closePage.addEventListener("click", () => {
   app.showTasks();
 });
 
-/*
-document.getElementById("snoozedTasksArea").firstElementChild.innerText =
-  "Last " + settings.numDeletedTasksToRetain + " Deleted Tasks";
-*/
+function getWakUpDisplayDate(wakeUpDate) {
 
+  let retVal;
+  const currentDate = new Date();
+  const diff = window.tempo.diffDays(wakeUpDate, currentDate);
+
+  const optionsNear = { weekday: 'long' };
+  const optionsFar = { day: 'numeric', month: 'short' };
+
+  if (diff === 0) {
+    retVal = "Tomorrow";
+  } else if (diff <= 6) {
+    const tmpDate = new Date();
+    tmpDate.setDate(currentDate.getDate() + diff+1);
+    retVal = tmpDate.toLocaleDateString('en-US', optionsNear);
+
+  } else {
+    const tmpDate = new Date(wakeUpDate);
+    retVal = tmpDate.toLocaleDateString('en-US', optionsFar);
+  }
+
+  return retVal;
+}
+
+let previousWakeUpDate = null;
 const renderTasks = () => {
 
   const tasksToRender = snoozed.getTasks();
@@ -43,7 +63,7 @@ const renderTasks = () => {
     titleDiv.innerText = task.title;
     
     const note = document.createElement("img");
-    if (task.note.trim().length !== 0) {
+    if (task.notes !== null) {
       note.src = "../images/note.svg";
     }
     note.classList.add("icon-note");
@@ -66,6 +86,18 @@ const renderTasks = () => {
     taskDiv.appendChild(actionDiv);
     taskDiv.appendChild(note);
 
+    const wakeUpDisplayDate = document.createElement("div");
+    
+    if (previousWakeUpDate === null) {
+      wakeUpDisplayDate.innerText = getWakUpDisplayDate(task.wake_up_date);
+      wakeUpDisplayDate.classList.add("heading");
+    } else if (previousWakeUpDate != task.wake_up_date) {
+      wakeUpDisplayDate.innerText = getWakUpDisplayDate(task.wake_up_date);
+      wakeUpDisplayDate.classList.add("heading");
+    }
+    previousWakeUpDate = task.wake_up_date;
+    
+    taskContainer.appendChild(wakeUpDisplayDate);
     taskContainer.appendChild(taskDiv); 
 
   });
