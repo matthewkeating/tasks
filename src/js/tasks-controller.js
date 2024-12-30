@@ -64,7 +64,7 @@ addTaskInputBox.addEventListener("keypress", event => {
   if (event.key === "Enter" && addTaskInputBox.value.trim()) {
     const newTask = { id: Date.now().toString(),
       title: addTaskInputBox.value,
-      note: "",
+      notes: null,
       pinned: false,
       flagged: false,
       completed: false
@@ -172,6 +172,31 @@ snoozeSevenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedT
 snoozeTenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 10); };
 snoozeTwoWeeks.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 14); };
 
+const taskNotes = new Quill('#notesTextArea', {
+  placeholder: "Add notes here..."
+});
+taskNotes.root.setAttribute('spellcheck', false);
+
+taskNotes.on('text-change', function(delta, oldDelta, source) {
+  // note: delta is the formatted contents in Quill
+
+  // update the notes indicator in the task list
+  const div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
+  const img = div.getElementsByClassName("icon-note")[0];
+  const isEmpty = taskNotes.getContents().ops.length === 1 && taskNotes.getText().trim() === "";
+  if (isEmpty) {
+    img.setAttribute('src', '');
+    taskNotes.setText("");
+    _selectedTask.notes = null;
+  } else {
+    img.setAttribute('src', '../images/note.svg');
+    _selectedTask.notes = taskNotes.getContents();
+  }
+
+  tasks.saveTasks();
+});
+
+/*
 notesTextArea.oninput = () => {
   // update the notes indicator in the task list
   let div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
@@ -182,9 +207,10 @@ notesTextArea.oninput = () => {
     img.setAttribute('src', '');
   }
   // save the updated note
-  _selectedTask.note = notesTextArea.value;
+  _selectedTask.notes = notesTextArea.value;
   tasks.saveTasks();
 };
+*/
 
 /****************************************************************************
  * Methods
@@ -245,13 +271,16 @@ function showTaskDetails(task) {
   }
 
   taskTitle.innerText = task.title;
-  notesTextArea.value = task.note || "";
-  notesTextArea.focus();
+  if (task.notes !== null) {
+    taskNotes.setContents(task.notes);
+  } else {
+    taskNotes.setText("");
+  }
 
   taskDetails.classList.remove("display-none");
 
   if (sidebar.isShown()) {
-    notesTextArea.focus();   // Set focus to the notes box
+    taskNotes.focus();   // Set focus to the notes box
   } else {
     addTaskInputBox.blur(); // this effectively removes focus from any input element
   }
@@ -521,12 +550,23 @@ function renderTasks() {
 
     // set up click behaviors
     taskDiv.addEventListener("mousedown", (event) => {
+      // need to select the task on mouse down to make the drag and drop functionality work as expected
+      let divType = event.target.dataset.type;
       // if statement will allow the event to fire when the taskDiv or titleDiv is selected
       // while preventing it from firing when any of the taskDiv children (e.g., the complete or
       // delete buttons) are clicked
-      let divType = event.target.dataset.type;
       if (divType === "selectable") {
         selectTask(task);
+      }
+    });
+    taskDiv.addEventListener("click", (event) => {
+      // b/c the click happens after mousedown, we need to set focus to the taskNotes
+      let divType = event.target.dataset.type;
+      // if statement will allow the event to fire when the taskDiv or titleDiv is selected
+      // while preventing it from firing when any of the taskDiv children (e.g., the complete or
+      // delete buttons) are clicked
+      if (divType === "selectable") {
+        taskNotes.focus();
       }
     });
     if (settings.tasksSidebarVisibility === "dbl-click") {
@@ -580,8 +620,8 @@ function renderTasks() {
 
     // Create the img element that will hold the note indicator
     const note = document.createElement("img");
-    if (task.note.trim().length !== 0) {
-      note.src = "../images/note.svg";
+    if (task.notes !== null) {
+        note.src = "../images/note.svg";
     }
     note.classList.add("icon-note");
     note.addEventListener("click", (event) => { _selectedTask = task; });

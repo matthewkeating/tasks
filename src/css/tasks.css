@@ -255,3 +255,54 @@
   scrollbar-width: auto; /* Options: auto, thin, none */
   scrollbar-color: var(--color-grey-light) var(--color-grey);; /* thumb color, track color */
 }
+
+.ql-editor {
+  padding: 0px !important;
+  tab-size: 2 !important;
+}
+
+.ql-editor.ql-blank::before {
+  color: var(--color-placeholder-text) !important; /* Change this to your desired color */
+  font-style: normal !important;
+  left: 10px !important;
+}
+
+.ql-editor ul, .ql-editor ol, .ql-editor li {
+  padding-left: .6rem !important; /* Adjust this value to change the base indent */
+}
+
+.ql-editor li.ql-indent-1 {
+  padding-left: 1.2rem !important; /* Adjust for first level indent */
+}
+
+.ql-editor li.ql-indent-2 {
+  padding-left: 1.8rem !important; /* Adjust for second level indent */
+}
+
+.ql-editor li.ql-indent-3 {
+  padding-left: 2.4rem !important; /* Adjust for second level indent */
+}
+
+.ql-editor li.ql-indent-4 {
+  padding-left: 3.0rem !important; /* Adjust for second level indent */
+}
+
+.ql-editor li.ql-indent-5 {
+  padding-left: 3.6rem !important; /* Adjust for first level indent */
+}
+
+.ql-editor li.ql-indent-6 {
+  padding-left: 4.2rem !important; /* Adjust for second level indent */
+}
+
+.ql-editor li.ql-indent-7 {
+  padding-left: 4.8rem !important; /* Adjust for second level indent */
+}
+
+.ql-editor li.ql-indent-8 {
+  padding-left: 5.4rem !important; /* Adjust for second level indent */
+}
+
+.ql-editor li.ql-indent-9 {
+  padding-left: 6.0 rem !important; /* Adjust for second level indent */
+}
