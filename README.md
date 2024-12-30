@@ -92,7 +92,6 @@ Sidebar setting is set to "Open on double click") or set cursor focus to the "Ad
 
 ## To Do
 * Add a light mode
-* Add rich text support for task notes
 
 ## Thank you
 * [Ariel Diaz](https://github.com/fullmetalbrackets) - For offering a solid HEX to CSS filter [conversion tool](https://cssfiltergenerator.lol/)
