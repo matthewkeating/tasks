@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, globalShortcut, screen } = require('electron/main');
+const { app, BrowserWindow, ipcMain, globalShortcut, screen, nativeTheme } = require('electron/main');
 const schedule = require('node-schedule');
 const path = require('node:path');
 const Store = require('./js/electron-store.js');
@@ -7,6 +7,12 @@ const Utils = require('./js/utils.js');
 const utils = new Utils();
 
 let mainWindow = null;
+
+// setting the background color of the app helps keep background consistency when the window is launching
+let bgColor = '#FFFFFF';
+if (nativeTheme.shouldUseDarkColors) {
+  bgColor = '#242424'
+}
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -46,7 +52,9 @@ const createWindow = () => {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    backgroundColor: '#242424',
+
+    
+    backgroundColor: bgColor,
 
     width: defaultWidth,
     minWidth: defaultMinWidth,

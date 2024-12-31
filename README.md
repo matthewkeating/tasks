@@ -90,8 +90,11 @@ Sidebar setting is set to "Open on double click") or set cursor focus to the "Ad
 | ⌘ ⇧ [            | Previous task        |
 | ⌘ ⇧ ]            | Next task            |
 
+#### Light and Dark Modes
+Tasks will re-theme based on the your system's Appearance setting.
+
 ## To Do
-* Add a light mode
+* Nothing at the moment.
 
 ## Thank you
 * [Ariel Diaz](https://github.com/fullmetalbrackets) - For offering a solid HEX to CSS filter [conversion tool](https://cssfiltergenerator.lol/)

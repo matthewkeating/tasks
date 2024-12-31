@@ -18,9 +18,7 @@
     --color-fieldset-accents: #555555;
     --color-secondary-text: #757575;
     --color-primary-text: #dddddd;
-  
     --width-main-canvas: 440px;
-    --width-sidebar: 
   }
 }
 
@@ -28,7 +26,23 @@
   :root {
     --color-purple: #6264ff;
     --color-red: #AE3532;
-    --color-sidebar: #1F1F1F;
+    --color-sidebar: #F9F9F9;
+    --color-background: #FFFFFF;
+    --color-input: #F9F9F9;
+    --color-button-hover: #EEEEEE;
+    --color-action-separator: #EEEEEE;
+    --color-selected: #F0F0F0;
+    --color-settings-separator: #555555;
+    --color-empty-list-text: #555555;
+    --color-ellipsis-dot: #555555;
+    --color-menu-info: #555555;
+    --color-task-list-header: #555555;
+    --color-task-action-text: #555555;
+    --color-completed-task-title: #888888;
+    --color-fieldset-accents: #555555;
+    --color-secondary-text: #888888;
+    --color-primary-text: #222222;
+    --width-main-canvas: 440px;
     }
 }
 
@@ -39,7 +53,6 @@
   color: var(--color-primary-text);
 
   /* disable selection */
-  -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
@@ -50,6 +63,7 @@
 
 html {
   font-size: 100%;
+  background-color: var(--color-background);
 }
 
 body {
@@ -172,7 +186,6 @@ I will use a CSS pseudo-element (in this case, the .task::after element). */
 .task {
   position: relative; /* Needed for positioning the pseudo-element */
   display: flex;
-  color: var(color-grey-lighter);
   font-weight: lighter;
   align-items: center;
   padding: 0px 10px 0px 10px;
