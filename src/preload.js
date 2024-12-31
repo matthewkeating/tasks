@@ -1,5 +1,5 @@
 const { contextBridge, ipcRenderer } = require('electron/renderer');
-const { diffDays } = require("@formkit/tempo");
+const { diffDays, isBefore } = require("@formkit/tempo");
 
 const api = {
   showSidebar: () => ipcRenderer.send('show-sidebar'),
@@ -13,4 +13,5 @@ contextBridge.exposeInMainWorld( 'electronAPI', api );
 
 contextBridge.exposeInMainWorld('tempo', {
   diffDays: (dateA, dateB, roundingMethod) => diffDays(dateA, dateB, roundingMethod),
+  isBefore: (dateA, dateB) => isBefore(dateA, dateB),
 });

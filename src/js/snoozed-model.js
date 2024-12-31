@@ -33,6 +33,7 @@ export function getNumSnoozedTasks() {
 }
 
 export function unsnoozeTask(task) {
+  console.log("unsnoozeTask");
   delete task.wake_up_date;
   tasks.addTask(task, "top");
   // remove snoozed task
@@ -49,7 +50,7 @@ export function unsnoozeAllTasks() {
 // called from the scheduler
 export function unsnoozeTasks() {
   _snoozedTasks.forEach(task => {
-    if (task.wake_up_date <= Date.now().toString()) {
+    if (window.tempo.isBefore(task.wake_up_date, new Date())) {
       unsnoozeTask(task);
     }
   });
@@ -57,7 +58,7 @@ export function unsnoozeTasks() {
 
 export function scheduleUnsnoozeScheduler() {
   unsnoozeTasks();  // unsnooze once (before setting the job)
-  window.electronAPI.scheduleUnsnooze("* * * * *");
+  window.electronAPI.scheduleUnsnooze("0 0 * * *");
 }
 
 window.electronAPI.unsnoozeTasks(() => {
