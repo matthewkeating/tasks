@@ -238,7 +238,6 @@
 }
 
 #notesTextArea {
-  overflow-y: auto;
   background: var(--color-background);
   border-radius: 5px;
   outline: none;
@@ -247,17 +246,13 @@
   margin-bottom: 20px;
   width: 260px;
   border: 1px solid transparent;
-
-  height: 100%;
-  box-sizing: border-box;
-
-  scrollbar-width: auto; /* Options: auto, thin, none */
-  /* scrollbar-color: var(--color-selected-light) var(--color-selected);; /* thumb color, track color */
+  max-height: calc(100vh - 159px);
 }
 
 .ql-editor {
   padding: 0px !important;
   tab-size: 2 !important;
+  max-height: 100%;
 }
 
 .ql-editor.ql-blank::before {
