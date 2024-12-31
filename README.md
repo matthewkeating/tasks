@@ -62,6 +62,12 @@ Each task can have associated notes. The editor supports ordered lists, unordere
 #### Trash
 Unsurprisingly, manually deleted tasks (included completed tasks) go to the Trash. Perhaps unique to Tasks, deleted tasks, like completed tasks, are ephemeral. To relieve users from having to empty or remove items from the Trash, Tasks will automatically remove (i.e., permanently delete) items from the Trash when the sum total of tasks in the Trash reach a set (but configurable) number. Like completed task culling, Trash culling is FIFO.
 
+#### Light and Dark Themes
+Tasks has two themes: light and dark.
+
+> [!NOTE]
+> There is no setting for manually selecting light and dark modes. Tasks will automatically theme/re-theme based on the user's system's Appearance setting.
+
 ### Keyboard Shortcuts
 Per the tables below, Tasks provides application-wide keyboard shortcuts as well as keyboard shortcuts specific to the task page.
 
@@ -89,9 +95,6 @@ Sidebar setting is set to "Open on double click") or set cursor focus to the "Ad
 | ⌘ ⌫              | Delete task          |
 | ⌘ ⇧ [            | Previous task        |
 | ⌘ ⇧ ]            | Next task            |
-
-#### Light and Dark Modes
-Tasks will re-theme based on the your system's Appearance setting.
 
 ## To Do
 * Nothing at the moment.
