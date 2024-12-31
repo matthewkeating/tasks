@@ -12,11 +12,11 @@
   position: absolute;
   list-style-type: none;
   display: none; /* Hide the menu by default */
-  background-color: var(--color-grey-darkest);
+  background-color: var(--color-background);
   width: 240px;
   margin-top: 44px;
   margin-left: 199px;
-  border: 1px solid var(--color-grey);
+  border: 1px solid var(--color-selected);
   border-radius: 5px;
   padding: 6px 0px;
   z-index: 100;
@@ -30,7 +30,7 @@
 .dot {
   width: 2px;                                     /* Set width of each dot */
   height: 2px;                                    /* Set height of each dot */
-  background-color: var(--color-grey-light);      /* Color of the dots */
+  background-color: var(--color-ellipsis-dot);      /* Color of the dots */
   border-radius: 50%;                             /* Make the dots round */
   margin: 0 2px;                                  /* Space between the dots */
 }
@@ -47,11 +47,11 @@
 }
 
 .ellipsis:hover {
-  background-color: var(--color-grey-dark);
+  background-color: var(--color-button-hover);
 }
 
 .ellipsis.active {
-  background-color: var(--color-grey);
+  background-color: var(--color-selected);
 }
 
 .ellipsis:hover .dot {
@@ -78,11 +78,11 @@
 }
 
 #snoozeSelectorButton:hover {
-  background-color: var(--color-grey-dark);
+  background-color: var(--color-button-hover);
 }
 
 #snoozeSelectorButton.active {
-  background-color: var(--color-grey);
+  background-color: var(--color-selected);
 }
 
 #snoozeSelectorButton:hover .icon-snooze {
@@ -120,11 +120,11 @@
 
 .menu-info {
   flex: 1;
-  color: var(--color-grey-light);
+  color: var(--color-menu-info);
 }
 
 .menu-item:hover {
-  background-color: var(--color-grey-dark);
+  background-color: var(--color-button-hover);
   cursor: pointer;
 }
 
@@ -133,7 +133,7 @@
 }
 
 .task-selected {
-  background-color: var(--color-grey) !important;
+  background-color: var(--color-selected) !important;
 }
 
 .draggable-container {
@@ -145,7 +145,7 @@
 }
 
 .dragging {
-  background-color: var(--color-grey);
+  background-color: var(--color-selected);
   transform: scale(0.95);  /* Decrease div size */
 }
 
@@ -172,7 +172,7 @@
   outline: 0px solid transparent;
   display: flex;
   flex-grow: 100;
-  border-bottom: 1px solid var(--color-grey-dark);
+  border-bottom: 1px solid var(--color-action-separator);
 }
 
 .quick-actions {
@@ -182,12 +182,12 @@
 
 .vertical-line-separator {
   margin: 2px 12px 2px 12px;
-  border-left: 1px solid var(--color-grey-dark);
+  border-left: 1px solid var(--color-action-separator);
 }
 
-.horizontal-line-separator {
+.menu-item-separator {
   margin: 6px 12px 6px 12px;
-  border-bottom: 1px solid var(--color-grey);
+  border-bottom: 1px solid var(--color-action-separator);
 }
 
 /*********************************************
@@ -196,11 +196,10 @@
 
 #addTaskInputBox {
   flex: 1;
-  background-color: var(--color-grey-darker);
+  background-color: var(--color-input);
   border: 1px solid transparent;
   border-radius: 5px;
   box-shadow: none;
-  /* color: var(--color-grey-lighter); */
   padding: 10px;
   padding-right: 86px;
   outline: none;
@@ -209,13 +208,13 @@
 
 /* style to use if the "add task" input box has focus or has text */
 #addTaskInputBox:focus {
-  background-color: var(--color-grey-darkest);
+  background-color: var(--color-background);
   border: 1px solid var(--color-purple);
-  color: var(--color-grey-lighter) !important;
+  color: var(--color-primary-text) !important;
 }
 
 #addTaskInputBox:not(:placeholder-shown) {
-  color: var(--color-placeholder-text);
+  color: var(--color-secondary-text);
 }
 
 #listTasksArea {
@@ -240,7 +239,7 @@
 
 #notesTextArea {
   overflow-y: auto;
-  background: var(--color-grey-darkest);
+  background: var(--color-background);
   border-radius: 5px;
   outline: none;
   resize: none;
@@ -253,7 +252,7 @@
   box-sizing: border-box;
 
   scrollbar-width: auto; /* Options: auto, thin, none */
-  scrollbar-color: var(--color-grey-light) var(--color-grey);; /* thumb color, track color */
+  /* scrollbar-color: var(--color-selected-light) var(--color-selected);; /* thumb color, track color */
 }
 
 .ql-editor {
@@ -262,7 +261,7 @@
 }
 
 .ql-editor.ql-blank::before {
-  color: var(--color-placeholder-text) !important; /* Change this to your desired color */
+  color: var(--color-secondary-text) !important; /* Change this to your desired color */
   font-style: normal !important;
   left: 10px !important;
 }

@@ -1,26 +1,42 @@
-:root {
-  --color-purple: #6264ff;
-  --color-red: #AE3532;
-  --color-sidebar: #1F1F1F;
-  --color-placeholder-text: #757575;
-  --color-settings-explanation-text: #757575;
-  --color-grey-darkest: #242424;
-  --color-grey-darker: #2b2b2b;
-  --color-grey-dark: #2f2f2f;
-  --color-grey: #363636;
-  --color-grey-light: #555555;
-  --color-grey-lighter: #dddddd;
-  --color-grey-lightest: white;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-purple: #6264ff;
+    --color-red: #AE3532;
+    --color-sidebar: #1F1F1F;
+    --color-background: #242424;
+    --color-input: #2b2b2b;
+    --color-button-hover: #2f2f2f;
+    --color-action-separator: #2f2f2f;
+    --color-selected: #363636;
+    --color-settings-separator: #555555;
+    --color-empty-list-text: #555555;
+    --color-ellipsis-dot: #555555;
+    --color-menu-info: #555555;
+    --color-task-list-header: #555555;
+    --color-task-action-text: #555555;
+    --color-completed-task-title: #555555;
+    --color-fieldset-accents: #555555;
+    --color-secondary-text: #757575;
+    --color-primary-text: #dddddd;
+  
+    --width-main-canvas: 440px;
+    --width-sidebar: 
+  }
+}
 
-  --width-main-canvas: 440px;
-  --width-sidebar: 
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-purple: #6264ff;
+    --color-red: #AE3532;
+    --color-sidebar: #1F1F1F;
+    }
 }
 
 * {
   font-size: .93rem;
   font-family: Verdana, sans-serif;
   -webkit-font-smoothing: antialiased;
-  color: var(--color-grey-lighter);
+  color: var(--color-primary-text);
 
   /* disable selection */
   -webkit-touch-callout: none;
@@ -49,7 +65,7 @@ header {
   right: 0px;
   width: 100%;
   z-index: 1000;
-  background-image: linear-gradient(to right, var(--color-grey-darkest) 480px, var(--color-sidebar) 480px);
+  background-image: linear-gradient(to right, var(--color-background) 480px, var(--color-sidebar) 480px);
 }
 
 a {
@@ -71,12 +87,12 @@ input[type="radio"]:checked:hover
 /* for radio buttons */
 fieldset {
   margin-top: 14px;
-  border: 1px solid var(--color-grey-light);
+  border: 1px solid var(--color-fieldset-accents);
 }
 fieldset legend {
   font-size: .7rem;
   text-transform: uppercase;
-  color: var(--color-grey-light);
+  color: var(--color-fieldset-accents);
   padding-left: 6px;
   padding-right: 6px;
 }
@@ -101,7 +117,7 @@ fieldset legend {
 .page-header {
   display: flex;
   padding-top: 2px;
-  background-color: var(--color-grey-darkest);
+  background-color: var(--color-background);
   height: 60px;
   align-items: flex-start;
 
@@ -131,7 +147,7 @@ fieldset legend {
 }
 
 .shortcut {
-  color: var(--color-grey-light);
+  color: var(--color-menu-info);
 }
 
 .sidebar {
@@ -154,7 +170,7 @@ fieldset legend {
 .heading {
   font-size: .7rem;
   text-transform: uppercase;
-  color: var(--color-grey-light);
+  color: var(--color-task-list-header);
   padding-top: 15px;
   margin-bottom: 5px;
 }
@@ -170,6 +186,7 @@ I will use a CSS pseudo-element (in this case, the .task::after element). */
   align-items: center;
   padding: 0px 10px 0px 10px;
   border-radius: 5px;
+  min-height: 44px;
 }
 
 .task::after {
@@ -177,7 +194,7 @@ I will use a CSS pseudo-element (in this case, the .task::after element). */
   display: block; /* Make it a block element */
   width: 95%; /* Set the desired width of the border */
   height: 1px; /* Set the height of the border */
-  background-color: var(--color-grey-dark); /* Border color */
+  background-color: var(--color-action-separator); /* Border color */
   position: absolute; /* Position it absolutely */
   left: 50%; /* Center it horizontally */
   bottom: 0; /* Position at the bottom */
@@ -187,7 +204,7 @@ I will use a CSS pseudo-element (in this case, the .task::after element). */
 /* When an element with the .task-title class gains focus, change the background
 of the parent .task element */
 .task:has(> .task-title:focus) {
-  background-color: var(--color-grey);
+  background-color: var(--color-selected);
 }
 
 .task-list {
@@ -208,15 +225,15 @@ of the parent .task element */
 }
 
 .task-title-completed {
-  color: var(--color-grey-light);
+  color: var(--color-completed-task-title);
 }
 
 .empty {
   border-radius: 5px;
-  color: var(--color-grey-light);
+  color: var(--color-empty-list-text);
   height: 44px;
   width: 100%;
   text-align: center;
   line-height: 44px;
-  background-color: var(--color-grey-darker);
+  background-color: var(--color-input);
 }
