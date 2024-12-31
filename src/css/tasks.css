@@ -166,8 +166,23 @@
   z-index: 10;
 }
 
+.task-details-title {
+  margin: 0px 0px 16px 0px;
+  padding: 4px 4px 4px 4px;
+  outline: 0px solid transparent;
+  font-weight: bold;
+  display: flex;
+  flex-grow: 1;
+  border-radius: 5px;
+  border: 1px solid transparent;
+}
+
+.task-details-title-empty  {
+  border: 1px solid var(--color-red);
+}
+
 .sidebar-actions {
-  margin: 0px 0px 20px 0px;
+  margin: 0px 0px 16px 0px;
   padding-bottom: 10px;
   outline: 0px solid transparent;
   display: flex;

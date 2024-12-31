@@ -26,6 +26,14 @@ select {
   border-bottom: 1px solid var(--color-settings-separator);
 }
 
+.title {
+  margin: 20px 0px 20px 0px;
+  outline: 0px solid transparent;
+  font-weight: bold;
+  display: flex;
+  flex-grow: 1;
+}
+
 .shortcut-table {
   margin: 0px 0px 0px 4px;
 }

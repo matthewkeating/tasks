@@ -123,10 +123,15 @@ taskTitle.contentEditable = true;
 taskTitle.onmouseover = () => { document.body.style.cursor = 'text'; }
 taskTitle.onmouseout = () => { document.body.style.cursor = 'default'; }
 taskTitle.oninput = () => {
+  if (taskTitle.textContent.trim() === '') {
+    taskTitle.classList.add("task-details-title-empty");
+  } else {
+    taskTitle.classList.remove("task-details-title-empty");
+  }
   // update the title in the task list
   document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = taskTitle.innerText;
   // save the updated title
-  _selectedTask.title = taskTitle.innerText;
+  _selectedTask.title = taskTitle.innerText.trim();
   tasks.saveTasks();
 };
 
@@ -256,6 +261,11 @@ function showTaskDetails(task) {
   }
 
   taskTitle.innerText = task.title;
+  if (taskTitle.textContent.trim() === '') {
+    taskTitle.classList.add("task-details-title-empty");
+  } else {
+    taskTitle.classList.remove("task-details-title-empty");
+  }
   if (task.notes !== null) {
     taskNotes.setContents(task.notes);
   } else {

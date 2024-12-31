@@ -137,15 +137,6 @@ fieldset legend {
   margin-right: 8px;
 }
 
-/* for the settings and the task name on the sidebar */
-.title {
-  margin: 0px 10px 20px 0px;
-  outline: 0px solid transparent;
-  font-weight: bold;
-  display: flex;
-  flex-grow: 1;
-}
-
 .shortcut {
   color: var(--color-menu-info);
 }
