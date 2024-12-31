@@ -18,7 +18,7 @@ The aim of this project is to create a task list manager that:
 * Provides a minimalist/streamlined user interface
 
 > [!IMPORTANT]
-> Tasks was designed, developed, and test on MacOS. Your mileage may vary on Windows.
+> Tasks was designed, developed, and tested on MacOS. Your mileage may vary on Windows.
 
 ## Features
 In addition to the basics (i.e., creating and completing tasks), Tasks implements a number features to boost productivity.
