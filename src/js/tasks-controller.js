@@ -7,197 +7,200 @@ import { EditableDivWithPlaceholder } from '../components/editable-div.js';
 
 var _selectedTask = null;
 
-function closeAppMenu() {
-  appEllipsis.classList.remove("active");
-  appMenu.classList.remove("active");
-}
-function closeSnoozeSelectorMenu() {
-  snoozeSelectorButton.classList.remove("active");
-  snoozeSelectorMenu.classList.remove("active");
-}
-
-// no matter where the user clicks, if the menu is open, close it.
-document.addEventListener("click", function(event) {
-  closeAppMenu();
-  closeSnoozeSelectorMenu();
-});
-
 /****************************************************************************
- * Hot keys
+ * Element Binding
  ****************************************************************************/
-document.addEventListener("keydown", e => {
-  if (e.key === "Escape") {
-    if (sidebar.isShown()) {
+function bindEvents() {
+
+  // no matter where the user clicks, if the menu is open, close it.
+  document.addEventListener("click", function(event) {
+    closeAppMenu();
+    closeSnoozeSelectorMenu();
+  });
+
+  // application-specific hotkeys
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      if (sidebar.isShown()) {
+        sidebar.hideSidebar();
+        blurAllInputs();
+      } else {
+        addTaskInputBox.focus();
+      }
+    } else if (e.metaKey && e.key === "Backspace") {
+      deleteTaskAndHighlightNextTask(_selectedTask);
+    } else if (e.metaKey && e.shiftKey && e.key === 'p') {
+      togglePin(_selectedTask);
+    } else if (e.metaKey && e.shiftKey && e.key === '[') {
+      selectPreviousTask(_selectedTask);
+    } else if (e.metaKey && e.shiftKey && e.key === ']') {
+      // handle the case where the user wants to navigate to the first element from the addTaskInputBox
+      if (addTaskInputBox === document.activeElement && tasks.getNumTasks(settings.showingCompleted) > 0) {
+        const firstTask = tasks.getTaskByIndex(0);
+        selectTask(firstTask);
+        return;
+      }
+      selectNextTask(_selectedTask);
+    } else if (e.metaKey && e.shiftKey && e.key === 'c') {
+      appMenuItemToggleCompleted.click();
+    }
+  });
+
+  // operating system global hotkey
+  window.electronAPI.onToggleCompleted(() => {
+    toggleCompleted(_selectedTask);
+  });
+
+  // Add Task input box
+  addTaskInputBox.addEventListener("keypress", event => {
+
+    if (event.key === "Enter" && addTaskInputBox.value.trim()) {
+      const newTask = { id: Date.now().toString(),
+        title: addTaskInputBox.value,
+        notes: null,
+        pinned: false,
+        flagged: false,
+        completed: false
+      };
+  
+      if (event.shiftKey) {
+        tasks.addTask(newTask, "bottom");
+      } else {
+        tasks.addTask(newTask, "top");
+      }
+  
+      renderTasks();
+      sidebar.showSidebar();
+      selectTask(newTask);
+      addTaskInputBox.value = "";
+    }
+  
+  });
+  addTaskInputBox.addEventListener('focus', event => {
+    deselectTask(_selectedTask);
+    if (settings.tasksSidebarVisibility === "dbl-click") {
       sidebar.hideSidebar();
-      blurAllInputs();
-    } else {
+    }
+  });
+
+  // snooze indicator
+  snoozeIndicator.onclick = (event) => { app.showSnoozed(); };
+
+  // application menu
+  appEllipsis.onclick = (event) => {
+    closeSnoozeSelectorMenu();
+    appEllipsis.classList.toggle("active");
+    appMenu.classList.toggle("active");
+    event.stopPropagation();
+  };
+  appMenuItemToggleCompleted.onclick = (event) => {
+    settings.toggleShowCompleted();
+    if (!settings.showingCompleted && _selectedTask !== null && _selectedTask.completed === true) {
+      // the selected task is being hidden
+      _selectedTask = null;
       addTaskInputBox.focus();
     }
-  } else if (e.metaKey && e.key === "Backspace") {
-    deleteTaskAndHighlightNextTask(_selectedTask);
-  } else if (e.metaKey && e.shiftKey && e.key === 'p') {
-    togglePin(_selectedTask);
-  } else if (e.metaKey && e.shiftKey && e.key === '[') {
-    selectPreviousTask(_selectedTask);
-  } else if (e.metaKey && e.shiftKey && e.key === ']') {
-    // handle the case where the user wants to navigate to the first element from the addTaskInputBox
-    if (addTaskInputBox === document.activeElement && tasks.getNumTasks(settings.showingCompleted) > 0) {
-      const firstTask = tasks.getTaskByIndex(0);
-      selectTask(firstTask);
-      return;
-    }
-    selectNextTask(_selectedTask);
-  } else if (e.metaKey && e.shiftKey && e.key === 'c') {
-    appMenuItemToggleCompleted.click();
-  }
-});
-// for overriding the global command+o hotkey (see main.js and preload.js for more)
-window.electronAPI.onToggleCompleted(() => {
-  toggleCompleted(_selectedTask);
-});
-
-/****************************************************************************
- * Element Initialization
- ****************************************************************************/
-
-addTaskInputBox.addEventListener("keypress", event => {
-
-  if (event.key === "Enter" && addTaskInputBox.value.trim()) {
-    const newTask = { id: Date.now().toString(),
-      title: addTaskInputBox.value,
-      notes: null,
-      pinned: false,
-      flagged: false,
-      completed: false
-    };
-
-    if (event.shiftKey) {
-      tasks.addTask(newTask, "bottom");
-    } else {
-      tasks.addTask(newTask, "top");
-    }
-
+    setAppMenuText();
     renderTasks();
-    sidebar.showSidebar();
-    selectTask(newTask);
-    addTaskInputBox.value = "";
-  }
+    selectTask(_selectedTask);
+  };
+  appMenuItemSnoozed.onclick = (event) => { app.showSnoozed(); };
+  appMenuItemTrash.onclick = (event) => { app.showTrash(); };
+  appMenuItemSettings.onclick = (event) => { app.showSettings(); };
 
-});
-addTaskInputBox.addEventListener('focus', event => {
-  deselectTask(_selectedTask);
-  if (settings.tasksSidebarVisibility === "dbl-click") {
-    sidebar.hideSidebar();
-  }
-});
+  // sidebar actions
+  sidebarActionHide.onclick = (event) => { sidebar.hideSidebar(); };
+  sidebarActionCircle.onclick = (event) => { toggleCompleted(_selectedTask); };
+  sidebarActionTrash.onclick = (event) => { deleteTaskAndHighlightNextTask(_selectedTask); };
+  sidebarActionFlag.onclick = (event) => { toggleFlag(_selectedTask); };
+  sidebarActionPin.onclick = (event) => { togglePin(_selectedTask); };
 
-snoozeIndicator.onclick = (event) => { app.showSnoozed(); };
+  // snooze button and menu
+  snoozeSelectorButton.onclick = (event) => {
 
-appEllipsis.onclick = (event) => {
-  closeSnoozeSelectorMenu();
-  appEllipsis.classList.toggle("active");
-  appMenu.classList.toggle("active");
-  event.stopPropagation();
-};
-appMenuItemToggleCompleted.onclick = (event) => {
-  settings.toggleShowCompleted();
-  if (!settings.showingCompleted && _selectedTask !== null && _selectedTask.completed === true) {
-    // the selected task is being hidden
-    _selectedTask = null;
-    addTaskInputBox.focus();
-  }
-  setAppMenuText();
-  renderTasks();
-  selectTask(_selectedTask);
-};
-appMenuItemSnoozed.onclick = (event) => { app.showSnoozed(); };
-appMenuItemTrash.onclick = (event) => { app.showTrash(); };
-appMenuItemSettings.onclick = (event) => { app.showSettings(); };
+    closeAppMenu();  // if it is open
+  
+    const optionsNear = { weekday: 'long' };
+    const optionsFar = { day: 'numeric', month: 'short' };
+  
+    const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+    const twoDays = new Date(); twoDays.setDate(twoDays.getDate() + 2);
+    const threeDays = new Date(); threeDays.setDate(threeDays.getDate() + 3);
+    const fiveDays = new Date(); fiveDays.setDate(fiveDays.getDate() + 5);
+    const sevenDays = new Date(); sevenDays.setDate(sevenDays.getDate() + 7);
+    const tenDays = new Date(); tenDays.setDate(tenDays.getDate() + 10);
+    const twoWeeks = new Date(); twoWeeks.setDate(twoWeeks.getDate() + 14);
+  
+    snoozeOneDayTitle.innerHTML = "Tomorrow";
+    snoozeTwoDaysTitle.innerHTML = twoDays.toLocaleDateString('en-US', optionsNear);
+    snoozeTwoDaysLabel.innerHTML = "(Two Days)"
+    snoozeThreeDaysTitle.innerHTML = threeDays.toLocaleDateString('en-US', optionsNear);
+    snoozeThreeDaysLabel.innerHTML = "(Three Days)";
+    snoozeFiveDaysTitle.innerHTML = fiveDays.toLocaleDateString('en-US', optionsNear);
+    snoozeFiveDaysLabel.innerHTML = "(Five Days)";
+    snoozeSevenDaysTitle.innerHTML = sevenDays.toLocaleDateString('en-US', optionsFar);
+    snoozeSevenDaysLabel.innerHTML = "(One Week)";
+    snoozeTenDaysTitle.innerHTML = tenDays.toLocaleDateString('en-US', optionsFar);
+    snoozeTenDaysLabel.innerHTML = "(Ten Days)";
+    snoozeTwoWeeksTitle.innerHTML = twoWeeks.toLocaleDateString('en-US', optionsFar);
+    snoozeTwoWeeksLabel.innerHTML = "(Two Weeks)";
+  
+    snoozeSelectorButton.classList.toggle("active");
+    snoozeSelectorMenu.classList.toggle("active");
+    event.stopPropagation();
+  
+  };
+  snoozeOneDay.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 1); };
+  snoozeTwoDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 2); };
+  snoozeThreeDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 3); };
+  snoozeFiveDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 5); };
+  snoozeSevenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 7); };
+  snoozeTenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 10); };
+  snoozeTwoWeeks.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 14); };
 
-sidebarActionHide.onclick = (event) => { sidebar.hideSidebar(); };
-sidebarActionCircle.onclick = (event) => { toggleCompleted(_selectedTask); };
-sidebarActionTrash.onclick = (event) => { deleteTaskAndHighlightNextTask(_selectedTask); };
-sidebarActionFlag.onclick = (event) => { toggleFlag(_selectedTask); };
-sidebarActionPin.onclick = (event) => { togglePin(_selectedTask); };
+  // editable task title
+  editableTaskDetailsTitle.getEditableDiv().addEventListener('input', () => {
+    const title = editableTaskDetailsTitle.getText();
+    // update the title in the task list
+    document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = title;
+    _selectedTask.title = title;
+    tasks.saveTasks();
+  });
 
-const editableTaskDetailsTitle = new EditableDivWithPlaceholder('taskDetailsTitle', false);
-editableTaskDetailsTitle.getEditableDiv().addEventListener('input', () => {
-  const title = editableTaskDetailsTitle.getText();
-  // update the title in the task list
-  document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = title;
-  _selectedTask.title = title;
-  tasks.saveTasks();
-});
+  // task notes
+  taskNotes.on('text-change', function(delta, oldDelta, source) {
+    // note: delta is the formatted contents in Quill
+  
+    // update the notes indicator in the task list
+    const div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
+    const img = div.getElementsByClassName("icon-note")[0];
+    const isEmpty = taskNotes.getContents().ops.length === 1 && taskNotes.getText().trim() === "";
+    if (isEmpty) {
+      img.setAttribute('src', '');
+      taskNotes.setText("");
+      _selectedTask.notes = null;
+    } else {
+      img.setAttribute('src', '../images/note.svg');
+      _selectedTask.notes = taskNotes.getContents();
+    }
+  
+    tasks.saveTasks();
+  });
 
-snoozeSelectorButton.onclick = (event) => {
-
-  closeAppMenu();  // if it is open
-
-  const optionsNear = { weekday: 'long' };
-  const optionsFar = { day: 'numeric', month: 'short' };
-
-  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
-  const twoDays = new Date(); twoDays.setDate(twoDays.getDate() + 2);
-  const threeDays = new Date(); threeDays.setDate(threeDays.getDate() + 3);
-  const fiveDays = new Date(); fiveDays.setDate(fiveDays.getDate() + 5);
-  const sevenDays = new Date(); sevenDays.setDate(sevenDays.getDate() + 7);
-  const tenDays = new Date(); tenDays.setDate(tenDays.getDate() + 10);
-  const twoWeeks = new Date(); twoWeeks.setDate(twoWeeks.getDate() + 14);
-
-  snoozeOneDayTitle.innerHTML = "Tomorrow";
-  snoozeTwoDaysTitle.innerHTML = twoDays.toLocaleDateString('en-US', optionsNear);
-  snoozeTwoDaysLabel.innerHTML = "(Two Days)"
-  snoozeThreeDaysTitle.innerHTML = threeDays.toLocaleDateString('en-US', optionsNear);
-  snoozeThreeDaysLabel.innerHTML = "(Three Days)";
-  snoozeFiveDaysTitle.innerHTML = fiveDays.toLocaleDateString('en-US', optionsNear);
-  snoozeFiveDaysLabel.innerHTML = "(Five Days)";
-  snoozeSevenDaysTitle.innerHTML = sevenDays.toLocaleDateString('en-US', optionsFar);
-  snoozeSevenDaysLabel.innerHTML = "(One Week)";
-  snoozeTenDaysTitle.innerHTML = tenDays.toLocaleDateString('en-US', optionsFar);
-  snoozeTenDaysLabel.innerHTML = "(Ten Days)";
-  snoozeTwoWeeksTitle.innerHTML = twoWeeks.toLocaleDateString('en-US', optionsFar);
-  snoozeTwoWeeksLabel.innerHTML = "(Two Weeks)";
-
-  snoozeSelectorButton.classList.toggle("active");
-  snoozeSelectorMenu.classList.toggle("active");
-  event.stopPropagation();
-
-};
-snoozeOneDay.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 1); };
-snoozeTwoDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 2); };
-snoozeThreeDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 3); };
-snoozeFiveDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 5); };
-snoozeSevenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 7); };
-snoozeTenDays.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 10); };
-snoozeTwoWeeks.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 14); };
-
-// TODO: Consider installing Quill via npm (rather than directly using it's .js and .css files)
-const taskNotes = new Quill('#notesTextArea', {
-  placeholder: "Add notes here..."
-});
-taskNotes.root.setAttribute('spellcheck', false);
-taskNotes.on('text-change', function(delta, oldDelta, source) {
-  // note: delta is the formatted contents in Quill
-
-  // update the notes indicator in the task list
-  const div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
-  const img = div.getElementsByClassName("icon-note")[0];
-  const isEmpty = taskNotes.getContents().ops.length === 1 && taskNotes.getText().trim() === "";
-  if (isEmpty) {
-    img.setAttribute('src', '');
-    taskNotes.setText("");
-    _selectedTask.notes = null;
-  } else {
-    img.setAttribute('src', '../images/note.svg');
-    _selectedTask.notes = taskNotes.getContents();
-  }
-
-  tasks.saveTasks();
-});
+}
 
 /****************************************************************************
  * Methods
  ****************************************************************************/
+function closeAppMenu() {
+  appEllipsis.classList.remove("active");
+  appMenu.classList.remove("active");
+}
+
+function closeSnoozeSelectorMenu() {
+  snoozeSelectorButton.classList.remove("active");
+  snoozeSelectorMenu.classList.remove("active");
+}
 
 function selectTask(task) {
 
@@ -479,6 +482,7 @@ let qa = document.getElementById("qa_" + taskId);
     qa.classList.remove("display-none");
   }
 }
+
 function hideQuickAction(taskId) {
   let qa = document.getElementById("qa_" + taskId);
   if (qa !== null) {
@@ -644,7 +648,7 @@ function blurAllInputs() {
 }
 
 /****************************************************************************
- * Drag and drop
+ * Drag and Drop
  ****************************************************************************/
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -734,8 +738,16 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /****************************************************************************
- * Commands to run on page load
+ * Page Initialization
  ****************************************************************************/
+const editableTaskDetailsTitle = new EditableDivWithPlaceholder('taskDetailsTitle', false);
+
+// TODO: Consider installing Quill via npm (rather than directly using it's .js and .css files)
+const taskNotes = new Quill('#notesTextArea', {
+  placeholder: "Add notes here..."
+});
+taskNotes.root.setAttribute('spellcheck', false);
+
 if (settings.tasksSidebarVisibility === "always") {
   sidebar.showSidebar();
 } else {
@@ -743,4 +755,5 @@ if (settings.tasksSidebarVisibility === "always") {
 }
 setAppMenuText();
 renderTasks();
+bindEvents();
 snoozed.scheduleUnsnoozeScheduler();
