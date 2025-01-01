@@ -255,14 +255,9 @@
 
 #notesTextArea {
   background: var(--color-sidebar);
-  border-radius: 5px;
-  outline: none;
   resize: none;
   padding: 4px;
-  margin-bottom: 20px;
   width: 260px;
-  border: 1px solid transparent;
-  max-height: calc(100vh - 159px);
 }
 
 .ql-editor {
