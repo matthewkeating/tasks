@@ -182,7 +182,6 @@ const taskNotes = new Quill('#notesTextArea', {
   placeholder: "Add notes here..."
 });
 taskNotes.root.setAttribute('spellcheck', false);
-
 taskNotes.on('text-change', function(delta, oldDelta, source) {
   // note: delta is the formatted contents in Quill
 

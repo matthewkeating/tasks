@@ -170,6 +170,7 @@
   margin: 0px 0px 16px 0px;
   padding: 4px 4px 4px 4px;
   outline: 0px solid transparent;
+  font-size: 1.1rem;
   font-weight: bold;
   display: flex;
   flex-grow: 1;
@@ -253,11 +254,11 @@
 }
 
 #notesTextArea {
-  background: var(--color-background);
+  background: var(--color-sidebar);
   border-radius: 5px;
   outline: none;
   resize: none;
-  padding: 10px;
+  padding: 4px;
   margin-bottom: 20px;
   width: 260px;
   border: 1px solid transparent;
@@ -268,6 +269,10 @@
   padding: 0px !important;
   tab-size: 2 !important;
   max-height: 100%;
+}
+
+div.ql-editor.ql-blank::before {
+  left: 4px !important;
 }
 
 .ql-editor.ql-blank::before {
