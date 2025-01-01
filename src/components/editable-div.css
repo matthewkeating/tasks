@@ -1,0 +1,19 @@
+.editable-container {
+  position: relative;
+}
+
+.editable-div {
+  padding: 4px;
+}
+
+.placeholder {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  color: #888888;
+  pointer-events: none;
+}
+
+.placeholder.hidden {
+  display: none;
+}

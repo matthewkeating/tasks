@@ -3,6 +3,7 @@ import * as tasks from './tasks-model.js';
 import * as settings from './settings-model.js';
 import * as snoozed from './snoozed-model.js';
 import * as sidebar from './sidebar.js';
+import { EditableDivWithPlaceholder } from '../components/editable-div.js';
 
 var _selectedTask = null;
 
@@ -119,21 +120,14 @@ sidebarActionTrash.onclick = (event) => { deleteTaskAndHighlightNextTask(_select
 sidebarActionFlag.onclick = (event) => { toggleFlag(_selectedTask); };
 sidebarActionPin.onclick = (event) => { togglePin(_selectedTask); };
 
-taskTitle.contentEditable = true;
-taskTitle.onmouseover = () => { document.body.style.cursor = 'text'; }
-taskTitle.onmouseout = () => { document.body.style.cursor = 'default'; }
-taskTitle.oninput = () => {
-  if (taskTitle.textContent.trim() === '') {
-    taskTitle.classList.add("task-details-title-empty");
-  } else {
-    taskTitle.classList.remove("task-details-title-empty");
-  }
+const editableTaskDetailsTitle = new EditableDivWithPlaceholder('taskDetailsTitle', false);
+editableTaskDetailsTitle.getEditableDiv().addEventListener('input', () => {
+  const title = editableTaskDetailsTitle.getText();
   // update the title in the task list
-  document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = taskTitle.innerText;
-  // save the updated title
-  _selectedTask.title = taskTitle.innerText.trim();
+  document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = title;
+  _selectedTask.title = title;
   tasks.saveTasks();
-};
+});
 
 snoozeSelectorButton.onclick = (event) => {
 
@@ -259,12 +253,8 @@ function showTaskDetails(task) {
     sidebarActionPin.src = "../images/pin_empty.svg";
   }
 
-  taskTitle.innerText = task.title;
-  if (taskTitle.textContent.trim() === '') {
-    taskTitle.classList.add("task-details-title-empty");
-  } else {
-    taskTitle.classList.remove("task-details-title-empty");
-  }
+  editableTaskDetailsTitle.setText(task.title);
+
   if (task.notes !== null) {
     taskNotes.setContents(task.notes);
   } else {

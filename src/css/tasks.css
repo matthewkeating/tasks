@@ -249,6 +249,34 @@
   height: 100vh; /* Full viewport height */
 }
 
+/*******************************************
+ * Task Details Title
+ *******************************************/
+
+.editable-div {
+  margin: 0px 0px 16px 0px;
+  padding: 8px !important;
+  outline: 1px solid transparent;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.editable-div:focus {
+  outline: 1px solid var(--color-purple);
+  border-radius: 5px;
+}
+
+.placeholder {
+  color: var(--color-task-action-text) !important;
+  top: 8px !important;
+  left: 8px !important;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/*******************************************
+ * Notes
+ *******************************************/
 #notesMain {
   flex-grow: 1;
 }
@@ -256,24 +284,22 @@
 #notesTextArea {
   background: var(--color-sidebar);
   resize: none;
-  padding: 4px;
+  margin-left: 8px;
   width: 260px;
 }
 
 .ql-editor {
   padding: 0px !important;
   tab-size: 2 !important;
-  max-height: 100%;
 }
 
 div.ql-editor.ql-blank::before {
-  left: 4px !important;
+  left: 0px !important;
 }
 
 .ql-editor.ql-blank::before {
-  color: var(--color-secondary-text) !important; /* Change this to your desired color */
+  color: var(--color-task-action-text) !important; /* Change this to your desired color */
   font-style: normal !important;
-  left: 10px !important;
 }
 
 .ql-editor ul, .ql-editor ol, .ql-editor li {
