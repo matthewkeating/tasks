@@ -7,6 +7,10 @@ export function getTasks() {
   return _deletedTasks;
 }
 
+export function getTrashJSON() {
+  return JSON.stringify(_deletedTasks, null, 2);
+}
+
 function saveTrash() {
   localStorage.setItem("deleted_tasks", JSON.stringify(_deletedTasks));
 }

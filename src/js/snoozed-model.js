@@ -33,6 +33,10 @@ export function getNumSnoozedTasks() {
   return _snoozedTasks.length;
 }
 
+export function getSnoozedTasksJSON() {
+  return JSON.stringify(_snoozedTasks, null, 2);
+}
+
 export function unsnoozeTask(task) {
   delete task.wake_up_date;
   tasks.addTask(task, "top");

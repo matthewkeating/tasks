@@ -71,6 +71,10 @@ export function getNumCompletedTasks() {
   return array.length;
 }
 
+export function getTasksJSON() {
+  return JSON.stringify(_tasks, null, 2);
+}
+
 export function addTask(task, position) {
     if (position === "bottom") {
       _tasks.push(task);     // append to end of list

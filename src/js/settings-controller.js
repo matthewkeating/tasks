@@ -53,6 +53,22 @@ restoreDefaultSettings.addEventListener("click", () => {
   }
 });
 
+downloadTasks.addEventListener("click", () => {
+  let data = tasks.getTasksJSON();
+  data = data + "\n" + snoozed.getSnoozedTasksJSON();
+  data = data + "\n" + trash.getTrashJSON();
+  if (data === null) return;
+  const blob = new Blob([data], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'tasks.json';
+  document.body.appendChild(link);
+  link.click();                     // Simulate click to trigger download
+  document.body.removeChild(link);  // Clean up
+  URL.revokeObjectURL(url);         // Release the Blob URL after download
+});
+
 deleteAllTasks.addEventListener("click", () => {
   var result = confirm("This action cannot be undone. Are you sure you want to permanently delete this task?");
   if (result) {

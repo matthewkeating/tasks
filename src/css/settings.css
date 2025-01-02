@@ -54,12 +54,12 @@ select {
   margin-top: 16px;
 }
 
-#deleteAllTasks {
+.action-warning {
   color: var(--color-red);
   cursor: pointer;
 }
 
-#restoreDefaultSettings {
+.action {
   color: var(--color-purple);
   cursor: pointer;
   margin-bottom: 8px;
