@@ -14,7 +14,7 @@ The aim of this project is to create a task list manager that:
 
 * Provides the user (only) the features they need
 * Offers automations to make managing tasks easier
-* Allows routine functionality to be driven via keyboard shortcuts
+* Allows common/routine operations to be executed via keyboard shortcuts
 * Provides a minimalist/streamlined user interface
 
 > [!IMPORTANT]
@@ -24,43 +24,44 @@ The aim of this project is to create a task list manager that:
 In addition to the basics (i.e., creating and completing tasks), Tasks implements a number features to boost productivity.
 
 ### Task Management
-By design, Tasks supports only one task list (this means users cannot, for example, create lists for Personal, Office, Grocery, etc.). Tasks does, however, provide several other options for managing your task list.
+By design, Tasks supports only one task list. This means users cannot, for example, create lists for Personal, Office, Grocery, etc.. Tasks does, however, provide several other options for managing your task list.
 
 #### Pinned Tasks
 Pinned tasks always appear at the top of your task list.
 > [!NOTE]
-> Pinned tasks can be used to help keep track of long running (weeks to months) tasks.
+> Pinned tasks can be helpful to users that want to regularly track of long running (weeks to months) tasks.
 
 #### Flagged Tasks
 Flagging a task changes the task color, making it more noticeable.
 > [!NOTE]
-> Flags can be used to indicate high priority tasks.
+> Flags are useful for drawing attention to high priority tasks.
 
 #### Completed Tasks
-Completed tasks are, naturally, those tasks that are complete. A unique feature of Tasks is that completed tasks are ephemeral. To relieve users from having to repeatedly cull completed tasks, Tasks will only retain a set, but configurable, number of completed tasks.
+Completed tasks are, naturally, those tasks that are marked as complete. A unique feature of Tasks is that completed tasks are ephemeral. To relieve users from having to repeatedly cull completed tasks, Tasks will only retain a set, but configurable, number of completed tasks.
 
-Automatic completed task culling is FIFO (first in, first out). For example, if the user configures Tasks to retain 20 completed tasks, when a 21st task is completed, the 1st completed task will be purged.
+Automatic completed task culling is first in, first out (FIFO). For example, if the user configures Tasks to retain 20 completed tasks, when a 21st task is completed, the 1st completed task will be purged.
 
 > [!WARNING]
 > When purged, completed tasks do *not* go to the Trash, they are immediately and permanently deleted. Users worried about losing historic tasks should assign a high number to the **Number of completed task to retain** value in Settings.
 
 #### Snoozed Tasks
-Traditional task management applications often turn into data stores that require constant tending to. In particular:
+Traditional task management applications often turn into extensive lists that require constant tending to. In particular:
 * Task lists can get prohibitively long, cluttered, and overwhelming
 * Features, like due dates, can be a useful, but often become a management burden
-Snoozed task can help mitigate these challenges by allowing users to (temporarily) clear less immediate tasks from the working task list. Since tasks are snoozed on interval (e.g., 2 days, 5 days, 2 weeks, etc.), users to not have to manage dates.
+
+Snoozed task can help mitigate these challenges by allowing users to (temporarily) clear less immediate tasks from the working task list. Since tasks are snoozed on interval (e.g., 2 days, 5 days, 2 weeks, etc.), users do not have to manage specific calendar dates.
+
+#### Trash
+Unsurprisingly, manually deleted tasks (included completed tasks) go to the Trash. Perhaps unique to Tasks, deleted tasks, like completed tasks, are ephemeral. To relieve users from having to empty or remove items from the Trash, Tasks will automatically remove (i.e., permanently delete) items from the Trash when the number of tasks in the Trash reach a set (but configurable) number. Like completed task culling, Trash culling is FIFO.
 
 #### Task Ordering/Reordering
 Task ordering is important for prioritizing and maintaining focus. In Tasks, pinned and unpinned tasks can be reordered via drag and drop.
 
 > [!IMPORTANT]
-> Due to Tasks automated culling features, which purge tasks using a FIFO method, neither completed or deleted tasks can be reordered via drag and drop. Similarly, Snoozed tasks, which have a "natural" relative order based on the length of time before a snoozed task "wakes up," cannot be reordered via drag and drop.
+> Due to Tasks automated culling features, which purge tasks using a FIFO method, neither completed or deleted tasks can be reordered via drag and drop. Similarly, Snoozed tasks, which inherently have a "natural" relative order based on the length of time before a snoozed task "wakes up," cannot be reordered via drag and drop.
 
 #### Notes
 Each task can have associated notes. The editor supports ordered lists, unordered lists, as well as bold, italics, and underline font decoration.
-
-#### Trash
-Unsurprisingly, manually deleted tasks (included completed tasks) go to the Trash. Perhaps unique to Tasks, deleted tasks, like completed tasks, are ephemeral. To relieve users from having to empty or remove items from the Trash, Tasks will automatically remove (i.e., permanently delete) items from the Trash when the sum total of tasks in the Trash reach a set (but configurable) number. Like completed task culling, Trash culling is FIFO.
 
 #### Light and Dark Themes
 Tasks has two themes: light and dark.
@@ -96,8 +97,8 @@ Sidebar setting is set to "Open on double click") or set cursor focus to the "Ad
 | ⌘ ⇧ [            | Previous task        |
 | ⌘ ⇧ ]            | Next task            |
 
-## Known Issues with Download Tasks
-The Download Tasks feature (in Settings):
+## Known Issues
+The Download Tasks feature (in Settings) was used to aid in migrating tasks between development versions of the app. It is, at best, half-baked. It:
 * Does not produce well formatted JSON (this will be fixed)
 * Includes the rich text formatting present in task notes (it is not clear if this is the "correct" behavior and will require more thought to determine what should, or should not, be done).
 
