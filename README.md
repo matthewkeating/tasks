@@ -94,6 +94,9 @@ Sidebar setting is set to "Open on double click") or set cursor focus to the "Ad
 | ⌘ ⇧ [            | Previous task        |
 | ⌘ ⇧ ]            | Next task            |
 
+## Installation
+At the moment, the best/only way to get Tasks is to clone this repo and build your own version. Once feature development has stabilized, I'll package a release.
+
 ## Known Issues
 The Download Tasks feature (in Settings) was used to aid in migrating tasks between development versions of the app. It is, at best, half-baked. It:
 * Does not produce well formatted JSON (this will be fixed)
