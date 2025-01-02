@@ -17,9 +17,6 @@ The aim of this project is to create a task list manager that:
 * Allows common/routine operations to be executed via keyboard shortcuts
 * Provides a minimalist/streamlined user interface
 
-> [!IMPORTANT]
-> Tasks was designed, developed, and tested on MacOS. Your mileage may vary on Windows.
-
 ## Features
 In addition to the basics (i.e., creating and completing tasks), Tasks implements a number features to boost productivity.
 
@@ -101,6 +98,10 @@ Sidebar setting is set to "Open on double click") or set cursor focus to the "Ad
 The Download Tasks feature (in Settings) was used to aid in migrating tasks between development versions of the app. It is, at best, half-baked. It:
 * Does not produce well formatted JSON (this will be fixed)
 * Includes the rich text formatting present in task notes (it is not clear if this is the "correct" behavior and will require more thought to determine what should, or should not, be done).
+
+## Disclaimers
+* This software is beta (maybe alpha).
+* Task was made with electron using html, css, and javascript only. It should work on any platform. That said, Tasks was designed, developed, and tested exclusively on MacOS.
 
 ## Thank you
 * [Ariel Diaz](https://github.com/fullmetalbrackets) - For offering a solid HEX to CSS filter [conversion tool](https://cssfiltergenerator.lol/)
