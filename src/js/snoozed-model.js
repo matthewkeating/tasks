@@ -1,4 +1,5 @@
 import * as tasks from './tasks-model.js';
+import { updateTaskListWithSnoozedItems } from './tasks-controller.js';
 
 let _snoozedTasks = JSON.parse(localStorage.getItem("snoozed_tasks")) || [];
 
@@ -33,7 +34,6 @@ export function getNumSnoozedTasks() {
 }
 
 export function unsnoozeTask(task) {
-  console.log("unsnoozeTask");
   delete task.wake_up_date;
   tasks.addTask(task, "top");
   // remove snoozed task
@@ -49,11 +49,16 @@ export function unsnoozeAllTasks() {
 
 // called from the scheduler
 export function unsnoozeTasks() {
+  let rerenderRequired = false;
   _snoozedTasks.forEach(task => {
     if (window.tempo.isBefore(task.wake_up_date, new Date())) {
       unsnoozeTask(task);
+      rerenderRequired = true;
     }
   });
+  if (document.URL.endsWith("tasks.html") && rerenderRequired) {
+    updateTaskListWithSnoozedItems();
+  }
 }
 
 export function scheduleUnsnoozeScheduler() {
