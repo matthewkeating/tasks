@@ -162,9 +162,16 @@ function bindEvents() {
   editableTaskDetailsTitle.getEditableDiv().addEventListener('input', () => {
     const title = editableTaskDetailsTitle.getText();
     // update the title in the task list
-    document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0].innerHTML = title;
+    const titleDiv = document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0];
+    titleDiv.innerHTML = title;
     _selectedTask.title = title;
     tasks.saveTasks();
+
+    if (title.length === 0) {
+      setNoTitle(titleDiv, true);
+    } else {
+      setNoTitle(titleDiv, false);
+    }
   });
 
   // task notes
@@ -490,6 +497,13 @@ function hideQuickAction(taskId) {
   } 
 }
 
+function setNoTitle(div, hasNoTitle) {
+  if (hasNoTitle) {
+    div.innerText = "No Title";
+  }
+  div.classList.toggle("noTitle", hasNoTitle);
+}
+
 function renderTasks() {
 
   updateSnoozeIndicator();
@@ -599,6 +613,9 @@ function renderTasks() {
       title.classList.add("task-title-completed");
     }
     title.innerText = task.title;
+    if (task.title.length === 0) {
+      setNoTitle(title, true);
+    }
 
     if (task.flagged === true) {
       title.classList.add("flagged");
