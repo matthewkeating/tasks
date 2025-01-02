@@ -19,6 +19,10 @@ class EditableDivWithPlaceholder {
       this.placeholder = this.container.querySelector(`#${this.container.id}Placeholder`);
   }
 
+  blur() {
+    this.editableDiv.blur();
+  }
+
   bindEvents() {
       this.editableDiv.addEventListener('input', () => {
         const isEmpty = this.editableDiv.textContent.trim() === '';
