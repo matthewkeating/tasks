@@ -31,7 +31,7 @@ quickActionButton.checked = true;
 const qucikActionsRadioButtons = document.querySelectorAll('input[name="quick-actions-visibility"]');
 qucikActionsRadioButtons.forEach(radio => {
     radio.addEventListener('change', () => {
-        settings.setQuickActionsVisibility(radio.value);
+        settings.setQucikActionsVisibiity(radio.value);
     });
 });
 

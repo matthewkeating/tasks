@@ -72,7 +72,9 @@ function bindEvents() {
       }
   
       renderTasks();
-      sidebar.showSidebar();
+      if (settings.tasksSidebarVisibility === "always") {
+        sidebar.showSidebar();
+      }
       selectTask(newTask);
       addTaskInputBox.value = "";
     }
