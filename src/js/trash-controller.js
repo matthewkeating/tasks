@@ -10,10 +10,10 @@ closePage.addEventListener("click", () => {
   app.showTasks();
 });
 
-tasksArea.firstElementChild.innerText =
-  "Last " + settings.numDeletedTasksToRetain + " Deleted Tasks";
+function renderTrash() {
 
-const renderTasks = () => {
+  tasksArea.firstElementChild.innerText =
+  "Last " + settings.numDeletedTasksToRetain + " Deleted Tasks";
 
   const tasksToRender = trash.getTasks();
   
@@ -59,7 +59,7 @@ const renderTasks = () => {
     restore.innerText = "Restore";
     restore.addEventListener("click", () => {
       trash.undeleteTask(task);
-      renderTasks();
+      renderTrash();
     });
 
     const deleteDiv = document.createElement("div");
@@ -69,7 +69,7 @@ const renderTasks = () => {
       var result = confirm("This action cannot be undone. Are you sure you want to permanently delete this task?");
       if (result) {
         trash.permanentlyDeleteTask(task);
-        renderTasks();
+        renderTrash();
       }
     });
 
@@ -91,5 +91,7 @@ const renderTasks = () => {
 
 };
 
-window.electronAPI.hideSidebar();
-renderTasks();
+document.addEventListener("DOMContentLoaded", () => {
+  window.electronAPI.hideSidebar();
+  renderTrash();
+});
