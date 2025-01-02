@@ -108,13 +108,13 @@ const createWindow = () => {
   
 };
 
+var job = null;
 ipcMain.on("schedule-unsnooze", (event, spec) => {
-  const job = schedule.scheduleJob(spec, function() {
+  if (job !== null) job.cancel();   // prevents multiple jobs from being scheduled
+  job = schedule.scheduleJob("unsnooze", spec, function() {
     mainWindow.webContents.send("unsnooze-tasks"); 
   });
 });
-
-
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
