@@ -96,8 +96,10 @@ Sidebar setting is set to "Open on double click") or set cursor focus to the "Ad
 | ⌘ ⇧ [            | Previous task        |
 | ⌘ ⇧ ]            | Next task            |
 
-## To Do
-* Nothing at the moment.
+## Known Issues with Download Tasks
+The Download Tasks feature (in Settings):
+* Does not produce well formatted JSON (this will be fixed)
+* Includes the rich text formatting present in task notes (it is not clear if this is the "correct" behavior and will require more thought to determine what should, or should not, be done).
 
 ## Thank you
 * [Ariel Diaz](https://github.com/fullmetalbrackets) - For offering a solid HEX to CSS filter [conversion tool](https://cssfiltergenerator.lol/)
