@@ -33,8 +33,7 @@ function getWakUpDisplayDate(wakeUpDate) {
   return retVal;
 }
 
-let previousWakeUpDate = null;
-const renderTasks = () => {
+function renderSnoozedTasks() {
 
   const tasksToRender = snoozed.getTasks();
   
@@ -45,6 +44,7 @@ const renderTasks = () => {
     taskContainer.innerHTML = "";
   }
 
+  let previousWakeUpDate = null;
   tasksToRender.forEach(task => {
 
     // Create the div that will hold all the elements of the task
@@ -73,7 +73,7 @@ const renderTasks = () => {
     unsnooze.innerText = "Unsnooze";
     unsnooze.addEventListener("click", () => {
       snoozed.unsnoozeTask(task);
-      renderTasks();
+      renderSnoozedTasks();
     });
 
     const actionDiv = document.createElement("div");
@@ -104,5 +104,7 @@ const renderTasks = () => {
 
 };
 
-window.electronAPI.hideSidebar();
-renderTasks();
+document.addEventListener("DOMContentLoaded", () => {
+  window.electronAPI.hideSidebar();
+  renderSnoozedTasks();
+});
