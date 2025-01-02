@@ -6,6 +6,8 @@ import * as sidebar from './sidebar.js';
 import { EditableDivWithPlaceholder } from '../components/editable-div.js';
 
 var _selectedTask = null;
+var _editableTaskDetailsTitle = null;
+var _taskNotes = null;
 
 /****************************************************************************
  * Element Binding
@@ -21,7 +23,7 @@ function bindEvents() {
   // application-specific hotkeys
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
-      if (sidebar.isShown()) {
+      if (sidebar.isShown() && settings.tasksSidebarVisibility === "dbl-click") {
         sidebar.hideSidebar();
         blurAllInputs();
       } else {
@@ -159,8 +161,8 @@ function bindEvents() {
   snoozeTwoWeeks.onclick = (event) => { snoozeTaskAndHighlightNextTask(_selectedTask, 14); };
 
   // editable task title
-  editableTaskDetailsTitle.getEditableDiv().addEventListener('input', () => {
-    const title = editableTaskDetailsTitle.getText();
+  _editableTaskDetailsTitle.getEditableDiv().addEventListener('input', () => {
+    const title = _editableTaskDetailsTitle.getText();
     // update the title in the task list
     const titleDiv = document.querySelector(`[data-id="${_selectedTask.id}"]`).getElementsByClassName("task-title")[0];
     titleDiv.innerHTML = title;
@@ -175,20 +177,20 @@ function bindEvents() {
   });
 
   // task notes
-  taskNotes.on('text-change', function(delta, oldDelta, source) {
+  _taskNotes.on('text-change', function(delta, oldDelta, source) {
     // note: delta is the formatted contents in Quill
   
     // update the notes indicator in the task list
     const div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
     const img = div.getElementsByClassName("icon-note")[0];
-    const isEmpty = taskNotes.getContents().ops.length === 1 && taskNotes.getText().trim() === "";
+    const isEmpty = _taskNotes.getContents().ops.length === 1 && _taskNotes.getText().trim() === "";
     if (isEmpty) {
       img.setAttribute('src', '');
-      taskNotes.setText("");
+      _taskNotes.setText("");
       _selectedTask.notes = null;
     } else {
       img.setAttribute('src', '../images/note.svg');
-      _selectedTask.notes = taskNotes.getContents();
+      _selectedTask.notes = _taskNotes.getContents();
     }
   
     tasks.saveTasks();
@@ -263,18 +265,18 @@ function showTaskDetails(task) {
     sidebarActionPin.src = "../images/pin_empty.svg";
   }
 
-  editableTaskDetailsTitle.setText(task.title);
+  _editableTaskDetailsTitle.setText(task.title);
 
   if (task.notes !== null) {
-    taskNotes.setContents(task.notes);
+    _taskNotes.setContents(task.notes);
   } else {
-    taskNotes.setText("");
+    _taskNotes.setText("");
   }
 
   taskDetails.classList.remove("display-none");
 
   if (sidebar.isShown()) {
-    taskNotes.focus();   // Set focus to the notes box
+    _taskNotes.focus();   // Set focus to the notes box
   } else {
     addTaskInputBox.blur(); // this effectively removes focus from any input element
   }
@@ -504,6 +506,12 @@ function setNoTitle(div, hasNoTitle) {
   div.classList.toggle("noTitle", hasNoTitle);
 }
 
+export function updateTaskListWithSnoozedItems() {
+  // export an function for the scheduler to call if snoozed tasks are available
+  // and the task list needs to be updated.
+  renderTasks();
+}
+
 function renderTasks() {
 
   updateSnoozeIndicator();
@@ -568,7 +576,7 @@ function renderTasks() {
       // while preventing it from firing when any of the taskDiv children (e.g., the complete or
       // delete buttons) are clicked
       if (divType === "selectable") {
-        taskNotes.focus();
+        _taskNotes.focus();
       }
     });
     if (settings.tasksSidebarVisibility === "dbl-click") {
@@ -660,17 +668,39 @@ function renderTasks() {
 
 function blurAllInputs() {
   addTaskInputBox.blur();
-  taskTitle.blur();
+  _editableTaskDetailsTitle.blur();
   notesTextArea.blur();
 }
 
 /****************************************************************************
- * Drag and Drop
+ * Page Initialization
  ****************************************************************************/
 document.addEventListener("DOMContentLoaded", () => {
 
-  const draggableContainers = document.querySelectorAll(".draggable-container");
+  // Due to importing this file into other js files, this event listener gets fired when the tasks page is not
+  // loaded. This is a check (probably a hack) to prevent this from happening.
+  if (!document.URL.endsWith("tasks.html")) return;
 
+  _editableTaskDetailsTitle = new EditableDivWithPlaceholder('taskDetailsTitle', false);
+
+  // TODO: Consider installing Quill via npm (rather than directly using it's .js and .css files)
+  _taskNotes = new Quill('#notesTextArea', {
+    placeholder: "Add notes here..."
+  });
+  _taskNotes.root.setAttribute('spellcheck', false);
+
+  if (settings.tasksSidebarVisibility === "always") {
+    sidebar.showSidebar();
+  } else {
+    sidebar.hideSidebar();
+  }
+  setAppMenuText();
+  renderTasks();
+  bindEvents();
+  snoozed.scheduleUnsnoozeScheduler();
+
+  // drag and drop
+  const draggableContainers = document.querySelectorAll(".draggable-container");
   draggableContainers.forEach(container => {
 
     container.addEventListener("dragstart", event => {
@@ -743,7 +773,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   });
-
   const getDragAfterElement = (container, y) => {
     const draggableElements = [...container.querySelectorAll(".task:not(.dragging)")];
     return draggableElements.reduce((closest, child) => {
@@ -753,24 +782,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { offset: Number.NEGATIVE_INFINITY }).element;
   };
 });
-
-/****************************************************************************
- * Page Initialization
- ****************************************************************************/
-const editableTaskDetailsTitle = new EditableDivWithPlaceholder('taskDetailsTitle', false);
-
-// TODO: Consider installing Quill via npm (rather than directly using it's .js and .css files)
-const taskNotes = new Quill('#notesTextArea', {
-  placeholder: "Add notes here..."
-});
-taskNotes.root.setAttribute('spellcheck', false);
-
-if (settings.tasksSidebarVisibility === "always") {
-  sidebar.showSidebar();
-} else {
-  sidebar.hideSidebar();
-}
-setAppMenuText();
-renderTasks();
-bindEvents();
-snoozed.scheduleUnsnoozeScheduler();
