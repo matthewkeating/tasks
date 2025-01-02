@@ -7,19 +7,19 @@ export var numDeletedTasksToRetain = JSON.parse(localStorage.getItem("num_delete
 export function restoreDefaultSettings() {
   setShowingCompleted(false);
   setTasksSidebarVisibility("always");
-  quickActionsVisibility("on-selected");
+  setQuickActionsVisibility("on-selected");
   setNumCompletedTasksToRetain(20);
   setNumDeletedTasksToRetain(20);
 }
 
 function setShowingCompleted(value) {
   showingCompleted = value;
-  localStorage.setItem("show_completed", JSON.stringify(showingCompleted));
+  localStorage.setItem("show_completed", showingCompleted);
 }
 
 export function toggleShowCompleted() {
   showingCompleted = !showingCompleted;
-  localStorage.setItem("show_completed", JSON.stringify(showingCompleted));
+  localStorage.setItem("show_completed", showingCompleted);
 }
 
 export function setTasksSidebarVisibility(value) {
@@ -27,15 +27,15 @@ export function setTasksSidebarVisibility(value) {
   localStorage.setItem("tasks_sidebar_visibility", JSON.stringify(tasksSidebarVisibility));
 }
 
-export function setQucikActionsVisibiity(value) {
+export function setQuickActionsVisibility(value) {
   quickActionsVisibility = value;
   localStorage.setItem("quick_actions_visibility", JSON.stringify(quickActionsVisibility));
 }
 
 export function setNumCompletedTasksToRetain(number) {
-  localStorage.setItem("num_completed_tasks_to_retain", JSON.stringify(number));
+  localStorage.setItem("num_completed_tasks_to_retain", number);
 }
 
 export function setNumDeletedTasksToRetain(number) {
-  localStorage.setItem("num_deleted_tasks_to_retain", JSON.stringify(number));
+  localStorage.setItem("num_deleted_tasks_to_retain", number);
 }
