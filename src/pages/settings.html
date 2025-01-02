@@ -33,21 +33,21 @@
       </div>
 
       <fieldset>
-        <legend>Tasks Sidebar</legend>     
+        <legend>Tasks Sidebar</legend>   
+        <input type="radio" id="sidebar-viz-always" name="tasks-sidebar-visibility" value="always">
+        <label for="sidebar-viz-always">Always visible (default)</label><br/>
+        
         <input type="radio" id="sidebar-viz-dbl-click" name="tasks-sidebar-visibility" value="dbl-click">
         <label for="sidebar-viz-dbl-click">Open on double click (default)</label><br/>
-
-        <input type="radio" id="sidebar-viz-always" name="tasks-sidebar-visibility" value="always">
-        <label for="sidebar-viz-always">Always visible</label><br/>
       </fieldset>
 
       <fieldset>
-        <legend>Quick Actions</legend>     
-        <input type="radio" id="quick-actions-viz-never" name="quick-actions-visibility" value="never">
-        <label for="quick-actions-viz-never">Always hidden</label><br/>
-
+        <legend>Quick Actions</legend>  
         <input type="radio" id="quick-actions-viz-on-selected" name="quick-actions-visibility" value="on-selected">
         <label for="quick-actions-viz-on-selected">Visible on selected (default)</label><br/>
+        
+        <input type="radio" id="quick-actions-viz-never" name="quick-actions-visibility" value="never">
+        <label for="quick-actions-viz-never">Always hidden</label><br/>
         <!--
         <input type="radio" id="quick-actions-viz-on-selected-and-hover" name="quick-actions-visibility" value="on-selected-and-hover">
         <label for="quick-actions-viz-on-selected-and-hover">Visible on selected and hover (beta)</label><br/>
