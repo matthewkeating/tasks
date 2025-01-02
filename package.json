@@ -29,6 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "@formkit/tempo": "^0.1.2",
+    "electron-forge": "^5.2.4",
     "electron-squirrel-startup": "^1.0.1",
     "node-schedule": "^2.1.1"
   }
