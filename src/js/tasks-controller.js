@@ -771,8 +771,18 @@ document.addEventListener("DOMContentLoaded", () => {
   _editableTaskDetailsTitle = new EditableDivWithPlaceholder('taskDetailsTitle', false);
 
   // TODO: Consider installing Quill via npm (rather than directly using it's .js and .css files)
+  const toolbarOptions = [
+    ['bold', 'italic', 'underline'],
+    ['blockquote'],
+    [{ 'header': 1 }, { 'header': 2 }],
+    [{ 'list': 'check' }]
+  ];
   _taskNotes = new Quill('#notesTextArea', {
-    placeholder: "Add notes here..."
+    modules: {
+      toolbar: toolbarOptions
+    },
+    theme: "bubble",
+    placeholder: "Add notes here...",
   });
   _taskNotes.root.setAttribute('spellcheck', false);
 
