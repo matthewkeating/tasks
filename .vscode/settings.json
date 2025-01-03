@@ -4,6 +4,7 @@
     "Keating",
     "linecap",
     "linejoin",
-    "unsnooze"
+    "unsnooze",
+    "dragover"
   ]
 }
