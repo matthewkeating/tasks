@@ -21,7 +21,7 @@ The aim of this project is to create a task list manager that:
 In addition to the basics (i.e., creating and completing tasks), Tasks implements a number features to boost productivity.
 
 ### Task Management
-By design, Tasks supports only one task list. This means users cannot, for example, create lists for Personal, Office, Grocery, etc.. Tasks does, however, provide several other options for managing your task list.
+By design, Tasks supports only one task list. This means users cannot, for example, create lists for Personal, Office, Grocery, etc. Tasks does, however, provide several other options for managing your task list.
 
 #### Pinned Tasks
 Pinned tasks always appear at the top of your task list.
@@ -46,19 +46,19 @@ Traditional task management applications often turn into extensive lists that re
 * Task lists can get prohibitively long, cluttered, and overwhelming
 * Features, like due dates, can be a useful, but often become a management burden
 
-Snoozed task can help mitigate these challenges by allowing users to (temporarily) clear less immediate tasks from the working task list. Since tasks are snoozed on interval (e.g., 2 days, 5 days, 2 weeks, etc.), users do not have to manage specific calendar dates.
+Snoozed tasks can help mitigate these challenges by allowing users to (temporarily) clear less immediate tasks from the working task list. Since tasks are snoozed on interval (e.g., 2 days, 5 days, 2 weeks, etc.), users do not have to manage specific calendar dates.
 
 #### Trash
-Unsurprisingly, manually deleted tasks (included completed tasks) go to the Trash. Perhaps unique to Tasks, deleted tasks, like completed tasks, are ephemeral. To relieve users from having to empty or remove items from the Trash, Tasks will automatically remove (i.e., permanently delete) items from the Trash when the number of tasks in the Trash reach a set (but configurable) number. Like completed task culling, Trash culling is FIFO.
+Unsurprisingly, manually deleted tasks (included completed tasks) go to the Trash. Perhaps unique to Tasks, deleted tasks, like completed tasks, are ephemeral. To relieve users from having to empty or remove items from the Trash, Tasks will automatically remove (i.e., permanently delete) items from the Trash when the number of tasks in the Trash reach a set, but configurable, number. Like completed task culling, Trash culling is FIFO.
 
 #### Task Ordering/Reordering
 Task ordering is important for prioritizing and maintaining focus. In Tasks, pinned and unpinned tasks can be reordered via drag and drop.
 
 > [!NOTE]
-> Due to Tasks automated culling features, which purge tasks using a FIFO method, neither completed or deleted tasks can be reordered via drag and drop. Similarly, Snoozed tasks, which inherently have a "natural" relative order based on the length of time before a snoozed task "wakes up," cannot be reordered via drag and drop.
+> Due to Tasks automated culling features, which purge tasks using a FIFO method, neither completed or deleted tasks can be reordered via drag and drop. Similarly, snoozed tasks, which inherently have a "natural" relative order based on the length of time before a snoozed task "wakes up," cannot be reordered via drag and drop.
 
 #### Notes
-Each task can have associated notes. The editor supports ordered lists, unordered lists, as well as bold, italics, and underline font decoration.
+Each task can have associated notes. The editor supports ordered and unordered lists, as well as bold, italics, and underline font decoration.
 
 #### Light and Dark Themes
 Tasks has two themes: light and dark.
@@ -80,9 +80,7 @@ Per the tables below, Tasks provides application-wide keyboard shortcuts as well
 | ⌘ ,              | Open Settings              |
 
 > [!NOTE]
-> The esc key action is based on context. When viewing Snoozed, Trash, or Settings,
-esc will return the user to the Tasks page. When on the Tasks page, esc will close the  sidebar (if visible and the Tasks
-Sidebar setting is set to "Open on double click") or set cursor focus to the "Add tasks" input box.
+> The esc key action is based on context. When viewing Snoozed, Trash, or Settings, esc will return the user to the Tasks page. When on the Tasks page, esc will close the  sidebar (if visible and the Tasks Sidebar setting is set to "Open on double click") or set cursor focus to the "Add tasks" input box.
 
 #### Tasks Shortcuts
 
@@ -100,7 +98,7 @@ Tasks does **not** support mobile or sync data across devices. These features ar
 ## To Dos
 * Mature software distribution. At the moment, the best/only way to get Tasks is to clone this repo and build your own version. Once feature development has stabilized, I'll package a release.
 * Add URL support in the notes text editor.
-* Option for placing the sidebar on the left-hand side.
+* Add option for placing the sidebar on the left-hand side.
 
 ## Known Issues
 The Download Tasks feature (in Settings) was used to aid in migrating tasks between development versions of the app. It is, at best, half-baked. It:
@@ -108,8 +106,8 @@ The Download Tasks feature (in Settings) was used to aid in migrating tasks betw
 * Includes the rich text formatting present in task notes (it is not clear if this is the "correct" behavior and will require more thought to determine what should, or should not, be done).
 
 ## Disclaimers
-* This software is beta (maybe alpha).
-* Task was made with electron using html, css, and javascript only. It should work on any platform. That said, Tasks was designed, developed, and tested exclusively on MacOS.
+* This software is beta.
+* Tasks was made with Electron using HTML, CSS, and JavaScript only. It should work on any platform. That said, Tasks was designed, developed, and tested exclusively on MacOS.
 
 ## Thank you
 * [Ariel Diaz](https://github.com/fullmetalbrackets) - For offering a solid HEX to CSS filter [conversion tool](https://cssfiltergenerator.lol/)
