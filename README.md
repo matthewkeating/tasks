@@ -94,8 +94,13 @@ Sidebar setting is set to "Open on double click") or set cursor focus to the "Ad
 | ⌘ ⇧ [            | Previous task        |
 | ⌘ ⇧ ]            | Next task            |
 
-## Installation
-At the moment, the best/only way to get Tasks is to clone this repo and build your own version. Once feature development has stabilized, I'll package a release.
+### Mobile Support and Syncing Across Devices
+Tasks does **not** support mobile or sync data across devices. These features are not a important to me but I may add them in the future as I recognize there importance to some.
+
+## To Dos
+* Mature software distribution - At the moment, the best/only way to get Tasks is to clone this repo and build your own version. Once feature development has stabilized, I'll package a release.
+* Add URL support in the notes text editor.
+* Option for placing the sidebar on the left-hand side.
 
 ## Known Issues
 The Download Tasks feature (in Settings) was used to aid in migrating tasks between development versions of the app. It is, at best, half-baked. It:
