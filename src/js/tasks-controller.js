@@ -556,7 +556,7 @@ function renderTasks() {
     // Create the div that will hold all the elements of the task
     const taskDiv = document.createElement("div");
     taskDiv.classList.add("task");
-    taskDiv.draggable = true;  // completed tasks are not draggable
+    taskDiv.draggable = true;
     taskDiv.dataset.id = task.id;
     taskDiv.dataset.type = "selectable";
 
@@ -675,6 +675,91 @@ function blurAllInputs() {
 }
 
 /****************************************************************************
+ * Drag and Drop
+ ****************************************************************************/
+const draggableContainers = document.querySelectorAll(".draggable-container");
+draggableContainers.forEach(container => {
+
+  container.addEventListener("dragstart", event => {
+    event.target.classList.add("dragging");
+  });
+  
+  container.addEventListener("dragend", event => {
+    event.target.classList.remove("dragging");
+  });
+
+  container.addEventListener("dragover", event => {
+
+    event.preventDefault();
+
+    const dragging = document.querySelector(".dragging");
+    const afterElement = getDragAfterElement(container, event.clientY);
+
+    if (container.id == "completedContainer") {
+      container.classList.add("dragover-completed");  
+      return;
+    }
+
+    if (afterElement == null) {
+      container.appendChild(dragging);
+    } else {
+      container.insertBefore(dragging, afterElement);
+    }
+  });
+
+  container.addEventListener('dragleave', (event) => {
+    if (container.id == "completedContainer") {
+      container.classList.remove("dragover-completed");
+    }
+  });
+
+  container.addEventListener("drop", event => {  
+
+    if (container.id == "pinnedContainer") {
+      _selectedTask.pinned = true;
+      _selectedTask.completed = false;
+    }
+    if (container.id == "unpinnedContainer") {
+      _selectedTask.pinned = false;
+      _selectedTask.completed = false;
+    }
+    if (container.id == "completedContainer") {
+      _selectedTask.pinned = false;
+      _selectedTask.completed = true;
+      container.classList.remove("dragover-completed");
+    }
+
+    const children = document.getElementById(container.id).children;
+    const updatedOrder = Array.from(children).map(div => div.dataset.id);
+    let taskArray = tasks.getTasks(settings.showingCompleted);
+    taskArray.sort((a, b) => updatedOrder.indexOf(a.id) - updatedOrder.indexOf(b.id));
+    tasks.replaceTasks(taskArray);
+    renderTasks();
+    selectTask(_selectedTask);
+
+  });
+    
+  // Add drag events to each task
+  const t = container.querySelectorAll(".task");
+  t.forEach(task => {
+    task.addEventListener("dragstart", event => {
+      event.target.classList.add("dragging");
+    });
+    task.addEventListener("dragend", event => {
+      event.target.classList.remove("dragging");
+    });
+  });
+});
+const getDragAfterElement = (container, y) => {
+  const draggableElements = [...container.querySelectorAll(".task:not(.dragging)")];
+  return draggableElements.reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    return offset < 0 && offset > closest.offset ? { offset, element: child } : closest;
+  }, { offset: Number.NEGATIVE_INFINITY }).element;
+};
+
+/****************************************************************************
  * Page Initialization
  ****************************************************************************/
 document.addEventListener("DOMContentLoaded", () => {
@@ -701,86 +786,4 @@ document.addEventListener("DOMContentLoaded", () => {
   bindEvents();
   snoozed.scheduleUnsnoozeScheduler();
 
-  // drag and drop
-  const draggableContainers = document.querySelectorAll(".draggable-container");
-  draggableContainers.forEach(container => {
-
-    container.addEventListener("dragstart", event => {
-      event.target.classList.add("dragging");
-    });
-    
-    container.addEventListener("dragend", event => {
-      event.target.classList.remove("dragging");
-    });
-
-    container.addEventListener("dragover", event => {
-
-      event.preventDefault();
-
-      const dragging = document.querySelector(".dragging");
-      const afterElement = getDragAfterElement(container, event.clientY);
-
-      if (container.id == "completedContainer") {
-        container.classList.add("dragover-completed");  
-        return;
-      }
-
-      if (afterElement == null) {
-        container.appendChild(dragging);
-      } else {
-        container.insertBefore(dragging, afterElement);
-      }
-    });
-
-    container.addEventListener('dragleave', (event) => {
-      if (container.id == "completedContainer") {
-        container.classList.remove("dragover-completed");
-      }
-    });
-
-    container.addEventListener("drop", event => {  
-
-      if (container.id == "pinnedContainer") {
-        _selectedTask.pinned = true;
-        _selectedTask.completed = false;
-      }
-      if (container.id == "unpinnedContainer") {
-        _selectedTask.pinned = false;
-        _selectedTask.completed = false;
-      }
-      if (container.id == "completedContainer") {
-        _selectedTask.pinned = false;
-        _selectedTask.completed = true;
-        container.classList.remove("dragover-completed");
-      }
-
-      const children = document.getElementById(container.id).children;
-      const updatedOrder = Array.from(children).map(div => div.dataset.id);
-      let taskArray = tasks.getTasks(settings.showingCompleted);
-      taskArray.sort((a, b) => updatedOrder.indexOf(a.id) - updatedOrder.indexOf(b.id));
-      tasks.replaceTasks(taskArray);
-      renderTasks();
-      selectTask(_selectedTask);
-
-    });
-      
-    // Add drag events to each task
-    const t = container.querySelectorAll(".task");
-    t.forEach(task => {
-      task.addEventListener("dragstart", event => {
-        event.target.classList.add("dragging");
-      });
-      task.addEventListener("dragend", event => {
-        event.target.classList.remove("dragging");
-      });
-    });
-  });
-  const getDragAfterElement = (container, y) => {
-    const draggableElements = [...container.querySelectorAll(".task:not(.dragging)")];
-    return draggableElements.reduce((closest, child) => {
-      const box = child.getBoundingClientRect();
-      const offset = y - box.top - box.height / 2;
-      return offset < 0 && offset > closest.offset ? { offset, element: child } : closest;
-    }, { offset: Number.NEGATIVE_INFINITY }).element;
-  };
 });
