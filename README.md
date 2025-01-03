@@ -25,12 +25,12 @@ By design, Tasks supports only one task list. This means users cannot, for examp
 
 #### Pinned Tasks
 Pinned tasks always appear at the top of your task list.
-> [!NOTE]
+> [!TIP]
 > Pinned tasks can be helpful to users that want to regularly track of long running (weeks to months) tasks.
 
 #### Flagged Tasks
 Flagging a task changes the task color, making it more noticeable.
-> [!NOTE]
+> [!TIP]
 > Flags are useful for drawing attention to high priority tasks.
 
 #### Completed Tasks
@@ -54,7 +54,7 @@ Unsurprisingly, manually deleted tasks (included completed tasks) go to the Tras
 #### Task Ordering/Reordering
 Task ordering is important for prioritizing and maintaining focus. In Tasks, pinned and unpinned tasks can be reordered via drag and drop.
 
-> [!IMPORTANT]
+> [!NOTE]
 > Due to Tasks automated culling features, which purge tasks using a FIFO method, neither completed or deleted tasks can be reordered via drag and drop. Similarly, Snoozed tasks, which inherently have a "natural" relative order based on the length of time before a snoozed task "wakes up," cannot be reordered via drag and drop.
 
 #### Notes
@@ -79,8 +79,8 @@ Per the tables below, Tasks provides application-wide keyboard shortcuts as well
 | ⌘ ⇧ T            | Open Trash                 |
 | ⌘ ,              | Open Settings              |
 
-
-> Note: The esc key action is based on context. When viewing Snoozed, Trash, or Settings,
+> [!NOTE]
+> The esc key action is based on context. When viewing Snoozed, Trash, or Settings,
 esc will return the user to the Tasks page. When on the Tasks page, esc will close the  sidebar (if visible and the Tasks
 Sidebar setting is set to "Open on double click") or set cursor focus to the "Add tasks" input box.
 
