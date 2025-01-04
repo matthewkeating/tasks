@@ -10,6 +10,8 @@
 }
 
 .icon-close {
+  margin-top: 10px;
+  margin-right: 4px;
   cursor: pointer;
 }
 
@@ -43,8 +45,8 @@
 
 .icon-snooze-indicator {
   position: absolute;
-  bottom: 3px;
-  right: 40px;
+  bottom: -11px;
+  right: -40px;
   /* make the indicator a little darker than the other icons */
   filter: brightness(0) saturate(100%) invert(21%) sepia(1%) saturate(0%) hue-rotate(210deg) brightness(94%) contrast(91%);
 }

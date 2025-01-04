@@ -27,41 +27,6 @@
   margin-left: 18px;
 }
 
-.dot {
-  width: 2px;                                     /* Set width of each dot */
-  height: 2px;                                    /* Set height of each dot */
-  background-color: var(--color-ellipsis-dot);      /* Color of the dots */
-  border-radius: 50%;                             /* Make the dots round */
-  margin: 0 2px;                                  /* Space between the dots */
-}
-
-.ellipsis {
-  cursor: pointer;
-  display: flex;               /* Use flexbox to align dots */
-  justify-content: center;     /* Center the dots horizontally */
-  align-items: center;         /* Center the dots vertically */
-  z-index: 100;
-  padding: 12px 8px 12px 8px;
-  border-radius: 5px;
-  margin-left: 10px;
-}
-
-.ellipsis:hover {
-  background-color: var(--color-button-hover);
-}
-
-.ellipsis.active {
-  background-color: var(--color-selected);
-}
-
-.ellipsis:hover .dot {
-  background-color: var(--color-purple);
-}
-
-.ellipsis.active .dot {
-  background-color: var(--color-purple);
-}
-
 #addTaskInputBoxIcons {
   display: flex;
   position: absolute;
@@ -201,7 +166,6 @@
   border-radius: 5px;
   box-shadow: none;
   padding: 10px;
-  padding-right: 86px;
   outline: none;
   box-sizing: border-box;
 }

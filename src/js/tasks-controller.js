@@ -16,7 +16,6 @@ function bindEvents() {
 
   // no matter where the user clicks, if the menu is open, close it.
   document.addEventListener("click", function(event) {
-    closeAppMenu();
     closeSnoozeSelectorMenu();
   });
 
@@ -29,28 +28,7 @@ function bindEvents() {
       } else {
         addTaskInputBox.focus();
       }
-    } else if (e.metaKey && e.key === "Backspace") {
-      deleteTaskAndHighlightNextTask(_selectedTask);
-    } else if (e.metaKey && e.shiftKey && e.key === 'p') {
-      togglePin(_selectedTask);
-    } else if (e.metaKey && e.shiftKey && e.key === '[') {
-      selectPreviousTask(_selectedTask);
-    } else if (e.metaKey && e.shiftKey && e.key === ']') {
-      // handle the case where the user wants to navigate to the first element from the addTaskInputBox
-      if (addTaskInputBox === document.activeElement && tasks.getNumTasks(settings.showingCompleted) > 0) {
-        const firstTask = tasks.getTaskByIndex(0);
-        selectTask(firstTask);
-        return;
-      }
-      selectNextTask(_selectedTask);
-    } else if (e.metaKey && e.shiftKey && e.key === 'c') {
-      appMenuItemToggleCompleted.click();
     }
-  });
-
-  // operating system global hotkey
-  window.electronAPI.onToggleCompleted(() => {
-    toggleCompleted(_selectedTask);
   });
 
   // Add Task input box
@@ -90,28 +68,6 @@ function bindEvents() {
   // snooze indicator
   snoozeIndicator.onclick = (event) => { app.showSnoozed(); };
 
-  // application menu
-  appEllipsis.onclick = (event) => {
-    closeSnoozeSelectorMenu();
-    appEllipsis.classList.toggle("active");
-    appMenu.classList.toggle("active");
-    event.stopPropagation();
-  };
-  appMenuItemToggleCompleted.onclick = (event) => {
-    settings.toggleShowCompleted();
-    if (!settings.showingCompleted && _selectedTask !== null && _selectedTask.completed === true) {
-      // the selected task is being hidden
-      _selectedTask = null;
-      addTaskInputBox.focus();
-    }
-    setAppMenuText();
-    renderTasks();
-    selectTask(_selectedTask);
-  };
-  appMenuItemSnoozed.onclick = (event) => { app.showSnoozed(); };
-  appMenuItemTrash.onclick = (event) => { app.showTrash(); };
-  appMenuItemSettings.onclick = (event) => { app.showSettings(); };
-
   // sidebar actions
   sidebarActionHide.onclick = (event) => { sidebar.hideSidebar(); };
   sidebarActionCircle.onclick = (event) => { toggleCompleted(_selectedTask); };
@@ -122,7 +78,7 @@ function bindEvents() {
   // snooze button and menu
   snoozeSelectorButton.onclick = (event) => {
 
-    closeAppMenu();  // if it is open
+    //closeAppMenu();  // if it is open
   
     const optionsNear = { weekday: 'long' };
     const optionsFar = { day: 'numeric', month: 'short' };
@@ -201,13 +157,45 @@ function bindEvents() {
 }
 
 /****************************************************************************
+ * IPC
+ ****************************************************************************/
+window.electronAPI.toggleShowCompleted(() => {
+  settings.toggleShowCompleted();
+  if (!settings.showingCompleted && _selectedTask !== null && _selectedTask.completed === true) {
+    // the selected task is being hidden
+    _selectedTask = null;
+    addTaskInputBox.focus();
+  }
+  renderTasks();
+  selectTask(_selectedTask);
+});
+window.electronAPI.toggleCompleted(() => {
+  toggleCompleted(_selectedTask);
+});
+window.electronAPI.toggleFlag(() => {
+  toggleFlag(_selectedTask);
+});
+window.electronAPI.togglePin(() => {
+  togglePin(_selectedTask);
+});
+window.electronAPI.selectNextTask(() => {
+  if (addTaskInputBox === document.activeElement && tasks.getNumTasks(settings.showingCompleted) > 0) {
+    const firstTask = tasks.getTaskByIndex(0);
+    selectTask(firstTask);
+    return;
+  }
+  selectNextTask(_selectedTask);
+});
+window.electronAPI.selectPreviousTask(() => {
+  selectPreviousTask(_selectedTask);
+});
+window.electronAPI.deleteTask(() => {
+  deleteTaskAndHighlightNextTask(_selectedTask);
+});
+
+/****************************************************************************
  * Methods
  ****************************************************************************/
-function closeAppMenu() {
-  appEllipsis.classList.remove("active");
-  appMenu.classList.remove("active");
-}
-
 function closeSnoozeSelectorMenu() {
   snoozeSelectorButton.classList.remove("active");
   snoozeSelectorMenu.classList.remove("active");
@@ -235,6 +223,8 @@ function selectTask(task) {
   }
   
   showTaskDetails(_selectedTask);
+
+  window.electronAPI.enableTaskMenu();
 
 }
 
@@ -306,6 +296,8 @@ function deselectTask(task) {
     hideQuickAction(task.id);
   }
   _selectedTask = null;
+
+  window.electronAPI.disableTaskMenu();
 }
 
 function toggleFlag(task) {
@@ -431,21 +423,11 @@ function updateSnoozeIndicator() {
   const numSnoozedTasks = snoozed.getNumSnoozedTasks();
   if (numSnoozedTasks < 1) {
     snoozeIndicator.classList.add("display-none");
-    addTaskInputBox.style.paddingRight = "60px";   // TODO: put this in css
+    addTaskInputBox.style.paddingRight = "10";   // TODO: put this in css
   } else {
     snoozeIndicator.classList.remove("display-none");
-    addTaskInputBox.style.paddingRight = "86px";   // TODO: put this in css
+    addTaskInputBox.style.paddingRight = "44px";   // TODO: put this in css
   }
-}
-
-function setAppMenuText() {
-  let toggleCompletedMenuTitle;
-  if (settings.showingCompleted) {
-    toggleCompletedMenuTitle = "Hide Completed"
-  } else {
-    toggleCompletedMenuTitle = "Show Completed"
-  }
-  appMenuItemToggleCompleted.firstElementChild.innerHTML = toggleCompletedMenuTitle;
 }
 
 function getQuickActions(task) {
@@ -791,7 +773,7 @@ document.addEventListener("DOMContentLoaded", () => {
   } else {
     sidebar.hideSidebar();
   }
-  setAppMenuText();
+  //setAppMenuText();
   renderTasks();
   bindEvents();
   snoozed.scheduleUnsnoozeScheduler();

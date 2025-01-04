@@ -1,19 +1,4 @@
 /*
- * Global hot keys
- */ 
-document.addEventListener("keydown", e => {
-  if (e.metaKey && e.shiftKey && e.key === 't') {
-    showTrash();
-  } else if (e.metaKey && e.key === 'n') {
-    showTasks();
-  } else if (e.metaKey && e.key === ",") {
-    showSettings();
-  }  else if (e.metaKey && e.shiftKey && e.key === 's') {
-    showSnoozed();
-  } 
-});
-
-/*
  * Global functions
  */
 export function showSettings() {
@@ -31,3 +16,25 @@ export function showTasks() {
 export function showTrash() {
   window.location.href = "./trash.html";
 }
+
+/*
+ * IPC Functions
+ */
+window.electronAPI.newTask(() => {
+  showTasks();
+});
+
+window.electronAPI.openSettings(() => {
+  window.electronAPI.disableTaskMenu();
+  showSettings();
+});
+
+window.electronAPI.openSnoozed(() => {
+  window.electronAPI.disableTaskMenu();
+  showSnoozed();
+});
+
+window.electronAPI.openTrash(() => {
+  window.electronAPI.disableTaskMenu();
+  showTrash();
+});

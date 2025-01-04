@@ -1,4 +1,5 @@
-const { app, BrowserWindow, ipcMain, globalShortcut, screen, nativeTheme } = require('electron/main');
+const { app, BrowserWindow, Menu, ipcMain, globalShortcut, screen, nativeTheme } = require('electron/main');
+const { toggleComplete, deleteTask, createMenu, enableTaskMenu } = require('./components/application-menu.js');
 const schedule = require('node-schedule');
 const path = require('node:path');
 const Store = require('./js/electron-store.js');
@@ -52,8 +53,6 @@ const createWindow = () => {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-
-    
     backgroundColor: bgColor,
 
     width: defaultWidth,
@@ -90,8 +89,18 @@ const createWindow = () => {
     mainWindow.webContents.send("unsnooze-tasks"); 
   });
 
+  /*
   ipcMain.on('resize-window', (event, width, height) => {
     win.setSize(width, height);
+  });
+  */
+
+  ipcMain.on('enable-task-menu', (event) => {
+    enableTaskMenu(true);
+  });
+
+  ipcMain.on('disable-task-menu', (event) => {
+    enableTaskMenu(false);
   });
 
   ipcMain.on('show-sidebar', (event) => {
@@ -120,11 +129,17 @@ ipcMain.on("schedule-unsnooze", (event, spec) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
+
   createWindow();
 
+  createMenu(mainWindow);
+  
   // Register a global shortcuts
   globalShortcut.register('CommandOrControl+Shift+O', () => {
-    mainWindow.webContents.send('toggle-completed');
+    toggleComplete();
+  });
+  globalShortcut.register('CommandOrControl+Backspace', () => {
+    deleteTask();
   });
 
   // On OS X it's common to re-create a window in the app when the
@@ -134,6 +149,7 @@ app.whenReady().then(() => {
       createWindow();
     }
   });
+
 });
 
 // Quit when all windows are closed, except on macOS. There, it's common
