@@ -77,7 +77,7 @@ function renderSnoozedTasks() {
     });
 
     const deleteDiv = document.createElement("div");
-    deleteDiv.classList.add("unsnooze");
+    deleteDiv.classList.add("delete");
     deleteDiv.innerText = "Delete";
     deleteDiv.addEventListener("click", () => {
       snoozed.deleteSnoozedTask(task);
