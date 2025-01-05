@@ -4,12 +4,12 @@ const { app, Menu, shell } = require('electron/main');
 // global hot keys on Mac, they must be suppressed when a task is not selected.
 // The functions below use the enabled (or disabled) menu items as a proxy
 // for a task being selected.
-function toggleComplete() {
+function toggleComplete(mainWindow) {
   if (Menu.getApplicationMenu().getMenuItemById('task-toggle-complete').enabled) {
     mainWindow.webContents.send('toggle-completed');
   }
 }
-function deleteTask() {
+function deleteTask(mainWindow) {
   if (Menu.getApplicationMenu().getMenuItemById('task-delete-task').enabled) {
     mainWindow.webContents.send('delete-task');
   }

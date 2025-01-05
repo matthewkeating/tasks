@@ -136,10 +136,10 @@ app.whenReady().then(() => {
   
   // Register a global shortcuts
   globalShortcut.register('CommandOrControl+Shift+O', () => {
-    toggleComplete();
+    toggleComplete(mainWindow);
   });
   globalShortcut.register('CommandOrControl+Backspace', () => {
-    deleteTask();
+    deleteTask(mainWindow);
   });
 
   // On OS X it's common to re-create a window in the app when the
