@@ -26,7 +26,7 @@ By design, Tasks supports only one task list. This means users cannot, for examp
 #### Pinned Tasks
 Pinned tasks always appear at the top of your task list.
 > [!TIP]
-> Pinned tasks can be helpful to users that want to regularly track of long running (weeks to months) tasks.
+> Pinned tasks can be helpful to users who want to regularly track long running (weeks to months) tasks.
 
 #### Flagged Tasks
 Flagging a task changes the task color, making it more noticeable.
@@ -34,7 +34,7 @@ Flagging a task changes the task color, making it more noticeable.
 > Flags are useful for drawing attention to high priority tasks.
 
 #### Completed Tasks
-Completed tasks are, naturally, those tasks that are marked as complete. A unique feature of Tasks is that completed tasks are ephemeral. To relieve users from having to repeatedly cull completed tasks, Tasks will only retain a set, but configurable, number of completed tasks.
+Completed tasks are, naturally, those tasks marked as complete. A unique feature of Tasks is that completed tasks are ephemeral. To relieve users from having to repeatedly cull completed tasks, Tasks will only retain a set, but configurable, number of completed tasks.
 
 Automatic completed task culling is first in, first out (FIFO). For example, if the user configures Tasks to retain 20 completed tasks, when a 21st task is completed, the 1st completed task will be purged.
 
@@ -58,7 +58,7 @@ Task ordering is important for prioritizing and maintaining focus. In Tasks, pin
 > Due to Tasks automated culling features, which purge tasks using a FIFO method, neither completed or deleted tasks can be reordered via drag and drop. Similarly, snoozed tasks, which inherently have a "natural" relative order based on the length of time before a snoozed task "wakes up," cannot be reordered via drag and drop.
 
 #### Notes
-Each task can have associated notes. The editor supports ordered and unordered lists, as well as bold, italics, and underline font decoration.
+Each task can have associated notes. The editor supports ordered and unordered lists; checklists; as well as bold, italics, underline and other font decoration.
 
 #### Light and Dark Themes
 Tasks has two themes: light and dark.
@@ -86,24 +86,22 @@ Per the tables below, Tasks provides application-wide keyboard shortcuts as well
 
 | Shortcut          | Action               |
 |-------------------|----------------------|
-| ⌘ ⇧ P            | Toggle pin           |
 | ⌘ ⇧ O            | Toggle completed      |
+| ⌘ ⇧ F            | Toggle flag      |
+| ⌘ ⇧ P            | Toggle pin           |
 | ⌘ ⌫              | Delete task          |
-| ⌘ ⇧ [            | Previous task        |
 | ⌘ ⇧ ]            | Next task            |
+| ⌘ ⇧ [            | Previous task        |
 
 ### Mobile Support and Syncing Across Devices
-Tasks does **not** support mobile or sync data across devices. These features are not a important to me but I may add them in the future as I recognize there importance to some.
+Tasks does ***not*** support mobile or sync data across devices. These features are not a important to me but I may add them in the future as I recognize there importance to some.
 
 ## To Dos
 * Mature software distribution. At the moment, the best/only way to get Tasks is to clone this repo and build your own version. Once feature development has stabilized, I'll package a release.
 * Add URL support in the notes text editor.
-* Add option for placing the sidebar on the left-hand side.
 
 ## Known Issues
-The Download Tasks feature (in Settings) was used to aid in migrating tasks between development versions of the app. It is, at best, half-baked. It:
-* Does not produce well formatted JSON (this will be fixed)
-* Includes the rich text formatting present in task notes (it is not clear if this is the "correct" behavior and will require more thought to determine what should, or should not, be done).
+The Download Tasks feature (in Settings) was used to aid in migrating tasks between development versions of the app. It is, at best, half-baked. It does not produce well formatted JSON.
 
 ## Disclaimers
 * This software is beta.
