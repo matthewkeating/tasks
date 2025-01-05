@@ -139,10 +139,17 @@ function bindEvents() {
     // note: delta is the formatted contents in Quill
   
     // update the notes indicator in the task list
-    const div = document.querySelector(`[data-id="${_selectedTask.id}"]`); 
+    const div =  document.querySelector(`[data-id="${_selectedTask.id}"]`); 
     const img = div.getElementsByClassName("icon-note")[0];
     const isEmpty = _taskNotes.getContents().ops.length === 1 && _taskNotes.getText().trim() === "";
+
+    /*
     if (isEmpty) {
+      if (delta.ops.length === 2) {
+        if (delta.ops[0].delete === 2 && delta.ops[1].attributes.list === 'bullet') {
+
+        }
+      }
       img.setAttribute('src', '');
       _taskNotes.setText("");
       _selectedTask.notes = null;
@@ -150,8 +157,27 @@ function bindEvents() {
       img.setAttribute('src', '../images/note.svg');
       _selectedTask.notes = _taskNotes.getContents();
     }
-  
+    */
+
+    if (isEmpty) {
+      if (delta.ops.length > 1) {
+        // this is the state the editor gets into when the user types something that results in a
+        // list (e.g., -, *, or 1.)
+        // in this state, we still want to save the contents, but we don't want to reset the editor to ""
+        img.setAttribute('src', '');
+        _selectedTask.notes = null;
+      } else {
+        img.setAttribute('src', '');
+        _taskNotes.setText("");
+        _selectedTask.notes = null;
+      }
+    } else {
+      img.setAttribute('src', '../images/note.svg');
+      _selectedTask.notes = _taskNotes.getContents();
+    }
+
     tasks.saveTasks();
+
   });
 
 }
