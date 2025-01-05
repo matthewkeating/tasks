@@ -76,9 +76,18 @@ function renderSnoozedTasks() {
       renderSnoozedTasks();
     });
 
+    const deleteDiv = document.createElement("div");
+    deleteDiv.classList.add("unsnooze");
+    deleteDiv.innerText = "Delete";
+    deleteDiv.addEventListener("click", () => {
+      snoozed.deleteSnoozedTask(task);
+      renderSnoozedTasks();
+    });
+
     const actionDiv = document.createElement("div");
     actionDiv.classList.add("vertical-container");
     actionDiv.appendChild(unsnooze);
+    actionDiv.appendChild(deleteDiv);
 
     // Add all of the above task elements to the task div
     taskDiv.appendChild(circle);

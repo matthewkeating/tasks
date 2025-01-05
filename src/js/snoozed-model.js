@@ -1,4 +1,5 @@
 import * as tasks from './tasks-model.js';
+import * as trash from './trash-model.js';
 import { updateTaskListWithSnoozedItems } from './tasks-controller.js';
 
 let _snoozedTasks = JSON.parse(localStorage.getItem("snoozed_tasks")) || [];
@@ -26,6 +27,14 @@ export function addToSnoozed(task, days) {
     return dateA - dateB;
   });
 
+  saveSnoozed();
+}
+
+export function deleteSnoozedTask(task) {
+  delete task.wake_up_date;
+  trash.addToTrash(task);
+  // remove snoozed task
+  _snoozedTasks = _snoozedTasks.filter(i => i.id !== task.id);
   saveSnoozed();
 }
 
