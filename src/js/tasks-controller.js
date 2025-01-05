@@ -33,7 +33,6 @@ function bindEvents() {
 
   // Add Task input box
   addTaskInputBox.addEventListener("keypress", event => {
-
     if (event.key === "Enter" && addTaskInputBox.value.trim()) {
       const newTask = { id: Date.now().toString(),
         title: addTaskInputBox.value,
@@ -42,7 +41,7 @@ function bindEvents() {
         flagged: false,
         completed: false
       };
-  
+
       if (event.shiftKey) {
         tasks.addTask(newTask, "bottom");
       } else {
@@ -57,6 +56,13 @@ function bindEvents() {
       addTaskInputBox.value = "";
     }
   
+  });
+  addTaskInputBox.addEventListener("keydown", event => {
+    if (event.key === "Tab" && tasks.getNumTasks(settings.showingCompleted) > 0) {
+      event.preventDefault();
+      const firstTask = tasks.getTaskByIndex(0);
+      selectTask(firstTask);
+    }
   });
   addTaskInputBox.addEventListener('focus', event => {
     deselectTask(_selectedTask);
@@ -205,11 +211,6 @@ window.electronAPI.togglePin(() => {
   togglePin(_selectedTask);
 });
 window.electronAPI.selectNextTask(() => {
-  if (addTaskInputBox === document.activeElement && tasks.getNumTasks(settings.showingCompleted) > 0) {
-    const firstTask = tasks.getTaskByIndex(0);
-    selectTask(firstTask);
-    return;
-  }
   selectNextTask(_selectedTask);
 });
 window.electronAPI.selectPreviousTask(() => {
