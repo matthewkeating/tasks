@@ -3,7 +3,7 @@
   "productName": "Tasks",
   "version": "0.1.0",
   "description": "A not so creatively named application for managing a task list.",
-  "main": "src/main.js",
+  "main": ".vite/build/main.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
@@ -19,8 +19,10 @@
     "@electron-forge/maker-zip": "^7.6.0",
     "@electron-forge/plugin-auto-unpack-natives": "^7.6.0",
     "@electron-forge/plugin-fuses": "^7.6.0",
+    "@electron-forge/plugin-vite": "^7.6.0",
     "@electron/fuses": "^1.8.0",
-    "electron": "33.2.1"
+    "electron": "33.2.1",
+    "vite": "^5.4.11"
   },
   "keywords": [],
   "author": {
@@ -29,7 +31,6 @@
   "license": "MIT",
   "dependencies": {
     "@formkit/tempo": "^0.1.2",
-    "electron-forge": "^5.2.4",
     "electron-squirrel-startup": "^1.0.1",
     "node-schedule": "^2.1.1"
   }

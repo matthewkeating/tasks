@@ -1,11 +1,11 @@
 // There are incompatibility issues between the official electron-store and Electron Forge. 
 // This mimics the functionality of electron-store to work around the compatibility issues.
 
-const { app } = require('electron');
-const path = require('path');
-const fs = require('fs');
+import { app } from 'electron';
+import path from 'path';
+import fs from 'fs';
 
-class Store {
+export class Store {
   get(key) {
     const configPath = path.join(app.getPath('userData'), 'config.json');
     if (!fs.existsSync(configPath)) {
@@ -46,5 +46,3 @@ class Store {
     fs.unlinkSync(configPath);
   }
 }
-
-module.exports = Store;

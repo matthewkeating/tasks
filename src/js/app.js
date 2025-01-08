@@ -2,19 +2,19 @@
  * Global functions
  */
 export function showSettings() {
-  window.location.href = "./settings.html";
+  window.location.href = "/src/pages/settings.html";
 }
 
 export function showSnoozed() {
-  window.location.href = "./snoozed.html";
+  window.location.href = "/src/pages/snoozed.html";
 }
 
 export function showTasks() {
-  window.location.href = "./tasks.html";
+  window.location.href = "/";
 }
 
 export function showTrash() {
-  window.location.href = "./trash.html";
+  window.location.href = "/src/pages/trash.html";
 }
 
 /*

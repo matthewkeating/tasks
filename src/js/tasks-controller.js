@@ -178,7 +178,7 @@ function bindEvents() {
         _selectedTask.notes = null;
       }
     } else {
-      img.setAttribute('src', '../images/note.svg');
+      img.setAttribute('src', '/src/images/note.svg');
       _selectedTask.notes = _taskNotes.getContents();
     }
 
@@ -267,21 +267,21 @@ function showTaskDetails(task) {
   }
 
   if (task.completed) {
-    sidebarActionCircle.src = "../images/circle_checked.svg";
+    sidebarActionCircle.src = "/src/images/circle_checked.svg";
   } else {
-    sidebarActionCircle.src = "../images/circle_empty.svg"; 
+    sidebarActionCircle.src = "/src/images/circle_empty.svg"; 
   }
 
   if (task.flagged) {
-    sidebarActionFlag.src = "../images/flag_filled.svg";
+    sidebarActionFlag.src = "/src/images/flag_filled.svg";
   } else {
-    sidebarActionFlag.src = "../images/flag_empty.svg";
+    sidebarActionFlag.src = "/src/images/flag_empty.svg";
   }
 
   if (task.pinned) {
-    sidebarActionPin.src = "../images/pin_filled.svg";
+    sidebarActionPin.src = "/src/images/pin_filled.svg";
   } else {
-    sidebarActionPin.src = "../images/pin_empty.svg";
+    sidebarActionPin.src = "/src/images/pin_empty.svg";
   }
 
   _editableTaskDetailsTitle.setText(task.title);
@@ -462,25 +462,25 @@ function getQuickActions(task) {
   // pin
   const pin = document.createElement("img");
   if (task.pinned === true) {
-    pin.src = "../images/pin_filled.svg";
+    pin.src = "/src/images/pin_filled.svg";
   } else {
-    pin.src = "../images/pin_empty.svg";
+    pin.src = "/src/images/pin_empty.svg";
   }
   pin.classList.add("icon-pin");
   pin.onclick = () => { togglePin(task); }
 
   // delete
   const deleteImage = document.createElement("img");
-  deleteImage.src = "../images/trash.svg";
+  deleteImage.src = "/src/images/trash.svg";
   deleteImage.classList.add("icon-trash");
   deleteImage.onclick = () => { deleteTaskAndHighlightNextTask(task); }
 
   // flag
   const flag = document.createElement("img");
   if (task.flagged) {
-    flag.src = "../images/flag_filled.svg";
+    flag.src = "/src/images/flag_filled.svg";
   } else {
-    flag.src = "../images/flag_empty.svg";
+    flag.src = "/src/images/flag_empty.svg";
   }
   flag.classList.add("icon-flag");
   flag.onclick = () => { toggleFlag(task); }
@@ -605,9 +605,9 @@ function renderTasks() {
     const circle = document.createElement("img");
     circle.classList.add("icon-circle");
     if (task.completed === true) {
-      circle.src = "../images/circle_checked.svg";
+      circle.src = "/src/images/circle_checked.svg";
     } else {
-      circle.src = "../images/circle_empty.svg";
+      circle.src = "/src/images/circle_empty.svg";
     }
     circle.addEventListener("click", (event) => {
       toggleCompleted(task);
@@ -645,7 +645,7 @@ function renderTasks() {
     // Create the img element that will hold the note indicator
     const note = document.createElement("img");
     if (task.notes !== null) {
-        note.src = "../images/note.svg";
+        note.src = "/src/images/note.svg";
     }
     note.classList.add("icon-note");
     note.addEventListener("click", (event) => { _selectedTask = task; });
@@ -775,7 +775,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Due to importing this file into other js files, this event listener gets fired when the tasks page is not
   // loaded. This is a check (probably a hack) to prevent this from happening.
-  if (!document.URL.endsWith("tasks.html")) return;
+  if (!document.URL.endsWith("/")) return;
 
   _editableTaskDetailsTitle = new EditableDivWithPlaceholder('taskDetailsTitle', false);
 

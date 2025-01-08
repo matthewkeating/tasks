@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
-  <title>Tasks</title>
-  <link rel="stylesheet" href="../css/app.css">
-  <link rel="stylesheet" href="../css/tasks.css">
-  <link rel="stylesheet" href="../css/icon.css">
-  <link rel="stylesheet" href="../components/editable-div.css">
-  <link rel="stylesheet" href="../components/quill.bubble.css">
-  <script src="../components/quill.js"></script>
-  <script src="../components/quill-autoformat.js"></script>
-</head>
-<body>
-  
-  <!-- for moving the electron app window -->
-  <header></header>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
+    <title>Tasks</title>
+    <link rel="stylesheet" href="/src/css/app.css">
+    <link rel="stylesheet" href="/src/css/tasks.css">
+    <link rel="stylesheet" href="/src/css/icon.css">
+    <link rel="stylesheet" href="/src/components/editable-div.css">
+    <link rel="stylesheet" href="/src/components/quill.bubble.css">
+    <script type="module" src="/src/components/quill.js"></script>
+  </head>
+  <body>
 
-  <!-- set app margins, allow spacing for the header, etc. -->
+    <!-- for moving the electron app window -->
+    <header></header>
+
+    <!-- set app margins, allow spacing for the header, etc. -->
   <div class="app-container">
 
     <div id="tasks" class="vertical-container">
@@ -26,7 +25,7 @@
         <input id="addTaskInputBox" type="text" spellcheck="false" placeholder="+ Add task" autofocus/>
         <div id="addTaskInputBoxIcons">
           <div id="snoozeSpace">
-            <img id="snoozeIndicator" class="icon-snooze icon-snooze-indicator display-none" src="../images/snooze.svg"/>
+            <img id="snoozeIndicator" class="icon-snooze icon-snooze-indicator display-none" src="/src/images/snooze.svg"/>
           </div>
         </div>
       </div>
@@ -47,16 +46,16 @@
         <div>
 
           <div class="sidebar-actions">
-            <img id="sidebarActionHide" class="icon-hide" src="../images/arrow_left.svg"/>
+            <img id="sidebarActionHide" class="icon-hide" src="/src/images/arrow_left.svg"/>
             <div id="sidebarActionHideSeparator" class="vertical-line-separator"></div>
-            <img id="sidebarActionCircle" class="icon-circle" src="../images/circle_empty.svg"/>
+            <img id="sidebarActionCircle" class="icon-circle" src="/src/images/circle_empty.svg"/>
             <div class="full-width">&nbsp;</div>
-            <img id="sidebarActionTrash" class="icon-trash" src="../images/trash.svg"/>
-            <img id="sidebarActionFlag" class="icon-flag" src="../images/flag_empty.svg"/>
-            <img id="sidebarActionPin" class="icon-pin" src="../images/pin_empty.svg"/>
+            <img id="sidebarActionTrash" class="icon-trash" src="/src/images/trash.svg"/>
+            <img id="sidebarActionFlag" class="icon-flag" src="/src/images/flag_empty.svg"/>
+            <img id="sidebarActionPin" class="icon-pin" src="/src/images/pin_empty.svg"/>
           
             <div id="snoozeSelectorButton">
-              <img class="icon-snooze" src="../images/snooze.svg"/>
+              <img class="icon-snooze" src="/src/images/snooze.svg"/>
             </div>
           
           </div>
@@ -101,14 +100,14 @@
       </div>
 
       <div class="sidebar-icon-container">
-        <img src="../images/circle_checked.svg" class="icon-sidebar"></img>
+        <img src="/src/images/circle_checked.svg" class="icon-sidebar"></img>
       </div>
 
     </div>
 
-  </div>
+  </div>  
 
-  <script type="module" src="../js/tasks-controller.js"></script>
-  
-</body>
+  <script type="module" src="/src/js/tasks-controller.js"></script>
+
+  </body>
 </html>

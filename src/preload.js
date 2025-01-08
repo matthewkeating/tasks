@@ -1,9 +1,7 @@
-const { contextBridge, ipcRenderer } = require('electron/renderer');
-const { diffDays, isBefore } = require("@formkit/tempo");
-//const { toggleCompleted } = require('./js/tasks-model');
+import { contextBridge, ipcRenderer } from 'electron/renderer';
+import { diffDays, isBefore } from "@formkit/tempo";
 
 const api = {
-
   // calls from menu
   openSettings: (callback) => ipcRenderer.on('open-settings', callback),
   newTask: (callback) => ipcRenderer.on('new-task', callback),
@@ -28,7 +26,6 @@ const api = {
   unsnoozeTasks: (callback) => ipcRenderer.on("unsnooze-tasks", callback),
 };
 contextBridge.exposeInMainWorld( 'electronAPI', api );
-
 
 contextBridge.exposeInMainWorld('tempo', {
   diffDays: (dateA, dateB, roundingMethod) => diffDays(dateA, dateB, roundingMethod),

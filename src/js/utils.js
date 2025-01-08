@@ -1,4 +1,4 @@
-class Utils {
+export class Utils {
 
   isPointInRectangle(point, rect) {
     const [x, y] = point;
@@ -9,5 +9,3 @@ class Utils {
   }
 
 }
-
-module.exports = Utils;

@@ -1,10 +1,12 @@
-const { app, BrowserWindow, Menu, ipcMain, globalShortcut, screen, nativeTheme } = require('electron/main');
-const { toggleComplete, deleteTask, createMenu, enableTaskMenu } = require('./components/application-menu.js');
-const schedule = require('node-schedule');
-const path = require('node:path');
-const Store = require('./js/electron-store.js');
+import { app, BrowserWindow, ipcMain, globalShortcut, screen, nativeTheme } from 'electron';
+import path from 'node:path';
+import started from 'electron-squirrel-startup';
+import schedule from 'node-schedule';
+import { toggleComplete, deleteTask, createMenu, enableTaskMenu } from './components/application-menu.js';
+import { Store } from './js/electron-store.js';
+import { Utils } from './js/utils.js';
+
 const store = new Store();
-const Utils = require('./js/utils.js');
 const utils = new Utils();
 
 let mainWindow = null;
@@ -16,7 +18,7 @@ if (nativeTheme.shouldUseDarkColors) {
 }
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) {
+if (started) {
   app.quit();
 }
 
@@ -78,7 +80,12 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, './pages/tasks.html'));
+  //mainWindow.loadFile(path.join(__dirname, './pages/tasks.html'));
+  if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
+    mainWindow.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+  } else {
+    mainWindow.loadFile(path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`));
+  }
   //mainWindow.webContents.openDevTools();  // Open the DevTools.
 
   mainWindow.on('close', () => {
