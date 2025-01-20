@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain, globalShortcut, screen, nativeTheme } = require('electron/main');
+const { app, BrowserWindow, Menu, ipcMain, globalShortcut, screen, shell, nativeTheme } = require('electron/main');
 const { toggleComplete, deleteTask, createMenu, enableTaskMenu } = require('./components/application-menu.js');
 const schedule = require('node-schedule');
 const path = require('node:path');
@@ -79,7 +79,6 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, './pages/tasks.html'));
-  //mainWindow.webContents.openDevTools();  // Open the DevTools.
 
   mainWindow.on('close', () => {
     store.set('windowBounds', mainWindow.getBounds());
@@ -88,12 +87,6 @@ const createWindow = () => {
   mainWindow.on('focus', () => {
     mainWindow.webContents.send("unsnooze-tasks"); 
   });
-
-  /*
-  ipcMain.on('resize-window', (event, width, height) => {
-    win.setSize(width, height);
-  });
-  */
 
   ipcMain.on('enable-task-menu', (event) => {
     enableTaskMenu(true);
@@ -115,15 +108,19 @@ const createWindow = () => {
     mainWindow.setSize(480, mainWindow.getSize()[1], true);
   });
   
-};
-
-var job = null;
-ipcMain.on("schedule-unsnooze", (event, spec) => {
-  if (job !== null) job.cancel();   // prevents multiple jobs from being scheduled
-  job = schedule.scheduleJob("unsnooze", spec, function() {
-    mainWindow.webContents.send("unsnooze-tasks"); 
+  var job = null;
+  ipcMain.on("schedule-unsnooze", (event, spec) => {
+    if (job !== null) job.cancel();   // prevents multiple jobs from being scheduled
+    job = schedule.scheduleJob("unsnooze", spec, function() {
+      mainWindow.webContents.send("unsnooze-tasks"); 
+    });
   });
-});
+
+  ipcMain.on("open-link-externally", (event, url) => {
+    shell.openExternal(url.url);
+  });
+
+};
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

@@ -781,8 +781,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // TODO: Consider installing Quill via npm (rather than directly using it's .js and .css files)
   const toolbarOptions = [
-    ['bold', 'italic', 'underline'],
     ['blockquote'],
+    ['link'],
     [{ 'header': 1 }, { 'header': 2 }],
     [{ 'list': 'check' }]
   ];
@@ -794,6 +794,14 @@ document.addEventListener("DOMContentLoaded", () => {
     placeholder: "Add notes here...",
   });
   _taskNotes.root.setAttribute('spellcheck', false);
+
+  document.getElementById('notesTextArea').addEventListener('click', function (e) {
+    // Check if the clicked element is a link
+    if (e.target.tagName === 'A') {
+      e.preventDefault(); // Prevent default browser action (like navigating)
+      window.electronAPI.openLinkExternal(e.target.href);
+    }
+  });
 
   if (settings.tasksSidebarVisibility === "always") {
     sidebar.showSidebar();

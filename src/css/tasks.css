@@ -302,3 +302,14 @@ div.ql-editor.ql-blank::before {
 .ql-editor li.ql-indent-9 {
   padding-left: 6.0 rem !important; /* Adjust for second level indent */
 }
+
+.ql-editor a {
+  cursor: pointer;
+  color: var(--color-purple);
+  text-decoration: none !important;
+}
+
+.ql-editor a:not(.ql-close)::before,
+.ql-editor a:not(.ql-close)::after {
+  display: none !important;
+}

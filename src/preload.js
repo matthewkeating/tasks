@@ -26,6 +26,9 @@ const api = {
 
   scheduleUnsnooze: (spec) => ipcRenderer.send("schedule-unsnooze", { spec }),
   unsnoozeTasks: (callback) => ipcRenderer.on("unsnooze-tasks", callback),
+
+  openLinkExternal: (url) => ipcRenderer.send('open-link-externally', { url }),
+
 };
 contextBridge.exposeInMainWorld( 'electronAPI', api );
 
