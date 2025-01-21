@@ -81,6 +81,25 @@ header {
   background-image: linear-gradient(to right, var(--color-background) 480px, var(--color-sidebar) 480px);
 }
 
+h1 {
+  font-size: 1.3rem !important;
+  font-weight: bold;
+  color: #7678ff;
+
+}
+
+h2 {
+  font-size: 1.2rem !important;
+  font-weight: bold;
+  color: #6c6eef;
+}
+
+h3 {
+  font-size: 1.1rem !important;
+  font-weight: bold;
+  color: #6264de;
+}
+
 a {
   text-decoration: none;
 }
@@ -108,6 +127,11 @@ fieldset legend {
   color: var(--color-fieldset-accents);
   padding-left: 6px;
   padding-right: 6px;
+}
+
+::selection {
+  background: #6264de; /* Change this to your desired highlight color */
+  color: var(--color-background); /* Change this to your desired text color */
 }
 
 /* Hides the scrollbar */

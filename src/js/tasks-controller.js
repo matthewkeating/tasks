@@ -783,7 +783,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const toolbarOptions = [
     ['blockquote'],
     ['link'],
-    [{ 'header': 1 }, { 'header': 2 }],
+    [{ 'header': 1 }, { 'header': 2 }, { 'header': 3 }],
     [{ 'list': 'check' }]
   ];
   _taskNotes = new Quill('#notesTextArea', {
