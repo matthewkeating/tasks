@@ -237,6 +237,7 @@
   background: var(--color-sidebar);
   resize: none;
   margin-left: 8px;
+  padding-right: 20px;
   width: 260px;
 }
 
