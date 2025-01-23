@@ -22,31 +22,45 @@ if (require('electron-squirrel-startup')) {
 
 const createWindow = () => {
 
-  const defaultWidth = 480;
-  const defaultMinWidth = 480;
-  const defaultMaxWidth = 480;
-  var height = 800;
-  const defaultMinHeight = 518;
-  const defaultMaxHeight = 1200;
+  // the app is designed be small and unobtrusive
+  // set window size parameters to disallow users from making the window too big or too small
+  const minimumWidth = 480;
+  const maximumWidth = 780;
+  const minimumHeight = 518;
+  const maximumHeight = 1200;
 
-  const screenDimensions =  screen.getPrimaryDisplay().workAreaSize;
+  // gather information about the user's screen size
+  const primaryScreen = screen.getPrimaryDisplay()
+  const screenDimensions = primaryScreen.workAreaSize;
+  const menuBarHeight = primaryScreen.bounds.height - primaryScreen.workArea.height;  // this code is specific to mac
   const screenWidth = screenDimensions.width;
   const screenHeight = screenDimensions.height;
-  let x = (screenWidth / 2) - (defaultWidth / 2);
-  let y = (screenHeight / 2) - (height / 2);
+
+  // set sensible defaults for window size and position
+  var width = maximumWidth;
+  var height = 800;
+  let x = (screenWidth - width) / 2;
+  let y = ((screenHeight - height) / 2) + menuBarHeight;
   
+  // override defaults if the window has previously been positioned by the user
   const windowBounds = store.get('windowBounds');
   if (windowBounds !== undefined) {
     // set the window position and height using the values on the last application exit
+    width = windowBounds.width;
     height = windowBounds.height;
 
     // make sure the previous window position is inside the screen (this is important for users that use multiple monitors)
     const windowUpperLeft = [windowBounds.x, windowBounds.y];
-    const screenRectangle = [[0, 0], [screenWidth-defaultWidth, screenHeight-height]]
+    const screenRectangle = [[0, 0], [screenWidth-width, screenHeight-height+menuBarHeight]]
+    const isWindowPositionedInScreen = utils.isPointInRectangle(windowUpperLeft, screenRectangle);
 
-    if (utils.isPointInRectangle(windowUpperLeft, screenRectangle)) {
+    if (isWindowPositionedInScreen) {
+      // move the window to its previous position
       x = windowBounds.x;
       y = windowBounds.y;
+    } else {
+      // center the window to the screen
+      y = Math.round(((screenHeight - windowBounds.height) / 2) + menuBarHeight);
     }
 
   }
@@ -55,12 +69,12 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     backgroundColor: bgColor,
 
-    width: defaultWidth,
-    minWidth: defaultMinWidth,
-    maxWidth: defaultMaxWidth,
+    width: width,
+    minWidth: minimumWidth,
+    maxWidth: maximumWidth,
     height: height,
-    minHeight: defaultMinHeight,
-    maxHeight: defaultMaxHeight,
+    minHeight: minimumHeight,
+    maxHeight: maximumHeight,
 
     x: x,
     y: y,
