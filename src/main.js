@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain, globalShortcut, screen, shell, nativeTheme } = require('electron/main');
+const { app, BrowserWindow, Menu, ipcMain, globalShortcut, screen, shell, nativeTheme } = require('electron');
 const { toggleComplete, deleteTask, createMenu, enableTaskMenu } = require('./components/application-menu.js');
 const schedule = require('node-schedule');
 const path = require('node:path');

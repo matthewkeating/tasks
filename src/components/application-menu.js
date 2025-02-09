@@ -1,4 +1,4 @@
-const { app, Menu, shell } = require('electron/main');
+const { app, Menu, shell } = require('electron');
 
 // Because the hot keys associated with toggle complete and delete task are
 // global hot keys on Mac, they must be suppressed when a task is not selected.
