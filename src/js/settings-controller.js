@@ -28,8 +28,8 @@ tasksSidebarVisibilityButtons.forEach(radio => {
 
 const quickActionButton = document.querySelector(`input[name="quick-actions-visibility"][value="${settings.quickActionsVisibility}"]`);
 quickActionButton.checked = true;
-const qucikActionsRadioButtons = document.querySelectorAll('input[name="quick-actions-visibility"]');
-qucikActionsRadioButtons.forEach(radio => {
+const quickActionsRadioButtons = document.querySelectorAll('input[name="quick-actions-visibility"]');
+quickActionsRadioButtons.forEach(radio => {
     radio.addEventListener('change', () => {
         settings.setQuickActionsVisibility(radio.value);
     });
