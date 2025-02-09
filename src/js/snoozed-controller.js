@@ -80,8 +80,11 @@ function renderSnoozedTasks() {
     deleteDiv.classList.add("delete");
     deleteDiv.innerText = "Delete";
     deleteDiv.addEventListener("click", () => {
-      snoozed.deleteSnoozedTask(task);
-      renderSnoozedTasks();
+      var result = confirm("This action cannot be undone. Are you sure you want to permanently delete this task?");
+      if (result) {
+        snoozed.deleteSnoozedTask(task);
+        renderSnoozedTasks();
+      }
     });
 
     const actionDiv = document.createElement("div");
