@@ -9,12 +9,6 @@ const utils = new Utils();
 
 let mainWindow = null;
 
-// setting the background color of the app helps keep background consistency when the window is launching
-let bgColor = '#FFFFFF';
-if (nativeTheme.shouldUseDarkColors) {
-  bgColor = '#242424'
-}
-
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
@@ -67,8 +61,6 @@ const createWindow = () => {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    backgroundColor: bgColor,
-
     width: width,
     minWidth: minimumWidth,
     maxWidth: maximumWidth,
@@ -81,6 +73,7 @@ const createWindow = () => {
 
     resizable: true,
     frame: false,
+    show: false,  // don't show the window until the html is loaded (see the 'ready-to-show' method below)
 
     nodeIntegration: false, // for additional security
     contextIsolation: false, // important for using IPC
@@ -93,6 +86,10 @@ const createWindow = () => {
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, './pages/tasks.html'));
+
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
 
   mainWindow.on('close', () => {
     store.set('windowBounds', mainWindow.getBounds());
