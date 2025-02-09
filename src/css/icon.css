@@ -47,9 +47,22 @@
   position: absolute;
   bottom: -11px;
   right: -40px;
-  /* make the indicator a little darker than the other icons */
-  filter: brightness(0) saturate(100%) invert(21%) sepia(1%) saturate(0%) hue-rotate(210deg) brightness(94%) contrast(91%);
 }
+
+@media (prefers-color-scheme: dark) {
+  .icon-snooze-indicator {
+    /* make the indicator a little darker than the other icons */
+  filter: brightness(0) saturate(100%) invert(21%) sepia(1%) saturate(0%) hue-rotate(210deg) brightness(94%) contrast(91%);
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  .icon-snooze-indicator {
+    /* make the indicator a little lighter than the other icons */
+    filter: brightness(0) saturate(100%) invert(80%) sepia(2%) saturate(18%) hue-rotate(51deg) brightness(90%) contrast(94%);
+  }
+}
+
 
 .icon-close:hover,
 .icon-hide:hover,
