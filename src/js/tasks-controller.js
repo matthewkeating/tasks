@@ -14,17 +14,30 @@ var _taskNotes = null;
  ****************************************************************************/
 function bindEvents() {
 
-  // no matter where the user clicks, if the menu is open, close it.
   document.addEventListener("click", function(event) {
+
+    // no matter where the user clicks, if the menu is open, close it.
     closeSnoozeSelectorMenu();
+
+    // if the sidebar is "in"
+    // the user is not selecting a task or clicking in the sidebar
+    if (
+      document.getElementById("sidebar").classList.contains("in") &&
+      event.target.closest('.task') == null &&  // not clicking a task
+      event.target.closest('#sidebar') == null  // not clicking the sidebar
+    ) {
+      document.getElementById("sidebar").classList.remove("in");
+    }
   });
 
   // application-specific hotkeys
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") {
-      if (sidebar.isShown() && settings.tasksSidebarVisibility === "dbl-click") {
+      if (sidebar.isShown() && settings.tasksSidebarVisibility === "slide-out") {
         sidebar.hideSidebar();
         blurAllInputs();
+      } if (settings.tasksSidebarVisibility === "slide-in" && document.getElementById("sidebar").classList.contains("in")) {
+        document.getElementById("sidebar").classList.remove("in")
       } else {
         addTaskInputBox.focus();
       }
@@ -49,9 +62,9 @@ function bindEvents() {
       }
   
       renderTasks();
-      if (settings.tasksSidebarVisibility === "always") {
-        sidebar.showSidebar();
-      }
+      //if (settings.tasksSidebarVisibility === "always") {
+      //  sidebar.showSidebar();
+      //}
       selectTask(newTask);
       addTaskInputBox.value = "";
     }
@@ -66,7 +79,7 @@ function bindEvents() {
   });
   addTaskInputBox.addEventListener('focus', event => {
     deselectTask(_selectedTask);
-    if (settings.tasksSidebarVisibility === "dbl-click") {
+    if (settings.tasksSidebarVisibility === "slide-out") {
       sidebar.hideSidebar();
     }
   });
@@ -75,7 +88,13 @@ function bindEvents() {
   snoozeIndicator.onclick = (event) => { app.showSnoozed(); };
 
   // sidebar actions
-  sidebarActionHide.onclick = (event) => { sidebar.hideSidebar(); };
+  sidebarActionHide.onclick = (event) => {
+    if (settings.tasksSidebarVisibility === "slide-out") {
+      sidebar.hideSidebar();
+    } else if (settings.tasksSidebarVisibility === "slide-in") {
+      document.getElementById("sidebar").classList.remove("in");
+    }
+  };
   sidebarActionCircle.onclick = (event) => { toggleCompleted(_selectedTask); };
   sidebarActionTrash.onclick = (event) => { deleteTaskAndHighlightNextTask(_selectedTask); };
   sidebarActionFlag.onclick = (event) => { toggleFlag(_selectedTask); };
@@ -257,7 +276,7 @@ function selectTask(task) {
 
 function showTaskDetails(task) {
 
-  // show hide the close sidebar icon
+  // show/hide the close sidebar icon
   if (settings.tasksSidebarVisibility === "always") {
     sidebarActionHide.classList.add("display-none");
     sidebarActionHideSeparator.classList.add("display-none");
@@ -414,7 +433,7 @@ function deleteTaskAndHighlightNextTask(task) {
     } else {
       // there are no tasks left in the list
       _selectedTask = null;
-      if (settings.tasksSidebarVisibility === "dbl-click") {
+      if (settings.tasksSidebarVisibility === "slide-out") {
         sidebar.hideSidebar();
       }
     }
@@ -436,7 +455,7 @@ function snoozeTaskAndHighlightNextTask(task, numDays) {
   } else {
     // there are no tasks left in the list
     _selectedTask = null;
-    if (settings.tasksSidebarVisibility === "dbl-click") {
+    if (settings.tasksSidebarVisibility === "slide-out") {
       sidebar.hideSidebar();
     }
   }
@@ -590,7 +609,7 @@ function renderTasks() {
         _taskNotes.focus();
       }
     });
-    if (settings.tasksSidebarVisibility === "dbl-click") {
+    if (settings.tasksSidebarVisibility === "slide-out") {
       taskDiv.addEventListener("dblclick", (event) => {
         // if statement will allow the click event to fire when the taskDiv or titleDiv is selected
         // while preventing it from firing when any of the taskDiv children (e.g., the complete or
@@ -598,6 +617,17 @@ function renderTasks() {
         let divType = event.target.dataset.type;
         if (divType === "selectable") {
           sidebar.showSidebar();
+        }
+      });
+    }
+    if (settings.tasksSidebarVisibility === "slide-in") {
+      taskDiv.addEventListener("dblclick", (event) => {
+        // if statement will allow the click event to fire when the taskDiv or titleDiv is selected
+        // while preventing it from firing when any of the taskDiv children (e.g., the complete or
+        // delete buttons) are clicked
+        let divType = event.target.dataset.type;
+        if (divType === "selectable") {
+          document.getElementById('sidebar').classList.toggle("in");
         }
       });
     }
@@ -778,6 +808,12 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!document.URL.endsWith("tasks.html")) return;
 
   _editableTaskDetailsTitle = new EditableDivWithPlaceholder('taskDetailsTitle', false);
+
+  if (settings.tasksSidebarVisibility === "slide-out") {
+    sidebarActionHide.src = "../images/arrow_left.svg";
+  } else if (settings.tasksSidebarVisibility === "slide-in") {
+    sidebarActionHide.src = "../images/close.svg";
+  }
 
   // TODO: Consider installing Quill via npm (rather than directly using it's .js and .css files)
   const toolbarOptions = [

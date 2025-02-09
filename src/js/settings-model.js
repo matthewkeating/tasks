@@ -1,12 +1,12 @@
 export var showingCompleted = JSON.parse(localStorage.getItem("show_completed")) || false;
-export var tasksSidebarVisibility = JSON.parse(localStorage.getItem("tasks_sidebar_visibility")) || "always";
+export var tasksSidebarVisibility = JSON.parse(localStorage.getItem("tasks_sidebar_visibility")) || "slide-in";
 export var quickActionsVisibility = JSON.parse(localStorage.getItem("quick_actions_visibility")) || "on-selected";
 export var numCompletedTasksToRetain = JSON.parse(localStorage.getItem("num_completed_tasks_to_retain")) || 50;
 export var numDeletedTasksToRetain = JSON.parse(localStorage.getItem("num_deleted_tasks_to_retain")) || 50;
 
 export function restoreDefaultSettings() {
   setShowingCompleted(false);
-  setTasksSidebarVisibility("always");
+  setTasksSidebarVisibility("slide-in");
   setQuickActionsVisibility("on-selected");
   setNumCompletedTasksToRetain(50);
   setNumDeletedTasksToRetain(50);

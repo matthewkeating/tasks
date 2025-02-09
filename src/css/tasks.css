@@ -138,6 +138,13 @@
   width: 300px;
   height: 100vh;
   background: var(--color-sidebar);
+  transition: 0.3s;
+  z-index: 10000;
+}
+
+.sidebar.in {
+  left: 180px;
+  box-shadow: -1px 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .sidebar-icon-container {
@@ -203,7 +210,6 @@
 }
 
 #taskDetails {
-  position: fixed;
   top: 0px;
   left: 480px;
   width: 300px;
