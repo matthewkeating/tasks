@@ -73,7 +73,6 @@ function renderTrash() {
       }
     });
 
-
     const actionDiv = document.createElement("div");
     actionDiv.classList.add("vertical-container");
     actionDiv.appendChild(restore);
