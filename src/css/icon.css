@@ -12,21 +12,17 @@
 .icon-close {
   margin-top: 10px;
   margin-right: 4px;
-  cursor: pointer;
 }
 
 .icon-hide {
-  cursor: pointer;
 }
 
 .icon-circle {
   width: 22px;
-  cursor: pointer;
 }
 
 .icon-flag {
   width: 22px;
-  cursor: pointer;
 }
 
 .icon-note {
@@ -35,12 +31,10 @@
 
 .icon-pin {
   width: 25px;
-  cursor: pointer;
 }
 
 .icon-snooze {
   width: 22px; 
-  cursor: pointer;
 }
 
 .icon-snooze-indicator {
@@ -82,7 +76,6 @@
 .icon-trash {
   width: 22px;
   margin-right: 4px;
-  cursor: pointer;   
 }
 
 .icon-trash:hover {

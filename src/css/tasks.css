@@ -34,7 +34,6 @@
 }
 
 #snoozeSelectorButton {
-  cursor: pointer;
   margin-top: 2px;  
   z-index: 100;
   padding: 6px 6px 3px 6px;
@@ -90,7 +89,6 @@
 
 .menu-item:hover {
   background-color: var(--color-button-hover);
-  cursor: pointer;
 }
 
 .align-right {
@@ -328,7 +326,6 @@ div.ql-editor.ql-blank::before {
 }
 
 .ql-editor a {
-  cursor: pointer;
   color: var(--color-purple);
   text-decoration: none !important;
 }

@@ -56,12 +56,10 @@ select {
 
 .action-warning {
   color: var(--color-red);
-  cursor: pointer;
 }
 
 .action {
   color: var(--color-purple);
-  cursor: pointer;
   margin-bottom: 8px;
 }
 
