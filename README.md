@@ -97,7 +97,7 @@ Per the tables below, Tasks provides application-wide keyboard shortcuts as well
 Tasks does ***not*** support mobile or sync data across devices. These features are not a important to me but I may add them in the future as I recognize there importance to some.
 
 ## To Dos
-* Mature software distribution. At the moment, the best/only way to get Tasks is to clone this repo and build your own version. Once feature development has stabilized, I'll package a release.
+* Mature software distribution. At the moment, the best/only way to get Tasks is to clone this repo and build your own version. Once feature development has stabilized, I'll package a release. See [this file](install-instructions.md) for installation instructions
 * Add URL support in the notes text editor.
 
 ## Known Issues
