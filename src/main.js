@@ -71,8 +71,10 @@ const createWindow = () => {
     x: x,
     y: y,
 
-    resizable: true,
+    resizable: false,
     frame: false,
+    titleBarStyle: 'hidden',
+    trafficLightPosition: { x: 14, y: 14 },
     show: false,  // don't show the window until the html is loaded (see the 'ready-to-show' method below)
 
     nodeIntegration: false, // for additional security
