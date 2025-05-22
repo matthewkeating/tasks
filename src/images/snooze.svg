@@ -11,7 +11,7 @@
     transform="matrix(.939693-.34202 0.34202 0.939693-3.362325 4.819957)"
     fill="none"
     stroke="#555555"
-    stroke-width="2"
+    stroke-width="1.7"
     stroke-linecap="round"
     stroke-linejoin="round"/>
 
@@ -19,7 +19,7 @@
     d="M16,14h6l-6,6h6"
     fill="none"
     stroke="#555555"
-    stroke-width="2"
+    stroke-width="1.7"
     stroke-linecap="round"
     stroke-linejoin="round"/>
     
