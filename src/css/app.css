@@ -10,7 +10,7 @@
     --color-selected: #363636;
     --color-settings-separator: #555555;
     --color-empty-list-text: #555555;
-  
+
     --color-menu-info: #555555;
     --color-task-list-header: #555555;
     --color-task-action-text: #555555;
@@ -72,13 +72,11 @@ body {
 /* creates space at the top of the window that allows the app window to be moved */
 header {
   -webkit-app-region: drag;
-  height: 38px;
+  height: 42px;
   position: fixed;
   top: 0px;
-  right: 0px;
   width: 100%;
-  z-index: 1000;
-  background-image: linear-gradient(to right, var(--color-background) 480px, var(--color-sidebar) 480px);
+  background-color: var(--color-background);
 }
 
 h1 {
@@ -142,8 +140,14 @@ fieldset legend {
 /* Add margins and space for the header */
 .app-container {
   display: flex;
-  padding: 50px 20px 0px 20px;
-  height: calc(100vh - 50px);;
+  padding: 54px 20px 0px 20px;
+  height: calc(100vh - 54px);;
+}
+
+/* TODO: add sidebar */
+.sidebar-toggle-button {
+  padding: 13px 0px 0px 92px;
+  display: none;
 }
 
 .vertical-container {
@@ -153,7 +157,8 @@ fieldset legend {
 
 .page-header {
   display: flex;
-  padding-top: 2px;
+  top: 42px;
+  padding-top: 14px;
   background-color: var(--color-background);
   height: 60px;
   align-items: flex-start;
@@ -221,7 +226,7 @@ of the parent .task element */
   width: var(--width-main-canvas);
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  z-index: -1;
 }
 
 .task-title {

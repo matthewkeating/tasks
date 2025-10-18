@@ -6,6 +6,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self';">
   <title>Settings</title>
   <link rel="stylesheet" href="../css/app.css"/>
+  <link rel="stylesheet" href="../css/header.css">  <!-- TODO: turn the appEllipsis and appMean into a common component -->
   <link rel="stylesheet" href="../css/settings.css"/>
   <link rel="stylesheet" href="../css/icon.css"/>
 </head>
@@ -13,6 +14,34 @@
 
   <!-- for moving the electron app window -->
   <header></header>
+
+  <!-- TODO: turn the appEllipsis and appMean into a common component -->
+  <div id="appEllipsis" class="ellipsis">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+
+  <!-- TODO: turn the appEllipsis and appMean into a common component -->
+  <div id="appMenu" class="menu">
+    <div id="appMenuItemTasks" class="menu-item disabled">
+      <span class="menu-title disabled">Tasks...</span>
+      <span class="shortcut"></span>
+    </div>
+    <div id="appMenuItemSnoozed" class="menu-item">
+      <span class="menu-title">Snoozed...</span>
+      <span class="shortcut">&#8984; &#8679; S</span>
+    </div>
+    <div id="appMenuItemTrash" class="menu-item">
+      <span class="menu-title">Trash...</span>
+      <span class="shortcut">&#8984; &#8679; T</span>
+    </div>
+    <div id="appMenuItemSettings" class="menu-item">
+      <span class="menu-title">Settings...</span>
+      <span class="shortcut">&#8984; ,</span>
+    </div>
+    </a>
+  </div>
 
   <!-- set app margins, allow spacing for the header, etc. -->
   <div class="app-container">
@@ -146,6 +175,7 @@
 
   </div>
 
+  <script type="module" src="../js/header.js"></script>
   <script type="module" src="../js/settings-controller.js"></script>
 
 </body>

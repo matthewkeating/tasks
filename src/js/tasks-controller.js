@@ -1,4 +1,5 @@
 import * as app from './app.js';
+import * as header from './header.js'
 import * as tasks from './tasks-model.js';
 import * as settings from './settings-model.js';
 import * as snoozed from './snoozed-model.js';
@@ -16,8 +17,10 @@ function bindEvents() {
 
   document.addEventListener("click", function(event) {
 
-    // no matter where the user clicks, if the menu is open, close it.
+    // no matter where the user clicks, if a menu is open, close it.
     closeSnoozeSelectorMenu();
+    header.closeAppMenu();
+
 
     // if the sidebar is "in"
     // the user is not selecting a task or clicking in the sidebar
@@ -211,14 +214,7 @@ function bindEvents() {
  * IPC
  ****************************************************************************/
 window.electronAPI.toggleShowCompleted(() => {
-  settings.toggleShowCompleted();
-  if (!settings.showingCompleted && _selectedTask !== null && _selectedTask.completed === true) {
-    // the selected task is being hidden
-    _selectedTask = null;
-    addTaskInputBox.focus();
-  }
-  renderTasks();
-  selectTask(_selectedTask);
+  toggleShowCompleted(_selectedTask);
 });
 window.electronAPI.toggleCompleted(() => {
   toggleCompleted(_selectedTask);
@@ -345,6 +341,22 @@ function deselectTask(task) {
 
   window.electronAPI.disableTaskMenu();
 }
+
+export function toggleShowCompleted(task) {
+
+  if (task === null) {
+    task = _selectedTask
+  }
+
+  settings.toggleShowCompleted();
+  if (!settings.showingCompleted && task !== null && task.completed === true) {
+    // the selected task is being hidden
+    task = null;
+    addTaskInputBox.focus();
+  }
+  renderTasks();
+  selectTask(task);
+};
 
 function toggleFlag(task) {
   tasks.toggleFlagged(task);

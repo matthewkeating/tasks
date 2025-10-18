@@ -1,0 +1,101 @@
+.dot {
+  width: 2px;                                     /* Set width of each dot */
+  height: 2px;                                    /* Set height of each dot */
+  background-color: var(--color-primary-text);      /* Color of the dots */
+  border-radius: 50%;                             /* Make the dots round */
+  margin: 0 2px;                                  /* Space between the dots */
+}
+
+.ellipsis {
+  cursor: pointer;
+  display: flex;               /* Use flexbox to align dots */
+  justify-content: center;     /* Center the dots horizontally */
+  align-items: center;         /* Center the dots vertically */
+  z-index: 1000;
+  padding: 12px 8px 12px 8px;
+  border-radius: 5px;
+  margin-left: 10px;
+  -webkit-app-region: no-drag;
+  position: fixed;
+  top: 12px;
+  right: 16px;
+}
+
+.ellipsis:hover {
+  background-color: var(--color-button-hover);
+}
+
+.ellipsis.active {
+  background-color: var(--color-selected);
+}
+
+.ellipsis:hover .dot {
+  background-color: var(--color-purple);
+}
+
+.ellipsis.active .dot {
+  background-color: var(--color-purple);
+}
+
+.menu {
+  position: fixed;
+  right: 16px;
+  list-style-type: none;
+  display: none; /* Hide the menu by default */
+  background-color: var(--color-background);
+  width: 240px;
+  margin-top: 44px;
+  margin-left: 199px;
+  border: 1px solid var(--color-selected);
+  border-radius: 5px;
+  padding: 6px 0px;
+  z-index: 1000;
+  box-shadow: -1px 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.menu.active {
+  display: block; /* Show the menu when active */
+}
+
+.menu-item {
+  display: flex;
+  margin: 4px 8px;
+  padding: 4px 8px;
+  border-radius: 5px;
+}
+
+.menu-item.disabled {
+  color: var(--color-menu-info);
+}
+
+.menu-title {
+  flex: 1;
+}
+
+.menu-title.disabled {
+  color: var(--color-menu-info);
+}
+
+.menu-info {
+  flex: 1;
+  color: var(--color-menu-info);
+}
+
+.menu-item:hover {
+  background-color: var(--color-button-hover);
+  cursor: pointer;
+}
+
+.menu-item.disabled:hover {
+  background-color: var(--color-background) !important;
+  cursor: auto !important;
+}
+
+.shortcut {
+  color: var(--color-menu-info);
+}
+
+.menu-item-separator {
+  margin: 6px 12px 6px 12px;
+  border-bottom: 1px solid var(--color-action-separator);
+}

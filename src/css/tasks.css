@@ -1,25 +1,15 @@
 .app-menu-and-input-box-container {
   display: flex;
   align-items: center; /* Aligns items vertically */
+  top: 42px;
+  padding-top: 12px;
+  padding-bottom: 15px;
+  background-color: var(--color-background);
 
   /* the below allows the input box to be always on top */
   width: var(--width-main-canvas);
   position: fixed;
   z-index: 900;
-}
-
-.menu {
-  position: absolute;
-  list-style-type: none;
-  display: none; /* Hide the menu by default */
-  background-color: var(--color-background);
-  width: 240px;
-  margin-top: 44px;
-  margin-left: 199px;
-  border: 1px solid var(--color-selected);
-  border-radius: 5px;
-  padding: 6px 0px;
-  z-index: 100;
 }
 
 .task-menu {
