@@ -85,6 +85,9 @@ function bindEvents() {
     if (settings.tasksSidebarVisibility === "slide-out") {
       sidebar.hideSidebar();
     }
+    if (settings.tasksSidebarVisibility === "never") {
+      closeAllInLineNotes();
+    }
   });
 
   // snooze indicator
@@ -170,22 +173,6 @@ function bindEvents() {
     const div =  document.querySelector(`[data-id="${_selectedTask.id}"]`); 
     const img = div.getElementsByClassName("icon-note")[0];
     const isEmpty = _taskNotes.getContents().ops.length === 1 && _taskNotes.getText().trim() === "";
-
-    /*
-    if (isEmpty) {
-      if (delta.ops.length === 2) {
-        if (delta.ops[0].delete === 2 && delta.ops[1].attributes.list === 'bullet') {
-
-        }
-      }
-      img.setAttribute('src', '');
-      _taskNotes.setText("");
-      _selectedTask.notes = null;
-    } else {
-      img.setAttribute('src', '../images/note.svg');
-      _selectedTask.notes = _taskNotes.getContents();
-    }
-    */
 
     if (isEmpty) {
       if (delta.ops.length > 1) {
@@ -541,6 +528,33 @@ function hideQuickAction(taskId) {
   } 
 }
 
+function isInLineNoteOpen(taskId) {
+  const id = "in_" + taskId;
+  const clickedTask = document.getElementById(id);
+  const retVal = !clickedTask.classList.contains("display-none");
+  return retVal;
+  //return !clickedTask.classList.contains("display-none");
+}
+
+function openInLineNote(taskId) {
+  const id = "in_" + taskId;
+  const clickedTask = document.getElementById(id);
+  clickedTask.classList.remove("display-none");
+}
+
+function closeInLineNote(taskId) {
+  const id = "in_" + taskId;
+  const clickedTask = document.getElementById(id);
+  clickedTask.classList.add("display-none");
+}
+
+function closeAllInLineNotes() {
+  var inlineNotes = document.getElementsByClassName("inline-note");
+  for (var i = 0; i < inlineNotes.length; i++) {
+    inlineNotes[i].classList.add("display-none");
+  }
+}
+
 function setNoTitle(div, hasNoTitle) {
   if (hasNoTitle) {
     div.innerText = "No Title";
@@ -644,6 +658,32 @@ function renderTasks() {
       });
     }
 
+    if (settings.tasksSidebarVisibility === "never") {
+
+      taskDiv.addEventListener("click", (event) => {
+        // if statement will allow the click event to fire when the taskDiv or titleDiv is selected
+        // while preventing it from firing when any of the taskDiv children (e.g., the complete or
+        // delete buttons) are clicked
+        let divType = event.target.dataset.type;
+        if (divType === "selectable") {
+
+          const id = "in_" + task.id;
+          const clickedTask = document.getElementById(id);
+
+          if (isInLineNoteOpen(task.id)) {
+            // if user is clicking on a task that is already open, close it
+            closeInLineNote(task.id);
+          } else {
+            // if user is clicking on a task that is not already open, close all other tasks and open it
+            closeAllInLineNotes();
+            openInLineNote(task.id);
+          }
+
+        }
+
+      });
+    }
+
     const circle = document.createElement("img");
     circle.classList.add("icon-circle");
     if (task.completed === true) {
@@ -688,6 +728,10 @@ function renderTasks() {
     const note = document.createElement("img");
     if (task.notes !== null) {
         note.src = "../images/note.svg";
+    } else {
+        // this will prevent the browser from creating a "replaced element box", something browsers do when an image has no source
+        note.width = "0";
+        note.height = "0";
     }
     note.classList.add("icon-note");
     note.addEventListener("click", (event) => { _selectedTask = task; });
@@ -700,24 +744,111 @@ function renderTasks() {
       quickActions.classList.add("display-none");
     }
 
-    // Add all of the above task elements to the task div
-    taskDiv.appendChild(circle);
-    taskDiv.appendChild(title);
-    taskDiv.appendChild(quickActions);
-    taskDiv.appendChild(note);
+    // Create a div for the task title and actions
+    const titleAndActions = document.createElement("div");
+    titleAndActions.classList.add("taskTitleAndActions");
+    titleAndActions.appendChild(circle);
+    titleAndActions.appendChild(title);
+    titleAndActions.appendChild(quickActions);
+    titleAndActions.appendChild(note);
+
+    // Add the above div to the task div
+    taskDiv.appendChild(titleAndActions)
+
+    const ntaId = "ntba_" + task.id;
+    if (settings.tasksSidebarVisibility === "never") {
+
+      // Create a div for inline notes (that will show up below the title and actions)
+      const inlineNote = document.createElement("div");
+      inlineNote.id = "in_" + task.id;
+      inlineNote.classList.add("inline-note");
+      inlineNote.classList.add("display-none");
+
+      // Create an area for the notes text box (and give it an ID so it can be referenced later)
+      const notesTextBoxArea = document.createElement("div");
+      notesTextBoxArea.id = ntaId;
+
+      // Add the notes text box area for the inline notes div
+      inlineNote.appendChild(notesTextBoxArea);
+
+      // Add the inline notes div to the task div
+      taskDiv.appendChild(inlineNote);
+
+    }
      
     // Add the task div to the task container
     if (task.pinned === true) {
       pinnedContainer.appendChild(taskDiv); 
     } else if (task.completed === true) {
       completedContainer.appendChild(taskDiv);
-    } else {
-      unpinnedContainer.appendChild(taskDiv); 
+    } else {      
+      unpinnedContainer.appendChild(taskDiv);
+    }
+
+    // Wait for DOM paint using requestAnimationFrame
+    if (settings.tasksSidebarVisibility === "never") {
+      requestAnimationFrame(() => {
+        // It is now safe to call method requiring updated DOM
+        createNotesTextArea(ntaId);
+      });
     }
 
   });
 
 };
+
+
+
+
+
+
+function createNotesTextArea(ntaId) {
+
+  const toolbarOptions = [
+    ['blockquote'],
+    ['link'],
+    [{ 'header': 1 }, { 'header': 2 }, { 'header': 3 }],
+    [{ 'list': 'check' }]
+  ];
+  var notesTextArea = new Quill("#" + ntaId, {
+    modules: {
+      toolbar: toolbarOptions
+    },
+    theme: "bubble",
+    placeholder: "Note",
+  });
+  notesTextArea.root.setAttribute('spellcheck', false);
+
+  // Prevent the parent container from starting a drag
+  document.getElementById(ntaId).addEventListener('mousedown', (e) => {
+    document.querySelector(`[data-id="${_selectedTask.id}"]`).setAttribute('draggable', 'false');
+  });
+
+  // Restore the parent container's draggable state
+  document.getElementById(ntaId).addEventListener('mouseup', (e) => {
+    document.querySelector(`[data-id="${_selectedTask.id}"]`).setAttribute('draggable', 'true');
+  });
+
+  document.getElementById(ntaId).addEventListener('click', function (e) {
+    // Check if the clicked element is a link
+    if (e.target.tagName === 'A') {
+      e.preventDefault(); // Prevent default browser action (like navigating)
+      window.electronAPI.openLinkExternal(e.target.href);
+    }
+  });
+
+}
+
+
+
+
+
+
+
+
+
+
+
 
 function blurAllInputs() {
   addTaskInputBox.blur();
@@ -728,10 +859,16 @@ function blurAllInputs() {
 /****************************************************************************
  * Drag and Drop
  ****************************************************************************/
+var _inlineNotesWasOpenBeforeDrag = false;
 const draggableContainers = document.querySelectorAll(".draggable-container");
 draggableContainers.forEach(container => {
 
   container.addEventListener("dragstart", event => {
+    if (settings.tasksSidebarVisibility === "never") {
+      console.log("dragstart2");
+      _inlineNotesWasOpenBeforeDrag = isInLineNoteOpen(_selectedTask.id);
+      closeAllInLineNotes();
+    }
     event.target.classList.add("dragging");
   });
   
@@ -756,6 +893,7 @@ draggableContainers.forEach(container => {
     } else {
       container.insertBefore(dragging, afterElement);
     }
+
   });
 
   container.addEventListener('dragleave', (event) => {
@@ -787,6 +925,13 @@ draggableContainers.forEach(container => {
     tasks.replaceTasks(taskArray);
     renderTasks();
     selectTask(_selectedTask);
+
+    if (settings.tasksSidebarVisibility === "never") {
+      if(_inlineNotesWasOpenBeforeDrag) {
+        openInLineNote(_selectedTask.id);
+        _inlineNotesWasOpenBeforeDrag = false;
+      }
+    }
 
   });
     

@@ -197,7 +197,8 @@ the <div>, which I want to do b/c I'm using rounded edges (i.e., a border radius
 I will use a CSS pseudo-element (in this case, the .task::after element). */
 .task {
   position: relative; /* Needed for positioning the pseudo-element */
-  display: flex;
+  display: block;
+  /* display: flex; */
   font-weight: lighter;
   align-items: center;
   padding: 0px 10px 0px 10px;
@@ -221,6 +222,10 @@ I will use a CSS pseudo-element (in this case, the .task::after element). */
 of the parent .task element */
 .task:has(> .task-title:focus) {
   background-color: var(--color-selected);
+}
+
+.taskTitleAndActions {
+  display: flex;
 }
 
 .task-list {

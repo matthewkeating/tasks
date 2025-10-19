@@ -324,3 +324,18 @@ div.ql-editor.ql-blank::before {
 .ql-editor a:not(.ql-close)::after {
   display: none !important;
 }
+
+
+
+
+.taskContainer {
+  display: block;
+}
+
+.inline-note {
+  padding-left: 35px;
+  padding-bottom: 12px;
+  width: 100%-35px;
+  max-height: 160px; /* approximate height for 8 lines, adjust as needed */
+  overflow-y: auto; /* enable scrolling past max height */
+}
