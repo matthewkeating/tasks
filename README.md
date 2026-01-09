@@ -1,4 +1,4 @@
-> [!URGENT]
+> [!CAUTION]
 > This project is no longer under active development as I use [Tasks2](https://github.com/matthewkeating/tasks2) for task management.
 
 # Tasks
